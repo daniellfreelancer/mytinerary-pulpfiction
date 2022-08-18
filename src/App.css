@@ -1,38 +1,56 @@
-.App {
+
+ /*
+ Color Theme
+{ color: #342359; }
+{ color: #4A23D9; }
+{ color: #2B2073; }
+{ color: #04BF9D; }
+{ color: #05F29B; }
+*/
+
+/* Font style
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Charm:wght@700&family=Montserrat&display=swap" rel="stylesheet">
+
+font-family: 'Charm', cursive;
+font-family: 'Montserrat', sans-serif;
+
+ */
+
+
+.Hero-container{
+    min-height: 100vh;
+    background-image: url('../src/assets/heroWall.jpg');
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.Hero-titles{
+    width: auto;
   text-align: center;
-}
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 1rem;
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.Hero-titles h1, h2{
+    font-family: 'Charm', cursive;
+    font-weight: 700 !important;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.Hero-titles h1{
+    font-size: 3.5rem;
 }
-
-.App-link {
-  color: #61dafb;
+.Hero-titles h2{
+    transform: translate(1.7rem, -1.5rem);
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.Hero-titles button{
+    font-family: 'Montserrat', sans-serif;
 }
