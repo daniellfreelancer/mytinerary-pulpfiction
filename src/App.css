@@ -54,3 +54,37 @@ font-family: 'Montserrat', sans-serif;
 .Hero-titles button{
     font-family: 'Montserrat', sans-serif;
 }
+
+
+
+/* FOOTER STYLES */
+.Footer-container{
+    min-height: 15vh;
+    background-color: #343434;
+    padding: 0 2rem;
+}
+.icon-social{
+  color: aliceblue;
+  margin: 1rem;
+}
+.Footer-map{
+    background-image: url('../src/assets/mapGoogle.jpg');
+    border-radius: 15pt;
+    background-size: cover;
+    height: 10rem;
+    width: 15rem;
+}
+
+.contact-text{
+  height: 2rem  !important ;
+  
+}
+
+.contact-text a, .text-developers a {
+  text-decoration: none;
+  color: aliceblue;
+  font-family: 'Montserrat', sans-serif;
+}
+.text-developers a{
+padding: 0rem 2rem;
+}
