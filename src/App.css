@@ -19,6 +19,8 @@ font-family: 'Montserrat', sans-serif;
 
  */
 
+ @import url('https://fonts.googleapis.com/css2?family=Charm:wght@700&family=Montserrat&display=swap');
+
 /* HERO STYLES - START */
 
 .Hero-container{
@@ -142,3 +144,19 @@ padding: 0rem 2rem;
 } */
 
 /* FOOTER STYLES - END */
+
+.Slider-div{
+  background-color: #343434;
+}
+
+.Slider-container img{
+  width: 100%;
+}
+
+/* Not Available */
+
+.NotAvailable{
+  display: flex;
+  justify-content: center;
+  margin: 5rem 0;
+}
