@@ -12,8 +12,8 @@ function App() {
 
   return (
     <>
-    <Welcome/>
-    {/* <Cities/> */}
+    {/* <Welcome/> */}
+   <Cities/>
     {/* <UnderConstruction/> */}
     </>
   );
