@@ -230,18 +230,31 @@ h2 {
   cursor: pointer;
 
 }
+.Button-carousel:hover{
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
 
 .Render-div {
   display: flex;
   flex-direction: column;
-  padding: 1rem;
+  /* padding: 1rem;
   background: rgb(52, 35, 89);
-  background: radial-gradient(circle, rgba(52, 35, 89, 1) 0%, rgba(4, 191, 157, 1) 100%);
+  background: radial-gradient(circle, rgba(52, 35, 89, 1) 0%, rgba(4, 191, 157, 1) 100%); */
 }
-.Render-div:hover{
+.Slider-div:hover{
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
+.Cities-Layout{
+  min-height: 70vh;
+  background: rgb(52, 35, 89);
+  background: radial-gradient(circle, rgba(52, 35, 89, 1) 0%, rgba(4, 191, 157, 1) 100%);
+  padding: 2rem;
+  font-family: 'Charm', cursive;
+}
+form{
+  background: rgba(255, 255, 255, 0.2);
+}
 /* Not Available */
 
 .NotAvailable {
