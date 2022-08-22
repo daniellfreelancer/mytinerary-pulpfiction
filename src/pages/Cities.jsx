@@ -1,6 +1,4 @@
 import React from 'react'
-import Carousel from '../components/Carousel'
-//import RenderCarousel from '../components/RenderCarousel'
 import '../App.css'
 import RenderCarousel from '../components/RenderCarousel'
 import Layout from '../layouts/Layout'
@@ -10,11 +8,8 @@ const Cities = () => {
     <>
         <Layout>
           <RenderCarousel/>
+          <p>Cities and filters will be added later</p>
         </Layout>
-        
-
-
-        {/* <RenderCarousel/> */}
     </>
   )
 }
