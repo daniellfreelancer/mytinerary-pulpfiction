@@ -7,7 +7,7 @@ function Layout({children}) {
 
     <>
         {/* componente NavBar */}
-        <main  className='Cities-Layout'>
+        <main id='top' className='Cities-Layout'>
             {children}
         </main>
         <Footer/>
