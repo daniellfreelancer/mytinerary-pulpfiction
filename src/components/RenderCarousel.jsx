@@ -45,7 +45,7 @@ const RenderCarousel = () => {
   return (
     <div className='Render-div' >
         <div className='Render-div-title'>
-            <h2 className='Carousel-title' >Popular MYtineraries</h2>
+            <h2 className='Carousel-title' >Popular Cities</h2>
         </div>
         <Carousel cities={itineraries} slides={3} range={4} />
     </div>

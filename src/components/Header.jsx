@@ -1,9 +1,9 @@
 import React from "react";
-import BurguerBtn from "./BurguerBtn";
 import LogIn from "./LogIn";
 import Logo from "./Logo";
 import { NavBar } from "./NavBar";
 import { Link as LinkRouter } from "react-router-dom";
+import BurgerBtn from './BurgerBtn';
 
 function Header() {
   return (
@@ -19,7 +19,7 @@ function Header() {
           <NavBar />
           <LogIn />
         </div>
-        <BurguerBtn />
+        <BurgerBtn />
       </div>
     </header>
   );

@@ -1,5 +1,5 @@
 import React from "react";
-import "../App.css";
+import "../styles/App.css";
 import ActualDate from "./ActualDate";
 import ScrollToTop from "./ScrollToTop";
 import { NavBarFooter } from "./FooterNavBar";
