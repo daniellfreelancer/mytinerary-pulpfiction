@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import './App.css';
+import './styles/App.css';
 import Cities from './pages/Cities';
 import NewCities from './pages/NewCities';
 import UnderConstruction from './pages/UnderConstruction';
