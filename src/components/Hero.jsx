@@ -1,7 +1,8 @@
 import React from 'react'
-import '../App.css'
+import '../styles/App.css'
 import Logo from './Logo'
 import CallToAction from './CallToAction'
+import Slogan from './Slogan'
 
 const Hero = () => {
   return (
@@ -9,6 +10,7 @@ const Hero = () => {
         <div className='Hero-titles'>
             <Logo />
             <CallToAction />
+            <Slogan/>
         </div>
     </div>
   )

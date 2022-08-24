@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { Link as LinkRouter } from "react-router-dom";
 import LogIn from "./LogIn";
 
-function BurguerBtn() {
+function BurgerBtn() {
   const pages = [
-    // { id: "_home", to: "/", title: "Home" },
     { id: "_cities", to: "/cities", title: "Cities" },
     { id: "_newCities", to: "/newCities", title: "New Cities" },
   ];
@@ -21,7 +20,7 @@ function BurguerBtn() {
 
   return (
     <div className="Button-div">
-      <button className="burguer-btn" onClick={showNav}>
+      <button className="burger-btn" onClick={showNav}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="30"
@@ -38,7 +37,7 @@ function BurguerBtn() {
           <div className="Dropdown-menu">
             {pages.map((link) => (
               <LinkRouter
-                className="navlink-burguer"
+                className="navlink-burger"
                 to={link.to}
                 key={link.id}
               >
@@ -53,4 +52,4 @@ function BurguerBtn() {
   );
 }
 
-export default BurguerBtn;
+export default BurgerBtn;

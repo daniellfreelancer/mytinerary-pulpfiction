@@ -25,9 +25,13 @@ font-family: 'Montserrat', sans-serif;
   align-items: center;
   justify-content: space-around;
 }
+.Header .Logo-img {
+  text-align: center;
+  width: 18rem;
+}
 
 .Logo-img {
-  width: 200px;
+  width: 30rem;
 }
 
 .Logo-img:hover{
@@ -35,23 +39,22 @@ font-family: 'Montserrat', sans-serif;
   transform: rotateZ(13deg);
 }
 
-
  /* Navbar */
-.burguer-btn{
+.burger-btn{
   background: none;
   border: none;
   display: none;
 } 
-.burguer-btn svg{
+.burger-btn svg{
   fill: #04BF9D;
   border: 1px solid #04BF9D;
   padding: .1rem 1rem;
   margin: 0.5rem ;
-  border-radius: 5px;
+  border-radius: 15px;
   text-align: center;
 }
 
-.navlink-burguer{
+.navlink-burger{
   width: 70%;
   background-color: #04BF9D;
   padding: .5rem 1rem;
@@ -94,7 +97,7 @@ font-family: 'Montserrat', sans-serif;
 .bi-person-circle {
   fill: #04BF9D;
   padding: .5rem;
-  border-radius: 30pt;
+  border-radius: 15px;
   border: 1px solid #04BF9D;
   cursor: pointer;
 }
@@ -115,7 +118,7 @@ font-family: 'Montserrat', sans-serif;
 
 .Hero-container {
   min-height: 100vh;
-  background-image: url('../public/assets/heroWall.jpg');
+  background-image: url('../../public/assets/heroWall.jpg');
   background-position: center;
   background-size: cover;
   display: flex;
@@ -125,7 +128,6 @@ font-family: 'Montserrat', sans-serif;
 
 
 .Hero-titles img {
-  width: 30rem;
   /* backdrop-filter: blur(5px); */
   background: none;
   filter: drop-shadow(2px 2px rgba(0, 0, 0, 0.7));
@@ -140,22 +142,35 @@ font-family: 'Montserrat', sans-serif;
 
 /* CallToAction */
 .Hero-titles .btn {
-  font-family: 'Montserrat', sans-serif;
-  background-color: #343434;
-  color: aliceblue;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  border: none;
   cursor: pointer;
-  text-decoration: none;
 }
 
-.Hero-titles .btn:hover {
-  background-color: aliceblue;
-  color: #343434;
-  font-weight: bold;
-  box-shadow: 2px 2px 2px #343434;
+.imgCallTo {
+  width: 7rem;
 }
+.imgCallTo:hover {
+ transform: scale(1.1);
+}
+/* Slogan */
+
+.Slogan-div{
+  margin-top: 5rem;
+  background-color: rgba(255, 255, 255, 0.2);
+  width: 80%;
+  border-radius: 30px;
+  border: 1px solid gray;
+  padding:  0 0.5rem;
+  text-align: center;
+}
+
+.Slogan {
+font-family: 'Montserrat', sans-serif;
+color: #342359;
+font-weight: bold;
+text-shadow: 2px 0.5px aliceblue;
+}
+
+
 
 /* Carousel */
 .Slider-container {
@@ -346,7 +361,7 @@ form {
 }
 
 .Footer-map {
-  background-image: url('../public/assets/mapGoogle.jpg');
+  background-image: url('../../public/assets/mapGoogle.jpg');
   border-radius: 15pt;
   background-size: cover;
   height: 10rem;
@@ -422,8 +437,8 @@ p {
 
 /* FOOTER STYLES - END */
 
-@media screen and (max-width: 705px) { 
-  .burguer-btn{
+@media screen and (max-width: 768px) { 
+  .burger-btn{
     display: block;
   }
   .cont-Nav{
@@ -441,12 +456,11 @@ p {
     align-items: center;
     gap: 1rem;
   }
-  .Logo-img{
-    width: 18rem;
-  }
+
   .Footer-container{
     flex-direction: column;
     align-items: center;
+    gap: 1rem;
   }
   .ScrollToTop{
     flex-direction: column-reverse;
@@ -455,6 +469,45 @@ p {
   }
   .Footer-map{
     width: 80%;
+  }
+  .Hero-titles{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem
+  }
+  .Logo-img {
+    width: 85%;
+    margin-top: 1rem;
+  }
+  .Button-carousel{
+    display: none;
+  }
+  .Slider-container{
+    width: 90%;
+  }
+
+  .Render-div-title {
+    width: 80%;
+  }
+
+  .Slider-img {
+    object-fit: cover;
+  }
+  .Slider-div {
+    width: 90%;
+  }
+  .Carousel-title {
+    font-size: 30px;
+  }
+  .imgCallTo{
+    width: 7rem;
+
+  }
+
+  .Slogan-div {
+    margin-bottom: 16rem;
+    margin-top: 1rem;
   }
 
   
@@ -467,6 +520,12 @@ p {
   .Footer-social, .Footer-Nav{
     width: auto;
   }
+  .imgCallTo{
+    width: 7rem;
 
+  }
+  .Slider-div {
+    width: 80%;
+  }
   
 }
