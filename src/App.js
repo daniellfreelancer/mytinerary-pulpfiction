@@ -1,23 +1,23 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
-// import Carousel from './components/Carousel';
-// import Footer from './components/Footer';
-// import Hero from './components/Hero';
-// import Cities from './pages/Cities';
+import Cities from './pages/Cities';
 import NewCities from './pages/NewCities';
-// import UnderConstruction from './pages/UnderConstruction';
-// import Welcome from './pages/Welcome';
+import UnderConstruction from './pages/UnderConstruction';
+import Welcome from './pages/Welcome';
 
 function App() {
 
 
 
   return (
-    <>
-    {/* <Welcome/> */}
-   {/* <Cities/> */}
-    {/* <UnderConstruction/> */}
-    <NewCities/>
-    </>
+      <BrowserRouter> 
+          <Routes>
+            <Route path='/' element={<Welcome/>}/>
+            <Route path='/cities' element={<Cities/>}/>
+            <Route path='*' element={<UnderConstruction/>}/>
+            <Route path='/newCities' element={<NewCities/>}/>
+          </Routes>
+      </BrowserRouter>
   );
 }
 
