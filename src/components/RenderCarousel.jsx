@@ -1,5 +1,4 @@
 import React from 'react'
-import ButtonCarousel from './ButtonCarousel'
 import Carousel from './Carousel'
 
 const RenderCarousel = () => {
