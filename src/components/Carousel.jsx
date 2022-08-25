@@ -36,6 +36,7 @@ function Carousel(props) {
       setStart(0);
       setEnd(range);
     }
+    clearInterval(intervalID)
   }
 
   function previous() {
@@ -46,6 +47,7 @@ function Carousel(props) {
       setStart(maxSlider - range);
       setEnd(maxSlider);
     }
+    clearInterval(intervalID)
   }
 
   return (

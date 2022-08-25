@@ -35,7 +35,7 @@ function NewCityForm() {
                     <input
                         className="input-text"
                         type="text"
-                        name="new_city"
+                        name="cityname"
                         value={inputs.cityname || ""}
                         onChange={handleChange}
                     />
