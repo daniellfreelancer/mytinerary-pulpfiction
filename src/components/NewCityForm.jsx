@@ -81,9 +81,11 @@ function NewCityForm() {
             <fieldset>
                 <h2>You can enter a new city!</h2>
                 <p>Simply fill in the blanks and let us know about where you´d like to travel!</p>
+
                 {
                     arrayForm.map(formView)
                 }
+
                 <input className="input-submit" type="submit" />
             </fieldset>
         </form>
