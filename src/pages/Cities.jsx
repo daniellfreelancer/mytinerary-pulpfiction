@@ -8,9 +8,6 @@ const Cities = () => {
   return (
     <>
         <Layout>
-          <div className='upperbox'>
-            <SearchBar/>
-          </div>
           <CityCard/>
         </Layout>
     </>

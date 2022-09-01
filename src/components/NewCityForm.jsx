@@ -1,8 +1,19 @@
-import { React, useState } from "react";
+import axios from "axios";
+import { React, useEffect, useRef, useState } from "react";
 import "../styles/App.css";
 
 function NewCityForm() {
+
     const [inputs, setInputs] = useState({});
+
+    const cityPhotoRef = useRef()
+    const cityNameRef = useRef()
+    const countryNameRef = useRef()
+    const detailsRef = useRef()
+    const populationRef = useRef()
+    const fundationRef = useRef()
+    const featuredLocationRef = useRef()
+    const smallDetailsRef = useRef()
 
     const handleChange = (newcity) => {
         const name = newcity.target.name;
@@ -12,54 +23,115 @@ function NewCityForm() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(inputs);
+        console.log(inputs)
+        axios.post('http://localhost:4000/cities/',{
+
+            photo: cityPhotoRef.current.value,
+            city: cityNameRef.current.value,
+            country: countryNameRef.current.value,
+            description: detailsRef.current.value,
+            population: populationRef.current.value,
+            fundation: fundationRef.current.value,
+            featuredLocation: featuredLocationRef.current.value,
+            smalldescription: smallDetailsRef.current.value,
+            
+
+        }).then(res => console.log("Data Uploaded" + res))
+        .catch(error => console.log(error))
+
+        let inputForm = document.querySelector("#form-new-cities")
+        inputForm.reset()
     };
 
+
+    const arrayForm = [
+        {
+            id:"_country",
+            name: "Country",
+            type: "text",
+            value: countryNameRef
+
+        },
+        {
+            id:"_city",
+            name: "City",
+            type: "text",
+            value: cityNameRef
+
+        },
+        {
+            id:"_fundation",
+            name: "Fundation",
+            type: "date",
+            value:fundationRef
+
+        },
+        {
+            id:"_photo",
+            name: "Photo",
+            type: "text",
+            value:cityPhotoRef
+
+        },
+        {
+            id:"_population",
+            name: "Population",
+            type: "number",
+            value:populationRef
+
+        },
+        {
+            id:"_description",
+            name: "Description",
+            type: "text",
+            value:detailsRef
+
+        },
+        {
+            id:"_smallDescription",
+            name: "Small Description",
+            type: "text",
+            value:smallDetailsRef
+
+        },
+        {
+            id:"_feature",
+            name: "Featured Location",
+            type: "text",
+            value:featuredLocationRef
+
+        }
+
+
+
+
+    ]
+
+    const formView = (e) => {
+        return (
+            <label key={e.id}>
+            Enter the {e.name}: <br />
+                <input
+                    className="input-text"
+                    type={e.type}
+                    name={e.name}
+                    ref={e.value}
+                    onChange={handleChange}
+                />
+            </label>
+        )
+    }
+
     return (
-        <form onSubmit={handleSubmit}>
+        <form id="form-new-cities" onSubmit={handleSubmit}>
             <fieldset>
                 <h2>You can enter a new city!</h2>
                 <p>Simply fill in the blanks and let us know about where you´d like to travel!</p>
-                <label>
-                    Enter the Country: <br />
-                    <input
-                        className="input-text"
-                        type="text"
-                        name="country"
-                        value={inputs.country || ""}
-                        onChange={handleChange}
-                    />
-                </label>
-                <label>
-                    Enter a New City: <br />
-                    <input
-                        className="input-text"
-                        type="text"
-                        name="new_city"
-                        value={inputs.cityname || ""}
-                        onChange={handleChange}
-                    />
-                </label>
-                <label>
-                    Any special location in said city: <br />
-                    <input
-                        className="input-text"
-                        type="text"
-                        name="place"
-                        value={inputs.place || ""}
-                        onChange={handleChange}
-                    />
-                </label>
-                <label>
-                    Add a Photo: <br />
-                    <input
-                        className="input-text"
-                        type="text"
-                        name="photo"
-                        value={inputs.photo || ""}
-                        onChange={handleChange}
-                    />
-                </label>
+
+                {
+                    arrayForm.map(formView)
+                }
+
                 <input className="input-submit" type="submit" />
             </fieldset>
         </form>

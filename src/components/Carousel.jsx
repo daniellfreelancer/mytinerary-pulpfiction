@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../styles/App.css";
 import ButtonCarousel from "./ButtonCarousel";
+import {Link as LinkTo } from 'react-router-dom'
 
 function Carousel(props) {
   const arrayCity = props.cities;
@@ -36,6 +37,7 @@ function Carousel(props) {
       setStart(0);
       setEnd(range);
     }
+    clearInterval(intervalID)
   }
 
   function previous() {
@@ -46,6 +48,7 @@ function Carousel(props) {
       setStart(maxSlider - range);
       setEnd(maxSlider);
     }
+    clearInterval(intervalID)
   }
 
   return (
@@ -55,8 +58,8 @@ function Carousel(props) {
       <div className="Slider-container">
         {arrayCity.slice(start, end).map((e) => {
           return (
-            <div className="Slider-div" key={e.id}>
-              <img src={e.img} className="Slider-img" alt={e.city} />
+            <div className="Slider-div" key={e._id}>
+              <LinkTo to={`/details/${e._id}`}><img src={e.photo} className="Slider-img" alt={e.city} /></LinkTo>
               <p className="Slider-p"> {e.city} </p>
             </div>
           );
