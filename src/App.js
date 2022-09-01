@@ -5,6 +5,7 @@ import NewCities from './pages/NewCities';
 import UnderConstruction from './pages/UnderConstruction';
 import Welcome from './pages/Welcome';
 import Details from './pages/Details';
+import EditCity from './pages/EditCity';
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
             <Route path='*' element={<UnderConstruction/>}/>
             <Route path='/newCities' element={<NewCities/>}/>
             <Route path='/details/:id' element={<Details/>}/>
+            <Route path='/editCity' element={<EditCity/>}/>
           </Routes>
       </BrowserRouter>
   );
