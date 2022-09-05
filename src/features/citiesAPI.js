@@ -4,9 +4,14 @@ export const citiesAPI = createApi({
 
     reducerPath: "citiesAPI",
 
+
     baseQuery: fetchBaseQuery({
         baseUrl: 'http://localhost:4000'
     }),
+
+    tagTypes: ['Post'],
+
+
     endpoints: (builder) => ({
         getAllCities: builder.query({
             query: (search) => `/cities/?city=${search}`
@@ -17,10 +22,21 @@ export const citiesAPI = createApi({
         getCarousel: builder.query({
             query: () => '/cities'
         }),
+        createCity: builder.mutation({
+            query: (city) => ({
+                url: '/cities',
+                method: 'POST',
+                body: city,
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            })
+        }),
 
+        invalidatesTags: ['Post']
 
     })
 })
 
 export default citiesAPI
-export const { useGetAllCitiesQuery, useGetCityByIdQuery, useGetCarouselQuery } = citiesAPI
+export const { useGetAllCitiesQuery, useGetCityByIdQuery, useGetCarouselQuery, useCreateCityMutation } = citiesAPI
