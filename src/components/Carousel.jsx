@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "../styles/App.css";
 import ButtonCarousel from "./ButtonCarousel";
-import {Link as LinkTo } from 'react-router-dom'
+import { Link as LinkTo } from 'react-router-dom'
+import { useGetCarouselQuery } from '../features/citiesAPI'
 
 function Carousel(props) {
-  const arrayCity = props.cities;
   const range = props.range;
   const [start, setStart] = useState(0);
   const [end, setEnd] = useState(start + range);
@@ -51,12 +51,17 @@ function Carousel(props) {
     clearInterval(intervalID)
   }
 
+  const { data: cities } = useGetCarouselQuery()
+
+  let carouselCities = cities?.response
+
+
   return (
     <div className="Slider-box">
       <ButtonCarousel icon={"<"} onClick={previous} />
 
       <div className="Slider-container">
-        {arrayCity.slice(start, end).map((e) => {
+        {carouselCities?.slice(start, end).map((e) => {
           return (
             <div className="Slider-div" key={e._id}>
               <LinkTo to={`/details/${e._id}`}><img src={e.photo} className="Slider-img" alt={e.city} /></LinkTo>
