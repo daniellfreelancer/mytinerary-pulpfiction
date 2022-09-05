@@ -3,6 +3,8 @@ import { Link as LinkRouter } from 'react-router-dom'
 import '../styles/App.css'
 import axios from 'axios'
 import SearchBar from './SearchBar'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchFromServer } from '../features/citiesSlice'
 
 
 function CityCard() {
@@ -15,12 +17,21 @@ function CityCard() {
         setMySearch(e.target.value)
     }
 
+    // Este permite Leer <= esto es un array
+    let mycities = useSelector( value => value.cities.cities)
+
+    //Este ejecuta la accion para poder leer
+    let dispatchCities = useDispatch()
+
+
     useEffect(() => {
         
             axios.get('http://localhost:4000/cities/'+`?city=${mySearch}`).then(res => setItineraries(res.data.response))
-      
+
+            //activa el array
+            dispatchCities(fetchFromServer())
         
-    }, [mySearch])
+    }, [])
     
 
     return (
@@ -30,7 +41,7 @@ function CityCard() {
           <SearchBar value={mySearch} onChange={ handleSearch}  />
         </div>
 
-        {itineraries.map((e) => {
+        {mycities.map((e) => {
           return (
             <div className="paper" key={e._id}>
               <img className="poster" src={e.photo} alt={e.city} />
