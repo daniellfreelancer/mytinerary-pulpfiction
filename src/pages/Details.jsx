@@ -4,6 +4,7 @@ import GoBack from '../components/GoBack'
 import Layout from '../layouts/Layout'
 import { useGetCityByIdQuery } from '../features/citiesAPI'
 import '../styles/App.css'
+import api_url from '../api'
 
 function Details() {
     const { id } = useParams()
