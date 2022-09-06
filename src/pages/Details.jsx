@@ -4,7 +4,7 @@ import GoBack from '../components/GoBack'
 import Layout from '../layouts/Layout'
 import axios from 'axios'
 import '../styles/App.css'
-import api_url from '../../api'
+import api_url from '../api'
 
 function Details() {
     const { id } = useParams()

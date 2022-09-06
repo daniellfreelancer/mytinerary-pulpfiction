@@ -1,7 +1,7 @@
 import axios from "axios";
 import { React, useEffect, useRef, useState } from "react";
 import "../styles/App.css";
-import api_url from "../../api";
+import api_url from "../api";
 
 function NewCityForm() {
 

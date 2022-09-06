@@ -3,7 +3,7 @@ import { Link as LinkRouter } from 'react-router-dom'
 import '../styles/App.css'
 import axios from 'axios'
 import SearchBar from './SearchBar'
-import api_url from '../../api'
+import api_url from '../api'
 
 
 function CityCard() {

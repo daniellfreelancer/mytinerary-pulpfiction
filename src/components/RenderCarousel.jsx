@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Carousel from './Carousel'
 import axios from 'axios'
-import api_url from '../../api'
+import api_url from '../api'
 
 const RenderCarousel = () => {
     const [itineraries, setItineraries] = useState([])
