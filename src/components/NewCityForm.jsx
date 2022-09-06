@@ -1,6 +1,7 @@
 import axios from "axios";
 import { React, useEffect, useRef, useState } from "react";
 import "../styles/App.css";
+import api_url from "../../api";
 
 function NewCityForm() {
 
@@ -24,7 +25,7 @@ function NewCityForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(inputs)
-        axios.post('http://localhost:4000/cities/',{
+        axios.post(api_url + '/cities/',{
 
             photo: cityPhotoRef.current.value,
             city: cityNameRef.current.value,

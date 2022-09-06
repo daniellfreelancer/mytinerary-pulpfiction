@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Carousel from './Carousel'
 import axios from 'axios'
+import api_url from '../../api'
 
 const RenderCarousel = () => {
     const [itineraries, setItineraries] = useState([])
 
     useEffect(() => {
-        axios.get('http://localhost:4000/cities/').then(res => setItineraries(res.data.response))
+        axios.get(api_url + '/cities/').then(res => setItineraries(res.data.response))
     }, [])
     
 

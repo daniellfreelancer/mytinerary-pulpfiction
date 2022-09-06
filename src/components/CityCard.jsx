@@ -3,6 +3,7 @@ import { Link as LinkRouter } from 'react-router-dom'
 import '../styles/App.css'
 import axios from 'axios'
 import SearchBar from './SearchBar'
+import api_url from '../../api'
 
 
 function CityCard() {
@@ -17,7 +18,7 @@ function CityCard() {
 
     useEffect(() => {
         
-            axios.get('http://localhost:4000/cities/'+`?city=${mySearch}`).then(res => setItineraries(res.data.response))
+            axios.get(api_url + '/cities/'+`?city=${mySearch}`).then(res => setItineraries(res.data.response))
       
         
     }, [mySearch])

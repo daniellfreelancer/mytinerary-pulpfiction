@@ -4,6 +4,7 @@ import GoBack from '../components/GoBack'
 import Layout from '../layouts/Layout'
 import axios from 'axios'
 import '../styles/App.css'
+import api_url from '../../api'
 
 function Details() {
     const { id } = useParams()
@@ -11,7 +12,7 @@ function Details() {
     const [cityDetail, setCityDetail] = useState([])
 
     useEffect(() => {
-        axios.get('http://localhost:4000/cities/' + id).then(res => setCityDetail(res.data.response))
+        axios.get(api_url + '/cities/' + id).then(res => setCityDetail(res.data.response))
     }, [id])
     let cityFundation = new Date(cityDetail.fundation)
     let yearFundation = cityFundation.getFullYear()
