@@ -1,9 +1,13 @@
 import React from 'react'
-import {Link as LinkTo} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 function GoBack() {
+  const gobackbutton = useNavigate()
+  const handleBack = () => {
+    gobackbutton('/cities')
+  }
   return (
-    <LinkTo className='goback-btn navlink' to='/cities'>GoBack</LinkTo>
+    <button className='goback-btn navlink' onClick={handleBack}>GoBack</button>
   )
 }
 
