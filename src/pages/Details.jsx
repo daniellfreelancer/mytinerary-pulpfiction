@@ -4,6 +4,7 @@ import GoBack from '../components/GoBack'
 import Layout from '../layouts/Layout'
 import { useGetCityByIdQuery } from '../features/citiesAPI'
 import '../styles/App.css'
+import Itineraries from '../components/Itineraries'
 
 function Details() {
     const { id } = useParams()
@@ -19,16 +20,13 @@ function Details() {
         <Layout>
 
             <div className="bigcard">
-                <h2 className="detailtitle">{cityDetail?.featuredLocation}</h2>
+                <h2 className="detailtitle">{cityDetail?.city}</h2>
                 <div className="bigcard-photo">
                     <img src={cityDetail?.photo} alt={cityDetail?.featuredLocation} />
                 </div>
                 <div className="details">
                     <div className="info1">
-                        <p>City: {cityDetail?.city}</p>
                         <p>Country: {cityDetail?.country}</p>
-                    </div>
-                    <div className="info2">
                         <p>Population: {cityDetail?.population} habitants</p>
                         <p>Fundation: {yearFundation}</p>
                     </div>
@@ -36,6 +34,9 @@ function Details() {
                 <div className="description-detail">
                     <h2>Information</h2>
                     <p>{cityDetail?.description}</p>
+                </div>
+                <div className="itineraries-div">
+                    <Itineraries/>
                 </div>
             </div>
             <GoBack />
