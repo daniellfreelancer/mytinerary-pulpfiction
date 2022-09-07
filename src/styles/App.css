@@ -695,7 +695,13 @@ hr {
   border-bottom: 1px solid aliceblue;
 }
 
-.info1 p, .info2 p{
+.info1{
+  display:flex;
+  justify-content: space-evenly;
+  width: 90%;
+}
+
+.info1 p{
   font-weight: bold;
   font-family: 'Montserrat', sans-serif;
   padding:.5rem;
@@ -726,6 +732,61 @@ hr {
 }
 
 
+/* Itineraries Cards */
+
+.Itinerary-div{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap:1rem;
+}
+
+.Itinerary-div p{
+  font-family: 'Montserrat', sans-serif;
+  
+}
+.Itinerary-detail{
+
+  display:flex;
+  flex-wrap: wrap;
+
+  border: .5px solid gray;
+  text-align: center;
+  padding: .5rem .5rem;
+  font-size: 20pt;
+  background-color: aliceblue;
+  box-shadow: rgba(149, 157, 165, 0.2) 2px 8px 24px;
+  width: 90%;
+}
+.Itinerary-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.Itinerary-p{
+  margin: 0;
+  padding: 0;
+  
+}
+.toggle-comments{
+  width: 100%;
+  padding: .5rem;
+}
+
+/* Containers itinerary */
+
+.itinerary-div-img{
+  width: 50%;
+}
+.itinerary-div-text-activities{
+  width: 50%;
+}
+.itinerary-div-activities{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+}
 @media screen and (max-width: 425px) {
   
   .NotAvailable img{
