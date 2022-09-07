@@ -5,6 +5,7 @@ import Layout from '../layouts/Layout'
 import { useGetCityByIdQuery } from '../features/citiesAPI'
 import '../styles/App.css'
 import api_url from '../api'
+import Itineraries from '../components/Itineraries'
 
 
 function Details() {
