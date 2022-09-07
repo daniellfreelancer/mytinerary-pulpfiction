@@ -1,25 +1,32 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
-import { useGetAllItineraryQuery } from '../features/itineraryAPI'
+import { useGetTinerariesQuery } from '../features/itineraryAPI'
 import ActivityItinerary from './ActivityItinerary'
-import Comments from './Comments'
 
-function Itineraries() {
-
-    const { id } = useParams()
-
-    const { data: itineraries } = useGetAllItineraryQuery(id)
-
-    let itineraryDetail = itineraries?.response
+function MyItineraries() {
 
 
-    return ( 
-        <>
-            <h2>💙 Itineraries 💙</h2>
-            <div className="Itinerary-div">
+    //const { id } = useParams()
 
-                {itineraryDetail ?
-                  itineraryDetail?.map((e) => {
+    const idCin = "63127d66bd5df3158d31150c"
+
+    const idDaniel = "63127d65bd5df3158d31150a"
+
+    const idErze = "631262a13be9ab609930ecfa"
+
+    const idNaty = "63127d66bd5df3158d31150b"
+
+     const { data: myitineraries } = useGetTinerariesQuery(idDaniel)
+
+     let myitinerariesDetail = myitineraries?.response
+
+  return (
+    <>
+        <div className='Mytineraries-div-title'>
+            <h2>My Tineraries</h2>
+        </div>
+        <div className='MyTineraries-div' >
+            { myitinerariesDetail ?
+                myitinerariesDetail?.map((e)=>{
                     let totalLikes = e.likes
                     let myTags = e.tags
                     let hourDuration = Math.round((e.duration) / 60)
@@ -32,7 +39,7 @@ function Itineraries() {
 
                             <div className='itinerary-div-text-activities' >
 
-                                <div className='itinerary-div-p' >
+                                <div className='itinerary-div-p myItineraries-text' >
                                     <h3 className="Itinerary-p"> {e.name} </h3>
                                     <div className='text-itinerary'>
                                     <p className="Itinerary-p"> Duration: {hourDuration > 1 ? hourDuration + ` hours` : hourDuration + ` hour`} </p>
@@ -57,26 +64,18 @@ function Itineraries() {
                                 </div>
 
 
-
-
-                            </div>
-                            <div className='toggle-comments'>
-                                
-
-                                    <Comments/>
-
-                                    
                             </div>
 
                         </div>
-                     )  }) 
-                        : <p> This City has no Itineraries yet</p>
-                     } 
+                        
+                    )
+                })
+                : <p> You dont have Itineraries yet</p>
+            } 
+        </div>
+    </>
+    
+  )
+}
 
-
-                     </div>
-                </>
-                )    }
-
-
-export default Itineraries
+export default MyItineraries

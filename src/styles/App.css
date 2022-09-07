@@ -234,7 +234,7 @@ font-family: 'Montserrat', sans-serif;
   margin: .5rem;
 }
 
-.Render-div-title {
+.Render-div-title, .Mytineraries-div-title {
   width: 30rem;
   text-align: center;
   background: rgba(255, 255, 255, 0.2);
@@ -729,6 +729,7 @@ hr {
 }
 .goback-btn{
   text-align: center;
+  cursor: pointer;
 }
 
 
@@ -749,19 +750,21 @@ hr {
 
   display:flex;
   flex-wrap: wrap;
-
   border: .5px solid gray;
   text-align: center;
   padding: .5rem .5rem;
   font-size: 20pt;
-  background-color: aliceblue;
+  background-color: rgb(255, 255, 255, 0.2);
   box-shadow: rgba(149, 157, 165, 0.2) 2px 8px 24px;
-  width: 90%;
+  width: 100%;
+  border-radius: 15px;
 }
 .Itinerary-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 15px;
+  box-shadow: rgb(0 0 0 / 25%) 0px 54px 55px, rgb(0 0 0 / 12%) 0px -12px 30px, rgb(0 0 0 / 12%) 0px 4px 6px, rgb(0 0 0 / 17%) 0px 12px 13px, rgb(0 0 0 / 9%) 0px -3px 5px;
 }
 .Itinerary-p{
   margin: 0;
@@ -787,6 +790,67 @@ hr {
   align-items: center;
   justify-content: space-around;
 }
+
+.text-itinerary{
+  border-top:1px solid gray;
+  border-bottom:1px solid gray;
+}
+
+/* Activities card */
+.activity-div{
+  width: 12rem;
+  height: 18rem;
+  border: 1px solid #303336;
+  border-radius: 15px;
+  padding: 0.5rem;
+  margin: 0.5rem;
+  box-shadow: rgb(0 0 0 / 25%) 0px 54px 55px, rgb(0 0 0 / 12%) 0px -12px 30px, rgb(0 0 0 / 12%) 0px 4px 6px, rgb(0 0 0 / 17%) 0px 12px 13px, rgb(0 0 0 / 9%) 0px -3px 5px;
+}
+.activity-img{
+  width: 100%;
+  height: 60%;
+  object-fit: cover;
+  border-radius: 10px 10px 0 0;
+}
+
+.MyTineraries-div{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.myItineraries-text p {
+  font-family: 'Montserrat', sans-serif;
+}
+
+
+
+/* Comments */
+
+.Comment-button{
+  cursor: pointer;
+  width: 20rem;
+  background-color:#342359 ;
+  padding: 1rem 1rem;
+  text-decoration: none;
+  border-radius: 15px;
+  margin: 0 1rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  color: #04BF9D;
+  border: none;
+  font-size: 18pt;
+}
+
+.bi-chat-heart{
+  fill: #04BF9D;
+}
+.Mytineraries-div-title{
+  font-size: 25pt;
+  margin-bottom: 1.5rem;
+}
+
 @media screen and (max-width: 425px) {
   
   .NotAvailable img{
@@ -903,7 +967,25 @@ hr {
     align-items: center;
     text-align: center;
   }
-  
+  .Itinerary-detail{
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    
+  }
+  .itinerary-div-text-activities{
+    width: 100%;
+  }
+  .itinerary-div-img{
+    display: flex;
+    justify-content: center;
+    width: 90%;
+    height: 20rem;
+  }
+  .goback-btn{
+    width: auto;
+  }
 
 }
 
