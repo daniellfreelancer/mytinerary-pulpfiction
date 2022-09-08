@@ -6,6 +6,8 @@ import { useGetCityByIdQuery } from '../features/citiesAPI'
 import '../styles/App.css'
 import api_url from '../api'
 import Itineraries from '../components/Itineraries'
+import NotAvailable from '../components/NotAvailable'
+import { Link as LinkRouter } from 'react-router-dom'
 
 
 function Details() {
@@ -20,27 +22,36 @@ function Details() {
 
     return (
         <Layout>
-
+            {cityDetail ? (
             <div className="bigcard">
-                <h2 className="detailtitle">{cityDetail?.city}</h2>
-                <div className="bigcard-photo">
-                    <img src={cityDetail?.photo} alt={cityDetail?.featuredLocation} />
-                </div>
-                <div className="details">
-                    <div className="info1">
-                        <p>Country: {cityDetail?.country}</p>
-                        <p>Population: {cityDetail?.population} habitants</p>
-                        <p>Fundation: {yearFundation}</p>
-                    </div>
-                </div>
-                <div className="description-detail">
-                    <h2>Information</h2>
-                    <p>{cityDetail?.description}</p>
-                </div>
-                <div className="itineraries-div">
-                    <Itineraries/>
+            <h2 className="detailtitle">{cityDetail?.city}</h2>
+            <div className="bigcard-photo">
+                <img src={cityDetail?.photo} alt={cityDetail?.featuredLocation} />
+            </div>
+            <div className="details">
+                <div className="info1">
+                    <p>Country: {cityDetail?.country}</p>
+                    <p>Population: {cityDetail?.population} habitants</p>
+                    <p>Fundation: {yearFundation}</p>
                 </div>
             </div>
+            <div className="description-detail">
+                <h2>Information</h2>
+                <p>{cityDetail?.description}</p>
+            </div>
+            <div>
+                    <LinkRouter to={`/editCity/${cityDetail?._id}`} className="btn-read">Edit City!</LinkRouter>
+                    <p className="btn-read btn-read-red">Delete city!</p>
+            </div>
+            <div className="itineraries-div">
+                <Itineraries/>
+            </div>
+        </div>
+            ) : <NotAvailable/>
+
+            }
+
+
             <GoBack />
         </Layout>
     )

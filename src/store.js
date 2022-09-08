@@ -1,24 +1,24 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
-import citiesAPI  from './features/citiesAPI'
+import citiesAPI from './features/citiesAPI'
 import itineraryAPI from './features/itineraryAPI'
 import activityAPI from './features/activityAPI'
-import myTinerariesAPI from './features/myTinerariesAPI'
+
 
 export const store = configureStore({
-    
+
     reducer: {
         [citiesAPI.reducerPath]: citiesAPI.reducer,
         [itineraryAPI.reducerPath]: itineraryAPI.reducer,
         [activityAPI.reducerPath]: activityAPI.reducer,
-        // [myTinerariesAPI.reducerPath]: myTinerariesAPI.reducer,
+
     },
 
     middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(citiesAPI.middleware),
+        getDefaultMiddleware().concat(citiesAPI.middleware),
 
 
-    
+
 })
 
 
