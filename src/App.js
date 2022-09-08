@@ -20,7 +20,7 @@ function App() {
             <Route path='*' element={<UnderConstruction/>}/>
             <Route path='/newCities' element={<NewCities/>}/>
             <Route path='/details/:id' element={<Details/>}/>
-            <Route path='/editCity' element={<EditCity/>}/>
+            <Route path='/editCity/:id' element={<EditCity/>}/>
             <Route path='/myTineraries' element={<MyTineraries/>}/>
           </Routes>
       </BrowserRouter>

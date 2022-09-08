@@ -16,10 +16,17 @@ export const itineraryAPI = createApi({
         }),
         getTineraries: builder.query({
             query: (userID) => `/myItineraries/?user=${userID}`
+        }),
+        deleteTineraries: builder.mutation({
+            query: (itineraryID) => ({
+                url: `/myItineraries/${itineraryID}`,
+                method: 'DELETE',
+            })
         })
+
 
     })
 })
 
 export default itineraryAPI
-export const { useGetAllItineraryQuery, useGetTinerariesQuery} = itineraryAPI
+export const { useGetAllItineraryQuery, useGetTinerariesQuery, useDeleteTinerariesMutation} = itineraryAPI
