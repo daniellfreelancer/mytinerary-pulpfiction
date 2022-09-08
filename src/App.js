@@ -6,6 +6,7 @@ import UnderConstruction from './pages/UnderConstruction';
 import Welcome from './pages/Welcome';
 import Details from './pages/Details';
 import EditCity from './pages/EditCity';
+import MyTineraries from './pages/MyTineraries';
 
 function App() {
 
@@ -19,7 +20,8 @@ function App() {
             <Route path='*' element={<UnderConstruction/>}/>
             <Route path='/newCities' element={<NewCities/>}/>
             <Route path='/details/:id' element={<Details/>}/>
-            <Route path='/editCity' element={<EditCity/>}/>
+            <Route path='/editCity/:id' element={<EditCity/>}/>
+            <Route path='/myTineraries' element={<MyTineraries/>}/>
           </Routes>
       </BrowserRouter>
   );
