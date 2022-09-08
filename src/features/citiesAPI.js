@@ -32,6 +32,13 @@ export const citiesAPI = createApi({
                 },
             })
         }),
+        updateCity: builder.mutation({
+            query: ({ id, ...mycity }) => ({
+              url: `/cities/${id}`,
+              method: "PATCH",
+              body: mycity
+            })
+          }),
 
         invalidatesTags: ['Post']
 
@@ -39,4 +46,4 @@ export const citiesAPI = createApi({
 })
 
 export default citiesAPI
-export const { useGetAllCitiesQuery, useGetCityByIdQuery, useGetCarouselQuery, useCreateCityMutation } = citiesAPI
+export const { useGetAllCitiesQuery, useGetCityByIdQuery, useGetCarouselQuery, useCreateCityMutation, useUpdateCityMutation } = citiesAPI

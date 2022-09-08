@@ -33,9 +33,75 @@ function Comments() {
       </button>
       <div>
         {show ? (
-          <div className="">
-            <p>This is a Comment</p>
+
+<div className="comments-container">
+    <ul id="comments-list" className="comments-list">
+    <li>
+      <div className="comment-main-level">
+        <div className="comment-avatar"><img src="https://i.pinimg.com/originals/42/04/77/4204771e1c54c2b9afa36f668261e7bd.gif" alt="user"/></div>
+        <div className="comment-box">
+          <div className="comment-head">
+            <h6 className="comment-name by-author">Cinthya</h6>
+            <i className="fa fa-reply"></i>
+            <i className="fa fa-heart"></i>
           </div>
+          <div className="comment-content">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
+          </div>
+        </div>
+      </div>
+      <ul className="comments-list reply-list">
+        <li>
+          <div className="comment-avatar"><img src="https://i.pinimg.com/originals/19/14/e1/1914e17788de73ac8423e983105c54c1.gif" alt="user"/></div>
+          <div className="comment-box">
+            <div className="comment-head">
+              <h6 className="comment-name">Natalia</h6>
+              <i className="fa fa-reply"></i>
+              <i className="fa fa-heart"></i>
+            </div>
+            <div className="comment-content">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
+            </div>
+          </div>
+        </li>
+
+        <li>
+         
+          <div className="comment-avatar"><img src="https://i.pinimg.com/originals/42/04/77/4204771e1c54c2b9afa36f668261e7bd.gif" alt="user"/></div>
+          
+          <div className="comment-box">
+            <div className="comment-head">
+              <h6 className="comment-name by-author">Cinthya</h6>
+              <i className="fa fa-reply"></i>
+              <i className="fa fa-heart"></i>
+            </div>
+            <div className="comment-content">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
+            </div>
+          </div>
+        </li>
+      </ul>
+    </li>
+
+    <li>
+      <div className="comment-main-level">
+       
+        <div className="comment-avatar"><img src="https://www.cinemascomics.com/wp-content/uploads/2020/06/poder-darth-vader.jpg" alt="user"/></div>
+        
+        <div className="comment-box">
+          <div className="comment-head">
+            <h6 className="comment-name by-author">Daniel</h6>
+            <i className="fa fa-reply"></i>
+            <i className="fa fa-heart"></i>
+          </div>
+          <div className="comment-content">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
         ) : null}
       </div>
     </div>
