@@ -3,8 +3,8 @@ import { Link as LinkRouter } from "react-router-dom";
 
 function LogIn() {
   const pages = [
-    { id: "_signin", to: "*", title: "Sign In" },
-    { id: "_login", to: "*", title: "Log In" },
+    { id: "_signUp", to: "/signup", title: "Sign Up" },
+    { id: "_signin", to: "/signin", title: "Sign In" },
   ];
 
   const [show, setShow] = useState(false);
