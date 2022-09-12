@@ -6,6 +6,7 @@ const pages = [
   { id: "_cities", to: "/cities", title: "Cities" },
   { id: "_newCities", to: "/newCities", title: "New Cities" },
   { id: "_myTinerary", to: "/myTineraries", title: "My Tineraries" },
+  { id: "_registration", to: "/auth", title: "Registration" },
 ];
 
 export function NavBarFooter() {
