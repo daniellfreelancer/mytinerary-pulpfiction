@@ -3,6 +3,7 @@ import { setupListeners } from '@reduxjs/toolkit/query'
 import citiesAPI from './features/citiesAPI'
 import itineraryAPI from './features/itineraryAPI'
 import activityAPI from './features/activityAPI'
+import userAPI from './features/userAPI'
 
 
 export const store = configureStore({
@@ -11,6 +12,7 @@ export const store = configureStore({
         [citiesAPI.reducerPath]: citiesAPI.reducer,
         [itineraryAPI.reducerPath]: itineraryAPI.reducer,
         [activityAPI.reducerPath]: activityAPI.reducer,
+        [userAPI.reducerPath]: userAPI.reducer
 
     },
 
