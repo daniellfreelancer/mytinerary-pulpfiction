@@ -28,8 +28,6 @@ function CityCard() {
       {allMyCities?.map((e) => {
         let newSmallDescription =(e.smalldescription).slice(0,300)
 
-        console.log(newSmallDescription)
-
         return (
           <div className="paper" key={e._id}>
             <img className="poster" src={e.photo} alt={e.city} />
