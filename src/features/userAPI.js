@@ -21,10 +21,31 @@ export const userAPI = createApi({
                 },
             })
         }),
+        signInUser: builder.mutation({
+            query: (user) => ({
+                url: '/user/signin',
+                method: 'POST',
+                body: user,
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            })
+        }),
+        signOutUser: builder.mutation({
+            query: (mail) => ({
+                url: '/user/signout',
+                method: 'POST',
+                body: mail,
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            })
+        }),
+        
 
 
     })
 })
 
 export default userAPI
-export const { useSignUpUserMutation } = userAPI
+export const { useSignUpUserMutation, useSignInUserMutation, useSignOutUserMutation } = userAPI
