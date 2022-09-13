@@ -1,4 +1,5 @@
 import { React, useRef } from "react";
+import { useSignUpUserMutation } from "../features/userAPI";
 import "../styles/App.css";
 import SignUpGoogle from "./SignUpGoogle";
 
@@ -9,11 +10,10 @@ function SignUpForm() {
     const photoUserRef = useRef()
     const passwordUserRef = useRef()
     const roleUserRef = useRef()
-    const fromUserRef = useRef()
     const emailUserRef = useRef()
     const countryUserRef = useRef()
 
-    //const [addNewUser] = useSignUpMutation();
+    const [addNewUser] = useSignUpUserMutation();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -23,23 +23,26 @@ function SignUpForm() {
             name: nameUserRef.current.value,
             country: countryUserRef.current.value,
             photo: photoUserRef.current.value,
-            password: passwordUserRef.current.value,
+            pass: passwordUserRef.current.value,
             role: roleUserRef.current.value,
             email: emailUserRef.current.value,
-            from: fromUserRef.current.value
+            from: "form"
         };
-        console.log(newUser)
-    }
 
-    //   addNewUser(newUser)
-    //       .then((res) => console.log(res))
-    //       .catch((error) => {
-    //         console.log(error);
-    //       });
 
-    //       let signupForm = document.querySelector("#form-new-users");
-    //       signupForm.reset();
-    //     };
+       addNewUser(newUser)
+       .then((res) => console.log(res))
+       .catch((error) => {
+        console.log(error)
+        });
+
+           let signupForm = document.querySelector("#form-new-users");
+           signupForm.reset();
+         };
+
+    
+
+
 
 
     const arrayForm = [
@@ -64,7 +67,7 @@ function SignUpForm() {
         {
             id: "_password",
             name: "Password",
-            type: "text",
+            type: "password",
             value: passwordUserRef,
         },
         {
@@ -84,7 +87,7 @@ function SignUpForm() {
     const formView = (e) => {
         return (
             <label key={e.id}>
-                Enter the {e.name}: <br />
+                Enter {e.name}: <br />
                 <input
                     className="input-text"
                     type={e.type}
