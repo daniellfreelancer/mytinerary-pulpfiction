@@ -6,7 +6,6 @@ function BurgerBtn() {
   const pages = [
     { id: "_cities", to: "/cities", title: "Cities" },
     { id: "_newCities", to: "/newCities", title: "New Cities" },
-    { id: "_editCity", to: "/editCity", title: "Edit City" },
     { id: "_myTinerary", to: "/myTineraries", title: "My Tineraries" },
   ];
 
