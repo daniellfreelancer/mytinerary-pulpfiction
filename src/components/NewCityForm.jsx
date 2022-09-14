@@ -135,7 +135,7 @@ function NewCityForm() {
       <label key={e.id}>
         Enter the {e.name}: <br />
         <input
-          className="input-text"
+          className="btn-form"
           type={e.type}
           name={e.name}
           ref={e.value}
@@ -148,33 +148,39 @@ function NewCityForm() {
 
   return (
     <>
-   
-    
-    <form id="form-new-cities" onSubmit={handleSubmit}>
+    <form id="form-new-users" onSubmit={handleSubmit}>
 
-    {modalOpen == true ?
-     <AlertComponent 
-     setOpenModal={setModalOpen} 
-     setMessageError={messageError}
-     setMessageTittle={messageTittle}
-     setIconSVG={iconSVG}
-     /> : 
-     null}
-
-    <div></div>
-      
-      <fieldset>
+      <div class="container-form">
+        <div className="form-new new-city" >
         <h2>You can enter a new city!</h2>
         <p>
           Simply fill in the blanks and let us know about where you'd like to
           travel!
         </p>
-
+        <div className='div-form-new-city'>
         {arrayForm.map(formView)}
+        </div>
+        <input className="btn-form" type="submit" value="Submit" />
+        </div>
 
-        <input className="input-submit" type="submit" value="Submit" />
-      </fieldset>
+            <div class="drops">
+              <div class="drop drop-1 boxes"></div>
+              <div class="drop drop-2 boxes"></div>
+              <div class="drop drop-3 boxes"></div>
+              <div class="drop drop-4 boxes"></div>
+              <div class="drop drop-5 boxes"></div>
+            </div>
+        </div>
+
     </form>
+          {modalOpen === true ? (
+        <AlertComponent
+          setOpenModal={setModalOpen}
+          setMessageError={messageError}
+          setMessageTittle={messageTittle}
+          setIconSVG={iconSVG}
+        />
+      ) : null}
     </>
   );
 }

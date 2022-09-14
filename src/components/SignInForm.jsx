@@ -96,7 +96,7 @@ function SignInForm() {
       <label key={e.id}>
         Enter the {e.name}: <br />
         <input
-          className="input-text"
+          className="btn-form"
           type={e.type}
           name={e.name}
           ref={e.value}
@@ -105,8 +105,30 @@ function SignInForm() {
     );
   };
   return (
+    <>
     <form id="form-new-users" onSubmit={handleSubmit}>
-      {modalOpen == true ? (
+
+      <div class="container-form">
+        <div className="form-new" >
+          <p>Welcome</p>
+          {arrayForm.map(formView)}
+          <input class='btn-form' type="submit" value="Sign in"/>
+          <p>or</p>
+          <SignInGoogle />
+        </div>
+
+            <div class="drops">
+              <div class="drop drop-1 "></div>
+              <div class="drop drop-2"></div>
+              <div class="drop drop-3"></div>
+              <div class="drop drop-4"></div>
+              <div class="drop drop-5"></div>
+            </div>
+      </div>
+
+    </form>
+    <div className="div-modal">
+    {modalOpen === true ? (
         <AlertComponent
           setOpenModal={setModalOpen}
           setMessageError={messageError}
@@ -114,30 +136,9 @@ function SignInForm() {
           setIconSVG={iconSVG}
         />
       ) : null}
-      <fieldset>
-        <h2>Here you can Sign In your account!</h2>
-        <p>Simply fill in the blanks</p>
+    </div>
 
-        {arrayForm.map(formView)}
-
-        <input className="input-submit" type="submit" value="Submit" />
-      </fieldset>
-      <fieldset>
-        <SignInGoogle />
-
-        <br />
-        {/* {localStorage.length !== 0 ? (
-                      <div key={variableTest.id}>
-                      <button onClick={handleSignOut}>sign Out</button>
-                      <p> {variableTest.id} </p>
-                      <p> {variableTest.name} </p>
-                      <p> {variableTest.email} </p>
-                    </div>
-          ) : (
-            <button>No está logueado</button>
-          )} */}
-      </fieldset>
-    </form>
+    </>
   );
 }
 
