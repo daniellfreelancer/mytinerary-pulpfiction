@@ -143,7 +143,7 @@ function SignUpForm() {
 
     return (
         <form id="form-new-users" onSubmit={handleSubmit}>
-                  {modalOpen == true ?
+                  {modalOpen === true ?
           <AlertComponent 
           setOpenModal={setModalOpen} 
           setMessageError={messageError}

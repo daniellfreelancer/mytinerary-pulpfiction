@@ -19,7 +19,7 @@ function ActivityItinerary(props) {
                 )
             })
             :
-            <p>Still no have Activities</p>
+            <p>Still no Activities</p>
         }
     </>
   )
