@@ -5,9 +5,9 @@ import Layout from '../layouts/Layout'
 function SignInPage() {
   return (
     <Layout>
-      <div className='Mytineraries-div-title'>
+      {/* <div className='Mytineraries-div-title'>
         <h2>Sign In</h2>
-      </div>
+      </div> */}
       <SignInForm />
     </Layout>
   )
