@@ -9,6 +9,7 @@ import EditCity from './pages/EditCity';
 import MyTineraries from './pages/MyTineraries';
 import SignUpPage from './pages/SignUpPage';
 import SignInPage from './pages/SignInPage';
+import NewItineraryPage from './pages/NewItineraryPage';
 
 function App() {
 
@@ -24,7 +25,7 @@ function App() {
             <Route path='/myTineraries' element={<MyTineraries/>}/>
             <Route path='/signup' element={<SignUpPage/>}/>
             <Route path='/signin' element={<SignInPage/>}/>
-
+            <Route path='/newitinerary' element={<NewItineraryPage/>}/>
           </Routes>
       </BrowserRouter>
   );
