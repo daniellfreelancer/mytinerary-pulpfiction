@@ -313,7 +313,7 @@ main {
 .form-new {
   background: rgba(128, 128, 128, 0.218);
   padding: 3rem;
-  height: 40rem;
+  height: 50rem;
   border-radius: 20px;
   border-left: 1px solid rgba(128, 128, 128, 0.218);
   border-top: 1px solid rgba(128, 128, 128, 0.218);
@@ -323,6 +323,7 @@ main {
   transition: all 0.2s ease-in-out;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   box-sizing: border-box;
 }
@@ -330,7 +331,7 @@ main {
 .form-new label{
   font-family: 'Montserrat', sans-serif;
   font-size: 1.5rem;
-  margin: .5rem;
+
 }
 .form-new p {
   color: #fff;
@@ -402,55 +403,7 @@ main {
   color: #fff;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
 }
-/* 
-.drop {
-  background: rgba(128, 128, 128, 0.218);
-  backdrop-filter: blur(10px);
-  border-radius: 10px;
-  border-left: 1px solid rgba(128, 128, 128, 0.218);
-  border-top: 1px solid rgba(128, 128, 128, 0.218);
-  box-shadow: 10px 10px 60px -8px rgba(0, 0, 0, 0.2);
-  position: absolute;
-  transition: all 0.2s ease;
-}
 
-.drop-1 {
-  height: 80px;
-  width: 80px;
-  top: 90px;
-  left: -40px;
-  z-index: -1;
-}
-
-.drop-2 {
-  height: 80px;
-  width: 80px;
-  bottom: -30px;
-  right: -10px;
-}
-
-.drop-3 {
-  height: 100px;
-  width: 100px;
-  bottom: 120px;
-  right: -50px;
-  z-index: -1;
-}
-
-.drop-4 {
-  height: 120px;
-  width: 120px;
-  top: 90px;
-  right: -60px;
-}
-
-.drop-5 {
-  height: 60px;
-  width: 60px;
-  bottom: 170px;
-  left: -20px;
-  z-index: -1;
-} */
 
 input:focus,
 select:focus,
@@ -458,25 +411,28 @@ textarea:focus,
 button:focus {
   outline: none;
 }
-.new-city{
+.new-city, #form-new-users{
+  padding: .5rem;
   height: 60vh;
   width: 80rem;
   align-items: center;
-  top: 10rem;
+
 }
 .new-city h2{
   width: 100%;
   font-size: 3rem;
+  margin: .5em;
 }
 .new-city p{
   color: black;
 }
-.div-form-new-city{
+.div-form-new-city, .new-user-input{
   display: flex;
   width: 100%;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+  gap: 0.5rem;
 
 }
 .div-form-new-city label{
@@ -490,6 +446,7 @@ button:focus {
   backdrop-filter: none;
   
 }
+
 /* Not Available */
 
 .NotAvailable {
@@ -1384,13 +1341,7 @@ ul {
 }
 
 @media screen and (max-width: 768px) {
-  .burger-btn {
-    display: block;
-  }
 
-  .cont-Nav {
-    display: none;
-  }
 
   .Header {
     flex-direction: column;
@@ -1538,7 +1489,34 @@ ul {
     margin: 0;
   }
 }
+@media screen and (max-width:698px) {
+  .form-new{
+    height: 80rem;
+  }
+}
+@media screen and (max-width:952px) {
+  .burger-btn {
+    display: block;
+  }
 
+  .cont-Nav {
+    display: none;
+  }
+  .container-form, .new-city{
+    min-height: 90rem;
+
+  }
+  .form-new, .new-city{
+    width: 100%;
+    min-height: 60rem;
+    justify-content: flex-start;
+
+  }
+  #form-new-users{
+    height: 80rem;
+  }
+  
+}
 @media screen and (max-width: 1070px) {
   .Footer-container {
     justify-content: center;
@@ -1564,15 +1542,25 @@ ul {
   }
 
 }
-@media screen and (max-width:1430px) {
-  .container-form{
+@media screen and (max-width:1350){
+  .new-users, .new-city{
     width: 100%;
-    height: auto;
+    min-height: auto ;
+  }
+  .new-user-input{
+    width: 100%;
+  }
+}
+@media screen and (max-width:1430px) {
+  #form-new-users, .new-city{
+    width: 100%;
+    min-height: fit-content;
     
   }
   .new-city{
     height: auto;
   }
+
 }
 @media screen and (max-width:1580px) {
   .boxes{

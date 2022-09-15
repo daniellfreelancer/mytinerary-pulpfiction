@@ -38,7 +38,6 @@ function EditCity() {
       id: idCity,
     };
 
-    console.log(newCity);
 
     await editCity(newCity);
     let inputForm = document.querySelector("#form-new-cities");
