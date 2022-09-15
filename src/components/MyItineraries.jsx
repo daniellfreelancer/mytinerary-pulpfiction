@@ -21,6 +21,10 @@ function MyItineraries() {
       id: "63233b4b247ba57d10569038",
       name: "Natalia",
     },
+    {
+      id: "632361a98c3218fc9662a0fc",
+      name: "Otro Daniel"
+    }
   ];
 
   const handleSelect = (e) => {
