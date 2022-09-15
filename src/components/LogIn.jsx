@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { Link as LinkRouter } from "react-router-dom";
+import { Link as LinkRouter, useNavigate } from "react-router-dom";
 import { useSignOutUserMutation } from "../features/userAPI";
 import AlertComponent from "./AlertComponent";
 
 function LogIn() {
-  const pages = [
+
+  const [signUp, setSignUp] = useState(
     { id: "_signUp", to: "/signup", title: "Sign Up" }
-  ];
+  )
+
 
   const [signOutUser] = useSignOutUserMutation();
 
@@ -28,6 +30,8 @@ function LogIn() {
 
   const [show, setShow] = useState(false);
 
+  const goToSignIn = useNavigate()
+
   function showUserInt() {
     if (show) {
       setShow(false);
@@ -43,6 +47,7 @@ function LogIn() {
   if(localStorage.length > 0) {
       variableTest =  JSON.parse(localStorage.getItem('testUser'))
   } 
+
 
    const handleSignOut = (e) =>{
       e.preventDefault();
@@ -84,6 +89,8 @@ function LogIn() {
         console.log(error);
       });
 
+
+      goToSignIn('/signin')
       localStorage.clear()
    }
 
@@ -107,12 +114,10 @@ function LogIn() {
       <div>
         {show ? (
           <div className="Dropdown-menu-UI">
-            {pages.map((link) => (
-              <LinkRouter className="navlink-burger" to={link.to} key={link.id}>
-                {link.title}
-              </LinkRouter>
-              
-            ))}
+            {  localStorage.length > 0 ? (<p className="navlink-burger"> {variableTest.name} </p>  ) : (<LinkRouter className="navlink-burger" to={signUp.to} key={signUp.id}>
+                {signUp.title}
+              </LinkRouter>)}
+
             {
               localStorage.length == 0 ? (
                 <LinkRouter className="navlink-burger" to={userSignIn.to} key={userSignIn.id}>
