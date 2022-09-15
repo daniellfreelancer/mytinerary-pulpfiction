@@ -366,7 +366,9 @@ main {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 
 }
-
+.btn-form option{
+  color: black;
+}
 .btn-form:hover {
   background: rgba(255, 255, 255, 0.1);
   box-shadow: 4px 4px 60px 8px rgba(0, 0, 0, 0.2);
@@ -1216,7 +1218,9 @@ ul {
 }
 
 
-
+.p-mytin{
+  font-size: 20pt;
+}
 
 /* Modal Alert */
 
@@ -1313,8 +1317,10 @@ ul {
 }
 
 .Mytineraries-div-title {
+  width: auto;
   font-size: 25pt;
   margin-bottom: 1.5rem;
+  padding: .5rem;
 }
 
 .btn-read-red {
