@@ -59,7 +59,7 @@ function MyItineraries() {
 
             </div>
             <div className='MyTineraries-div' >
-                {userTag.id != "" && !dontShow ?
+                {userTag.id !== "" && !dontShow ?
                     myitinerariesDetail?.map((e) => {
                         let totalLikes = e.likes
                         let myTags = e.tags
