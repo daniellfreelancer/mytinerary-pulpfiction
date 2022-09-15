@@ -15,7 +15,6 @@ function SignInGoogle() {
     async function handleCredentialResponse(response) {
 
         let myJWT = jose.decodeJwt(response.credential)
-        console.log(myJWT);
 
         let loginUserFromGoogle = {
             email: myJWT.email,

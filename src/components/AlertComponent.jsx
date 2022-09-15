@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 function AlertComponent( { setOpenModal, setMessageError,setMessageTittle,setIconSVG}) {
 
@@ -11,13 +11,6 @@ function AlertComponent( { setOpenModal, setMessageError,setMessageTittle,setIco
           <h2>{setMessageTittle} {setIconSVG}</h2>
         </div>
         <div className="titleCloseBtn">
-          {/* <button
-            onClick={() => {
-              setOpenModal(false);
-            }}
-          >
-            X
-          </button> */}
         </div>
         <div className="body">
           <p> {setMessageError} !</p>

@@ -65,7 +65,7 @@ function SignInForm() {
             "testUser",
             JSON.stringify(res.data.response.user)
           );
-          let signupForm = document.querySelector("#form-new-users");
+          let signupForm = document.querySelector("#form-log-users");
           signupForm.reset();
         }
       })
@@ -106,37 +106,28 @@ function SignInForm() {
   };
   return (
     <>
-    <form id="form-new-users" onSubmit={handleSubmit}>
+      <form id="form-log-users" onSubmit={handleSubmit}>
 
-      <div class="container-form">
-        <div className="form-new" >
-          <p>Welcome</p>
-          {arrayForm.map(formView)}
-          <input class='btn-form' type="submit" value="Sign in"/>
-          <p>or</p>
-          <SignInGoogle />
+        <div className="container-form">
+          <div className="form-new" >
+            <p>Welcome</p>
+            {arrayForm.map(formView)}
+            <input class='btn-form' type="submit" value="Sign in" />
+            <p>or</p>
+            <SignInGoogle />
+          </div>
         </div>
-
-            <div class="drops">
-              <div class="drop drop-1 "></div>
-              <div class="drop drop-2"></div>
-              <div class="drop drop-3"></div>
-              <div class="drop drop-4"></div>
-              <div class="drop drop-5"></div>
-            </div>
+      </form>
+      <div className="div-modal">
+        {modalOpen === true ? (
+          <AlertComponent
+            setOpenModal={setModalOpen}
+            setMessageError={messageError}
+            setMessageTittle={messageTittle}
+            setIconSVG={iconSVG}
+          />
+        ) : null}
       </div>
-
-    </form>
-    <div className="div-modal">
-    {modalOpen === true ? (
-        <AlertComponent
-          setOpenModal={setModalOpen}
-          setMessageError={messageError}
-          setMessageTittle={messageTittle}
-          setIconSVG={iconSVG}
-        />
-      ) : null}
-    </div>
 
     </>
   );
