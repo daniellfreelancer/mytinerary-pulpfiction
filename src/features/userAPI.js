@@ -13,7 +13,7 @@ export const userAPI = createApi({
     endpoints: (builder) => ({
         signUpUser: builder.mutation({
             query: (user) => ({
-                url: '/user/signup',
+                url: '/auth/signup',
                 method: 'POST',
                 body: user,
                 headers: {
@@ -23,7 +23,7 @@ export const userAPI = createApi({
         }),
         signInUser: builder.mutation({
             query: (user) => ({
-                url: '/user/signin',
+                url: '/auth/signin',
                 method: 'POST',
                 body: user,
                 headers: {
@@ -33,7 +33,7 @@ export const userAPI = createApi({
         }),
         signOutUser: builder.mutation({
             query: (mail) => ({
-                url: '/user/signout',
+                url: '/auth/signout',
                 method: 'POST',
                 body: mail,
                 headers: {
