@@ -39,6 +39,12 @@ export const citiesAPI = createApi({
               body: mycity
             })
           }),
+          deleteCity: builder.mutation({
+            query: (idDelete) => ({
+              url: `/cities/${idDelete}`,
+              method: "DELETE",
+            })
+          }),
 
         invalidatesTags: ['Post']
 
@@ -46,4 +52,4 @@ export const citiesAPI = createApi({
 })
 
 export default citiesAPI
-export const { useGetAllCitiesQuery, useGetCityByIdQuery, useGetCarouselQuery, useCreateCityMutation, useUpdateCityMutation } = citiesAPI
+export const { useGetAllCitiesQuery, useGetCityByIdQuery, useGetCarouselQuery, useCreateCityMutation, useUpdateCityMutation, useDeleteCityMutation } = citiesAPI
