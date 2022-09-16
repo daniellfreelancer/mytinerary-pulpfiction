@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import api_url from '../api'
 
 export const itineraryAPI = createApi({
 
@@ -6,7 +7,7 @@ export const itineraryAPI = createApi({
 
 
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:4000'
+        baseUrl: api_url
     }),
 
 
@@ -22,11 +23,21 @@ export const itineraryAPI = createApi({
                 url: `/myItineraries/${itineraryID}`,
                 method: 'DELETE',
             })
-        })
+        }),
+        createItinerary: builder.mutation({
+            query: (itinerary) => ({
+                url: 'myItineraries/itineraries',
+                method: 'POST',
+                body: itinerary,
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            })
+        }),
 
 
     })
 })
 
 export default itineraryAPI
-export const { useGetAllItineraryQuery, useGetTinerariesQuery, useDeleteTinerariesMutation} = itineraryAPI
+export const { useGetAllItineraryQuery, useGetTinerariesQuery, useDeleteTinerariesMutation, useCreateItineraryMutation} = itineraryAPI
