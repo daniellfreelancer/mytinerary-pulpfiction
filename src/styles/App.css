@@ -92,7 +92,7 @@ font-family: 'Montserrat', sans-serif;
 }
 
 .navlink {
-  width: 30rem;
+  width: 32rem;
   background-color: #04BF9D;
   padding: .5rem 1rem;
   text-decoration: none;
@@ -309,17 +309,18 @@ main {
 .div-modal{
   position: absolute;
 }
-
+.text-alert{
+  color: black !important;
+}
 .form-new {
   background: rgba(128, 128, 128, 0.218);
-  padding: 3rem;
-  height: 50rem;
+  padding: 1rem;
+  height: auto;
   border-radius: 20px;
   border-left: 1px solid rgba(128, 128, 128, 0.218);
   border-top: 1px solid rgba(128, 128, 128, 0.218);
   box-shadow: 20px 20px 40px -6px rgba(0, 0, 0, 0.2);
   text-align: center;
-  position: relative;
   transition: all 0.2s ease-in-out;
   display: flex;
   flex-direction: column;
@@ -354,7 +355,7 @@ main {
   background: rgba(128, 128, 128, 0.218);
   width: 200px;
   padding: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   border: none;
   border-left: 1px solid rgba(128, 128, 128, 0.218);
   border-top: 1px solid rgba(128, 128, 128, 0.218);
@@ -415,7 +416,7 @@ button:focus {
 }
 .new-city, #form-new-users{
   padding: .5rem;
-  height: 60vh;
+  height: auto;
   width: 80rem;
   align-items: center;
 
@@ -435,6 +436,7 @@ button:focus {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  height: 100%;
 
 }
 .div-form-new-city label{
@@ -448,6 +450,7 @@ button:focus {
   backdrop-filter: none;
   
 }
+.form-new
 
 /* Not Available */
 
@@ -1295,6 +1298,47 @@ ul {
 }
 
 
+
+/* Profile Styles */
+.profile-card{
+  width: 90%;
+  background-color: rgba(250, 250, 250, 0.172);
+  display: flex;
+  padding: 2rem;
+  margin: 1rem;
+  border-radius: 15pt;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  
+}
+.profile-card p{
+  font-family: 'Montserrat', sans-serif;
+}
+.prof-img{
+  width: 50%;
+
+}
+.prof-img img{
+    border-radius: 50%;
+}
+.profile-data{
+  width: 50%;
+  text-align: start;
+
+}
+.profile-data h2{
+  font-family: 'Charm', cursive;
+  font-size: 30pt;
+  width: 100%;
+}
+.profile-creation{
+  flex-direction: column;
+}
+
+
+
+
 /** =====================
  * Responsive
  ========================*/
@@ -1345,7 +1389,11 @@ ul {
 
 
 }
-
+@media screen and (max-width:698px) {
+  .form-new{
+    height: auto;
+  }
+}
 @media screen and (max-width: 768px) {
 
 
@@ -1491,16 +1539,46 @@ ul {
 
   }
   .form-new{
-    width: 319px;
+    width: 90%;
     margin: 0;
+    height: auto !important;
   }
-}
-@media screen and (max-width:698px) {
-  .form-new{
-    height: 80rem;
+  .profile-card{
+    flex-direction: column;
   }
+  .prof-img{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  .prof-img img{
+    width: 60%;
+  }
+  .profile-data{
+    width: 100%;
+    text-align: center;
+  }
+
 }
+
 @media screen and (max-width:952px) {
+ 
+  .container-form, .new-city{
+    min-height: auto;
+
+  }
+  .form-new{
+    width: 100%;
+    min-height: auto;
+    justify-content: flex-start;
+
+  }
+  #form-new-users{
+    height: auto;
+  }
+  
+}
+@media screen and (max-width: 1024px){
   .burger-btn {
     display: block;
   }
@@ -1508,20 +1586,21 @@ ul {
   .cont-Nav {
     display: none;
   }
-  .container-form, .new-city{
-    min-height: 90rem;
-
-  }
-  .form-new, .new-city{
-    width: 100%;
-    min-height: 60rem;
-    justify-content: flex-start;
-
-  }
-  #form-new-users{
-    height: 80rem;
-  }
   
+
+  .Header {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+  }
+
+  .Dropdown-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
 }
 @media screen and (max-width: 1070px) {
   .Footer-container {
@@ -1545,6 +1624,10 @@ ul {
 
   .bigcard {
     width: 90%;
+  }
+  .new-city{
+    width: 90%;
+   
   }
 
 }

@@ -12,8 +12,8 @@ function AlertComponent( { setOpenModal, setMessageError,setMessageTittle,setIco
         </div>
         <div className="titleCloseBtn">
         </div>
-        <div className="body">
-          <p> {setMessageError} !</p>
+        <div >
+          <p className="text-alert"> {setMessageError} !</p>
         </div>
         <div className="footer">
           <button
