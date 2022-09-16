@@ -168,7 +168,7 @@ function Profile() {
     <>
       <div className="profile-card">
         <div className="prof-img">
-          <img src={userLoggin.photo} alt="profile-img" />
+          <img className='img-prof' src={userLoggin.photo} alt="profile-img" />
         </div>
         <div className="profile-data">
           <h2>{userLoggin.name}</h2>
@@ -253,7 +253,7 @@ function Profile() {
           )}
         </div>
 
-        {userLoggin.role == "admin" ? (
+        {userLoggin.role === "admin" ? (
           <h2>You can add a new Itinerary</h2>
         ) : (
           <h2>You cant add new Itineraries</h2>

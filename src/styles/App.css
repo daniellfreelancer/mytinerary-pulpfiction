@@ -1336,7 +1336,9 @@ ul {
   flex-direction: column;
 }
 
-
+.img-prof{
+  width: 200px;
+}
 
 
 /** =====================
