@@ -19,6 +19,7 @@ function App() {
   const [statusLogged, setStatusLogged] = useState(false)
 
   useEffect(() => {
+
     if( localStorage.length > 0){
       setStatusLogged(true)
     } 
@@ -33,14 +34,14 @@ function App() {
             <Route path='/' element={<Welcome/>}/>
             <Route path='/cities' element={<Cities/>}/>
             <Route path='*' element={<UnderConstruction/>}/>
-            <Route path='/newCities' element={<NewCities/>}/>
+            <Route path='/newCities' element={statusLogged === true && <NewCities/>}/>
             <Route path='/details/:id' element={<Details/>}/>
             <Route path='/editCity/:id' element={<EditCity/>}/>
             <Route path='/myTineraries' element={<MyTineraries/>}/>
             <Route path='/signup' element={<SignUpPage/>}/>
             <Route path='/signin' element={<SignInPage/>}/>
             <Route path='/newitinerary' element={<NewItineraryPage/>}/>
-            <Route path='/myAccount' element={statusLogged && <MyAccount/>}/>
+            <Route path='/myAccount' element={statusLogged === true && <MyAccount/>}/>
 
           </Routes>
       </BrowserRouter>
