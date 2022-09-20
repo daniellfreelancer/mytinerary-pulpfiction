@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import * as jose from 'jose'
 import AlertComponent from './AlertComponent';
 import { useSignInUserMutation } from '../features/userAPI';
+import { useNavigate } from 'react-router-dom';
 
 function SignInGoogle() {
 
@@ -11,6 +12,7 @@ function SignInGoogle() {
     const [messageError, setMessageError] = useState("")
     const [messageTittle, setMessageTittle] = useState("")
     const [iconSVG, setIconSVG] = useState("")
+    const goToMyAccount = useNavigate()
 
     async function handleCredentialResponse(response) {
 
@@ -47,6 +49,12 @@ function SignInGoogle() {
                         JSON.stringify(res.data.response.user)
                     );
 
+
+                    setTimeout(()=>{
+                        goToMyAccount('/myAccount')
+                    },2000)
+                    
+
                 }
 
             })
@@ -54,7 +62,7 @@ function SignInGoogle() {
                 console.log(error)
             });
 
-
+        localStorage.getItem("testUser");
     }
 
 

@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import api_url from '../api'
 
 export const itineraryAPI = createApi({
 
@@ -6,7 +7,7 @@ export const itineraryAPI = createApi({
 
 
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:4000'
+        baseUrl: api_url
     }),
 
 
@@ -33,10 +34,19 @@ export const itineraryAPI = createApi({
                 },
             })
         }),
+        likeTineraries: builder.mutation({
+            query: (itineraryIDLike) => ({
+                url: `/myItineraries/likes/${itineraryIDLike}`,
+                method: 'PATCH',
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(localStorage.getItem("token"))
+                  }
+            })
+        }),
 
 
     })
 })
 
 export default itineraryAPI
-export const { useGetAllItineraryQuery, useGetTinerariesQuery, useDeleteTinerariesMutation, useCreateItineraryMutation} = itineraryAPI
+export const { useGetAllItineraryQuery, useGetTinerariesQuery, useDeleteTinerariesMutation, useCreateItineraryMutation, useLikeTinerariesMutation} = itineraryAPI

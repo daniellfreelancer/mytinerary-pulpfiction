@@ -163,6 +163,11 @@ function Profile() {
 
     };
 
+    let firstLetterUserName = userLoggin.name.charAt(0).toUpperCase()
+
+    let afterfirstLetterUserName = userLoggin.name.substring(1,userLoggin.name.length)
+    let userNameWithUpperCase = firstLetterUserName.concat(afterfirstLetterUserName)
+
 
   return (
     <>
@@ -171,13 +176,21 @@ function Profile() {
           <img src={userLoggin.photo} alt="profile-img" />
         </div>
         <div className="profile-data">
-          <h2>{userLoggin.name}</h2>
+          <h2>{userNameWithUpperCase}</h2>
           <p>
-            <strong>email: </strong> {userLoggin.email}
+            <strong>Email: </strong> {userLoggin.email}
           </p>
           <p>
-            <strong>id: </strong>
+            <strong>ID: </strong>
             {userLoggin.id}
+          </p>
+          <p>
+            <strong>Role: </strong>
+            {userLoggin.role}
+          </p>
+          <p>
+            <strong>Country: </strong>
+            {userLoggin.country}
           </p>
         </div>
       </div>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link as LinkRouter, useNavigate } from "react-router-dom";
 import { useSignOutUserMutation } from "../features/userAPI";
 import AlertComponent from "./AlertComponent";
+import '../styles/App.css'
 
 function LogIn() {
 
@@ -89,6 +90,7 @@ function LogIn() {
         console.log(error);
       });
 
+      
 
       goToSignIn('/signin')
       localStorage.clear()
@@ -124,7 +126,7 @@ function LogIn() {
                   {userSignIn.title}
                 </LinkRouter>
               ) : (
-                <button className="navlink-burger" onClick={handleSignOut} >
+                <button className="navlink-burger navlink-signout" onClick={handleSignOut} >
                   {userSignOut.title}
                 </button>
               )
