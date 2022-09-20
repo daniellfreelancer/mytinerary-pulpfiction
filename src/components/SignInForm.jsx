@@ -17,7 +17,7 @@ function SignInForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    let userFrom = "google";
+    let userFrom = "form";
 
     let newUser = {
       pass: passwordUserRef.current.value,
@@ -46,6 +46,7 @@ function SignInForm() {
             </svg>
           );
         } else {
+          console.log(res)
           let dataResponse = res.data;
           let dataSuccess = dataResponse.message;
           setModalOpen(true);
@@ -63,16 +64,16 @@ function SignInForm() {
               <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm10.03 4.97a.75.75 0 0 1 .011 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.75.75 0 0 1 1.08-.022z" />
             </svg>
           );
-          localStorage.setItem(
-            "testUser",
-            JSON.stringify(res.data.response.user)
-          );
+          localStorage.setItem('token',JSON.stringify(res.data.response.token))
+          localStorage.setItem('testUser',JSON.stringify(res.data.response.user));
+          localStorage.getItem("testUser");
+          localStorage.getItem("token");
           let signupForm = document.querySelector("#form-log-users");
           signupForm.reset();
 
-          setTimeout(()=>{
-            goToMyAccount('/myAccount')
-        },2000)
+           setTimeout(()=>{
+             goToMyAccount('/myAccount')
+         },2000)
 
         }
       })
@@ -80,7 +81,7 @@ function SignInForm() {
         console.log(error);
       });
 
-    localStorage.getItem("testUser");
+    
   };
 
   const arrayForm = [
