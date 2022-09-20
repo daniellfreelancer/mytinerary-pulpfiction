@@ -150,7 +150,7 @@ function NewCityForm() {
     <>
     <form id="form-new-users" onSubmit={handleSubmit}>
 
-      <div class="container-form">
+      <div className="container-form">
         <div className="form-new new-city" >
         <h2>You can enter a new city!</h2>
         <p>
@@ -162,14 +162,6 @@ function NewCityForm() {
         </div>
         <input className="btn-form" type="submit" value="Submit" />
         </div>
-
-            <div class="drops">
-              <div class="drop drop-1 boxes"></div>
-              <div class="drop drop-2 boxes"></div>
-              <div class="drop drop-3 boxes"></div>
-              <div class="drop drop-4 boxes"></div>
-              <div class="drop drop-5 boxes"></div>
-            </div>
         </div>
 
     </form>
