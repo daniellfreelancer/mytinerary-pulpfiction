@@ -10,7 +10,6 @@ function SignUpForm() {
     const nameUserRef = useRef()
     const photoUserRef = useRef()
     const passwordUserRef = useRef()
-    const roleUserRef = useRef()
     const emailUserRef = useRef()
     const countryUserRef = useRef()
     const lastNameUserRef = useRef()
@@ -32,7 +31,7 @@ function SignUpForm() {
             country: countryUserRef.current.value,
             photo: photoUserRef.current.value,
             pass: passwordUserRef.current.value,
-            role: roleUserRef.current.value,
+            role: "user",
             email: emailUserRef.current.value,
             from: "form"
         };
@@ -114,13 +113,7 @@ function SignUpForm() {
             name: "Password",
             type: "password",
             value: passwordUserRef,
-        },
-        {
-            id: "_role",
-            name: "Admin or User",
-            type: "text",
-            value: roleUserRef,
-        },
+        }
 
 
     ];

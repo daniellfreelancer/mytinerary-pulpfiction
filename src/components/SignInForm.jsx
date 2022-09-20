@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSignInUserMutation } from "../features/userAPI";
 import AlertComponent from "./AlertComponent";
 import SignInGoogle from "./SignInGoogle";
@@ -11,6 +12,7 @@ function SignInForm() {
   const [messageError, setMessageError] = useState("");
   const [messageTittle, setMessageTittle] = useState("");
   const [iconSVG, setIconSVG] = useState("");
+  const goToMyAccount = useNavigate()
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -67,6 +69,11 @@ function SignInForm() {
           );
           let signupForm = document.querySelector("#form-log-users");
           signupForm.reset();
+
+          setTimeout(()=>{
+            goToMyAccount('/myAccount')
+        },2000)
+
         }
       })
       .catch((error) => {
@@ -86,7 +93,7 @@ function SignInForm() {
     {
       id: "_password",
       name: "Password",
-      type: "text",
+      type: "password",
       value: passwordUserRef,
     },
   ];
@@ -112,7 +119,7 @@ function SignInForm() {
           <div className="form-new" >
             <p>Welcome</p>
             {arrayForm.map(formView)}
-            <input class='btn-form' type="submit" value="Sign in" />
+            <input className='btn-form' type="submit" value="Sign in" />
             <p>or</p>
             <SignInGoogle />
           </div>
