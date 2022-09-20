@@ -41,6 +41,12 @@ font-family: 'Montserrat', sans-serif;
 }
 
 /* Navbar */
+.navlink-signout{
+  font-weight: bold;
+  border: none;
+  width: 6rem !important;
+  cursor: pointer;
+}
 .burger-btn {
   background: none;
   border: none;
@@ -61,8 +67,8 @@ font-family: 'Montserrat', sans-serif;
   text-align: center;
 }
 
-.navlink-burger {
-  width: 70%;
+.navlink-burger{
+  width: 6rem;
   background-color: #04BF9D;
   padding: .5rem 1rem;
   text-decoration: none;
@@ -72,6 +78,7 @@ font-family: 'Montserrat', sans-serif;
   font-weight: bold;
   color: #342359;
 }
+
 
 .Dropdown-menu {
   display: none;
@@ -127,11 +134,12 @@ font-family: 'Montserrat', sans-serif;
 .Button-div,
 .LogIn-box {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   text-align: center;
 }
-
+.Button-div{
+  flex-direction: column;
+}
 
 /* HERO STYLES - START */
 
@@ -499,6 +507,7 @@ button:focus {
 }
 
 .footer-navlink {
+
   text-decoration: none;
   padding: .4rem;
   color: aliceblue;
@@ -1321,10 +1330,13 @@ ul {
 }
 .prof-img img{
     border-radius: 50%;
+    width: 50%;
 }
+
 .profile-data{
   width: 50%;
   text-align: start;
+  padding: 1rem;
 
 }
 .profile-data h2{
@@ -1335,13 +1347,34 @@ ul {
 .profile-creation{
   flex-direction: column;
 }
-
+.bi-exclamation-diamond-fill{
+  fill: crimson;
+}
+.bi-check-square-fill{
+  fill:#04BF9D;
+}
 
 
 
 /** =====================
  * Responsive
  ========================*/
+
+@media screen and (max-width: 425px) {
+
+  .NotAvailable img {
+    width: 90%;
+  }
+  .info1{
+    flex-direction: column;
+  }
+
+}
+@media screen and (max-width:698px) {
+  .form-new{
+    height: auto;
+  }
+}
 @media only screen and (max-width: 766px) {
   .comments-container {
     width: 480px;
@@ -1353,6 +1386,9 @@ ul {
 
   .reply-list .comment-box {
     width: 320px;
+  }
+  .details{
+    flex-direction: column;
   }
 }
 
@@ -1381,19 +1417,6 @@ ul {
 }
 
 
-@media screen and (max-width: 425px) {
-
-  .NotAvailable img {
-    width: 90%;
-  }
-
-
-}
-@media screen and (max-width:698px) {
-  .form-new{
-    height: auto;
-  }
-}
 @media screen and (max-width: 768px) {
 
 
@@ -1600,6 +1623,12 @@ ul {
     flex-direction: column;
     align-items: center;
     gap: 1rem;
+  }
+  .LogIn-box{
+    flex-direction: column;
+  }
+  .navlink-burger{
+    width: 8rem;
   }
 }
 @media screen and (max-width: 1070px) {
