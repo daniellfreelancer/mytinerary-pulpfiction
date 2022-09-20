@@ -34,10 +34,19 @@ export const itineraryAPI = createApi({
                 },
             })
         }),
+        likeTineraries: builder.mutation({
+            query: (itineraryIDLike) => ({
+                url: `/myItineraries/likes/${itineraryIDLike}`,
+                method: 'PATCH',
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(localStorage.getItem("token"))
+                  }
+            })
+        }),
 
 
     })
 })
 
 export default itineraryAPI
-export const { useGetAllItineraryQuery, useGetTinerariesQuery, useDeleteTinerariesMutation, useCreateItineraryMutation} = itineraryAPI
+export const { useGetAllItineraryQuery, useGetTinerariesQuery, useDeleteTinerariesMutation, useCreateItineraryMutation, useLikeTinerariesMutation} = itineraryAPI

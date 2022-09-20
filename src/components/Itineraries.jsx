@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useParams } from "react-router-dom";
 import {
   useGetAllItineraryQuery,
   useDeleteTinerariesMutation,
+  useLikeTinerariesMutation,
 } from "../features/itineraryAPI";
 import ActivityItinerary from "./ActivityItinerary";
 import Comments from "./Comments";
@@ -16,6 +17,25 @@ function Itineraries() {
 
   const [deleteItinerary] = useDeleteTinerariesMutation();
 
+  const [likeDisLike] = useLikeTinerariesMutation()
+  
+
+  
+  async function clickToLike(event){
+
+    console.log(event.target.id)
+
+    let idTinerary = event.target.id
+    
+
+
+    likeDisLike(idTinerary)
+     .then((res) => console.log(res))
+     .catch((error)=>console.log(error))
+  
+
+  }
+
   return (
     <>
       <h2>💙 Itineraries 💙</h2>
@@ -25,7 +45,7 @@ function Itineraries() {
             let totalLikes = e.likes;
             let myTags = e.tags;
             let hourDuration = Math.round(e.duration / 60);
-            let idDelete = e._id;
+            let idTinerary = e._id;
 
             return (
               <div className="Itinerary-detail" key={e._id}>
@@ -37,6 +57,7 @@ function Itineraries() {
                   <div className="itinerary-div-p">
                     <h3 className="Itinerary-p"> {e.name} </h3>
                     <div className="text-itinerary">
+                      <p>{e._id}</p>
                       <p className="Itinerary-p">
                         {" "}
                         Duration:{" "}
@@ -47,20 +68,21 @@ function Itineraries() {
                       <p className="Itinerary-p"> Price: $ {e.price} </p>
 
                       <p className="Itinerary-p">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          className="bi bi-bookmark-heart"
-                          viewBox="0 0 16 16"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z"
-                          />
-                          <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
-                        </svg>
-                        {totalLikes.length}{" "}
+                        <button id={e._id} onClick={clickToLike} className="button-like">
+                          {/* <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="30"
+                            height="30"
+                            className="bi bi-balloon-heart-fill"
+                            viewBox="0 0 16 16"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M8.49 10.92C19.412 3.382 11.28-2.387 8 .986 4.719-2.387-3.413 3.382 7.51 10.92l-.234.468a.25.25 0 1 0 .448.224l.04-.08c.009.17.024.315.051.45.068.344.208.622.448 1.102l.013.028c.212.422.182.85.05 1.246-.135.402-.366.751-.534 1.003a.25.25 0 0 0 .416.278l.004-.007c.166-.248.431-.646.588-1.115.16-.479.212-1.051-.076-1.629-.258-.515-.365-.732-.419-1.004a2.376 2.376 0 0 1-.037-.289l.008.017a.25.25 0 1 0 .448-.224l-.235-.468ZM6.726 1.269c-1.167-.61-2.8-.142-3.454 1.135-.237.463-.36 1.08-.202 1.85.055.27.467.197.527-.071.285-1.256 1.177-2.462 2.989-2.528.234-.008.348-.278.14-.386Z"
+                            />
+                          </svg> */} 💙
+                        </button>
+                        {" "}{totalLikes.length}{" "}
                       </p>
                       <p className="Itinerary-p">
                         <svg

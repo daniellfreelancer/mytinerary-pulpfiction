@@ -12,6 +12,8 @@ import Itineraries from "../components/Itineraries";
 import NotAvailable from "../components/NotAvailable";
 import { Link as LinkRouter } from "react-router-dom";
 import AlertComponent from "../components/AlertComponent";
+import WeatherCity from "../components/WeatherCity";
+import axios from "axios";
 
 function Details() {
   const { id } = useParams();
@@ -20,6 +22,10 @@ function Details() {
   let cityFundation = new Date(cityDetail?.fundation);
   let yearFundation = cityFundation.getFullYear();
   const [statusLoggedNav, setStatusLoggedNav] = useState(false);
+  const [myWeather, setMyWeather] = useState([{}])
+  const notWeather = "Weather Resources are being Loaded"
+
+  const [showWeather, setShowWeather] = useState(false)
 
   useEffect(() => {
     if (localStorage.length > 0) {
@@ -78,6 +84,47 @@ function Details() {
 
   scrolled();
 
+  const apiWeatherOne = "8abe30bd4af97573ecc7efa5759d8b1e"
+  const apiWeatherTwo =  "d53d314b6143eef1b72756fe9c919449"
+  const apiWeatherTree = "b1522eea19887f1c379e84719dc3527b"
+  const apiWeatherFour = "5c9f1745d177347fd80455f78a1b490e"
+
+  //axios for Weather City
+	
+	useEffect(() => {
+
+		axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${cityDetail?.city}&appid=d53d314b6143eef1b72756fe9c919449`)
+		.then((res)=> {
+      if(res) {
+        let celcius = 273.15
+        let feelLike = (res.data.main.feels_like - celcius).toFixed(2)
+        let temp = (res.data.main.temp - celcius).toFixed(2)
+        let humidity = res.data.main.humidity
+        let icon = res.data.weather[0].icon
+        let description = res.data.weather[0].description
+        let wind = res.data.wind.speed
+        let imgIcon = `http://openweathermap.org/img/wn/${icon}@2x.png`
+    
+        setMyWeather({
+          temp: temp,
+          feelLike: feelLike,
+          humidity: humidity,
+          wind:wind,
+          icon:imgIcon,
+          description:description
+        })
+        setShowWeather(true)
+      }
+
+	
+		 })
+		.catch((error)  =>{
+
+           
+    })
+	}, [])
+
+
   return (
     <Layout>
       {modalOpen == true ? (
@@ -102,6 +149,22 @@ function Details() {
               <p>Fundation: {yearFundation}</p>
             </div>
           </div>
+          { showWeather === true ?           
+          <WeatherCity
+          temp={myWeather.temp} 
+          feelLike={myWeather.feelLike} 
+          humidity={myWeather.humidity} 
+          wind={myWeather.wind} 
+          weatherContiditon={myWeather.icon} 
+          weatherDescription={myWeather.description} 
+          /> :
+            <marquee className='marquee-weather'>
+               <p>{notWeather}</p>
+            </marquee>
+          }
+          
+
+
           <div className="description-detail">
             <h2>Information</h2>
             <p>{cityDetail?.description}</p>
