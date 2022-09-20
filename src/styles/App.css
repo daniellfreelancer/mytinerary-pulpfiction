@@ -816,7 +816,6 @@ hr {
   flex-wrap: wrap;
   text-align: justify;
   padding-bottom: .5rem;
-  border-bottom: 1px solid aliceblue;
 }
 
 .info1 {
@@ -957,7 +956,19 @@ hr {
   font-family: 'Montserrat', sans-serif;
 }
 
+.button-like{
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: .5rem;
+  border-radius: 10pt;
 
+}
+.button-like:hover{
+  background: #04BF9D;
+
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
 
 /* Comments */
 
@@ -1353,7 +1364,26 @@ ul {
 .bi-check-square-fill{
   fill:#04BF9D;
 }
-
+/*Marquee weather*/
+.marquee-weather{
+  display: flex;
+  border: 1px solid #999;
+  background-color: #342359;
+  border-radius: 15pt;
+  box-shadow: rgba(109, 109, 109, 0.3) 0px 19px 38px, rgba(72, 72, 72, 0.22) 0px 15px 12px;
+  height: auto;
+  align-items: center;
+  justify-content: space-evenly;
+  padding-bottom: 1rem;
+}
+.marquee-weather span, .marquee-weather p{
+  width: fit-content;
+  font-family: 'Montserrat', sans-serif;
+  color: aliceblue;
+}
+.img-weatherCondition{
+  height: 3rem; 
+}
 
 
 /** =====================
