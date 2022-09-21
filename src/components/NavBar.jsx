@@ -4,11 +4,17 @@ import "../styles/App.css";
 
 
 export function NavBar() {
-  const pages = [
-    { id: "_cities", to: "/cities", title: "Cities" }
-  ];
+
 
   const [statusAccount, setStatusAccount] = useState(false)
+  const [statusAdmin, setStatusAdmin] = useState(false)
+
+  const pages = [
+    { 
+      id: "_cities", 
+      to: "/cities", 
+      title: "Cities" }
+  ];
 
   const pagesLogged = [
     {
@@ -17,25 +23,39 @@ export function NavBar() {
       title: "My Account"
     },
     { 
-      id: "_newCities", 
-      to: "/newCities", 
-      title: "New Cities" 
-    },
-    { 
       id: "_myTinerary", 
       to: "/myTineraries", 
       title: "My Tineraries" 
     }
   ]
 
+  const adminArray = [
+    {
+      id: "_newCities", 
+      to: "/newCities", 
+      title: "New Cities" 
+  }
+]
+
 
   
 
   useEffect(() => {
-    if( localStorage.length > 0){
+    if(  JSON.parse(localStorage.getItem('testUser'))){
       setStatusAccount(true)
-    } 
+    }
+
   }, [statusAccount])
+  
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem('testUser'))){
+      let adminActive = JSON.parse(localStorage.getItem('testUser')).role
+      if (adminActive === "admin"){
+        setStatusAdmin(true)
+      }
+      
+    } 
+  }, [statusAdmin])
   
 
 
@@ -57,6 +77,15 @@ export function NavBar() {
               </LinkRouter>
             ))
           ): null
+        }
+        {
+          statusAdmin ? (
+            adminArray.map((link) => (
+              <LinkRouter className="navlink" to={link.to} key={link.id}>
+                {link.title}
+              </LinkRouter>
+            ))
+          ) : null
         }
       </nav>
     </>
