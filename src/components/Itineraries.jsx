@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useParams } from "react-router-dom";
 import {
   useGetAllItineraryQuery,
   useDeleteTinerariesMutation,
+  useLikeTinerariesMutation,
 } from "../features/itineraryAPI";
 import ActivityItinerary from "./ActivityItinerary";
 import Comments from "./Comments";
+import swal from 'sweetalert2'
+import EnterComment from "./EnterComment";
+import { useDispatch, useSelector } from "react-redux";
+import { setStateLogin } from "../features/stateLocalStorage";
 
 function Itineraries() {
   const { id } = useParams();
@@ -16,6 +21,54 @@ function Itineraries() {
 
   const [deleteItinerary] = useDeleteTinerariesMutation();
 
+  const [likeDisLike] = useLikeTinerariesMutation()
+
+
+  async function clickToLike(event) {
+
+    let idTinerary = event.target.id
+
+    likeDisLike(idTinerary)
+      .then((res) => {
+        console.log(res)
+        if (res.error) {
+          let dataError = res.error
+          let dataMessage = dataError.data
+          swal.fire({
+            title: "Cant Like this Tinerary!",
+            text: dataMessage.message,
+            icon: "error",
+          });
+        } else {
+
+          let dataResponse = res.data
+          let dataSuccess = dataResponse.message
+          if (dataResponse.message == "Itinerary liked") {
+            swal.fire({
+              imageUrl: "https://media0.giphy.com/media/cdpsxf8WjmNMOBXaCd/200w.gif?cid=82a1493b0henbi6ia1a1x24o5t9s7za75n7629cdcy0ucqrt&rid=200w.gif&ct=g",
+
+            });
+          } else {
+            swal.fire({
+              imageUrl: "https://c.tenor.com/odF9PnzMX8cAAAAd/oh-no-jim-carrey.gif",
+
+            });
+          }
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
+  const loginStateRedux = useSelector(state => state.statesLocalStorage)
+  const dispatch = useDispatch()
+  if (JSON.parse(localStorage.getItem('testUser'))) {
+    dispatch(setStateLogin(true))
+  } else {
+    dispatch(setStateLogin(false))
+  }
+
   return (
     <>
       <h2>💙 Itineraries 💙</h2>
@@ -25,7 +78,7 @@ function Itineraries() {
             let totalLikes = e.likes;
             let myTags = e.tags;
             let hourDuration = Math.round(e.duration / 60);
-            let idDelete = e._id;
+            let idTinerary = e._id;
 
             return (
               <div className="Itinerary-detail" key={e._id}>
@@ -47,20 +100,9 @@ function Itineraries() {
                       <p className="Itinerary-p"> Price: $ {e.price} </p>
 
                       <p className="Itinerary-p">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          className="bi bi-bookmark-heart"
-                          viewBox="0 0 16 16"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z"
-                          />
-                          <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
-                        </svg>
-                        {totalLikes.length}{" "}
+                        <button id={e._id} onClick={clickToLike} className="button-like">💙
+                        </button>
+                        {" "}{totalLikes.length}{" "}
                       </p>
                       <p className="Itinerary-p">
                         <svg
@@ -75,6 +117,7 @@ function Itineraries() {
                         </svg>{" "}
                         Tags: {myTags.join(" - ")}{" "}
                       </p>
+                      <p>{e._id}</p>
                     </div>
                   </div>
 
@@ -83,7 +126,29 @@ function Itineraries() {
                   </div>
                 </div>
                 <div className="toggle-comments">
-                  <Comments />
+
+                  {loginStateRedux ? (
+                    <EnterComment
+                      userID={
+                        JSON.parse(localStorage.getItem("testUser"))
+                          .id
+                      }
+                      userName={
+                        JSON.parse(localStorage.getItem("testUser"))
+                          .name
+                      }
+                      userPhoto={
+                        JSON.parse(localStorage.getItem("testUser"))
+                          .photo
+                      }
+                      userRole={
+                        JSON.parse(localStorage.getItem("testUser"))
+                          .role
+                      }
+                      itineraryID={e._id}
+                    />
+                  ) : null}
+                  <Comments id={e._id} />
                 </div>
               </div>
             );

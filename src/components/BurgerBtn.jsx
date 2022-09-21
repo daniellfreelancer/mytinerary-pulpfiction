@@ -1,15 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link as LinkRouter } from "react-router-dom";
 import LogIn from "./LogIn";
 
 function BurgerBtn() {
   const pages = [
-    { id: "_cities", to: "/cities", title: "Cities" },
-    { id: "_newCities", to: "/newCities", title: "New Cities" },
-    { id: "_myTinerary", to: "/myTineraries", title: "My Tineraries" },
+    { id: "_cities", to: "/cities", title: "Cities" }
   ];
 
   const [show, setShow] = useState(false);
+
 
   function showNav() {
     if (show) {
@@ -18,6 +17,33 @@ function BurgerBtn() {
       setShow(true);
     }
   }
+
+  const [statusAccount, setStatusAccount] = useState(false)
+  const [myStatusLogged, setMyStatusLogged] = useState( [
+    {
+      id: "_myAccount",
+      to: "/myAccount", 
+      title: "My Account"
+    },
+    { 
+      id: "_newCities", 
+      to: "/newCities", 
+      title: "New Cities" 
+    },
+    { 
+      id: "_myTinerary", 
+      to: "/myTineraries", 
+      title: "My Tineraries" 
+    }
+  ]
+  )
+  
+
+  useEffect(() => {
+    if( localStorage.length > 0){
+      setStatusAccount(true)
+    } 
+  }, [statusAccount])
 
   return (
     <div className="Button-div">
@@ -45,6 +71,18 @@ function BurgerBtn() {
                 {link.title}
               </LinkRouter>
             ))}
+            { statusAccount === true ? (myStatusLogged.map((link) => (
+              <LinkRouter
+                className="navlink-burger"
+                to={link.to}
+                key={link.id}
+              >
+                {link.title}
+              </LinkRouter>
+            ))
+            ) : null
+
+            } 
             <LogIn />
           </div>
         ) : null}

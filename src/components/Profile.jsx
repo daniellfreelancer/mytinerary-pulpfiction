@@ -1,168 +1,303 @@
-import React, { useRef, useState } from 'react'
-import { useGetAllCitiesQuery } from '../features/citiesAPI';
-import { useCreateItineraryMutation, useGetTinerariesQuery } from '../features/itineraryAPI';
-import ActivityItinerary from './ActivityItinerary';
-import AlertComponent from './AlertComponent';
+import React, { useRef, useState } from "react";
+import { useGetAllCitiesQuery } from "../features/citiesAPI";
+import {
+  useCreateItineraryMutation,
+  useGetTinerariesQuery,
+} from "../features/itineraryAPI";
+import ActivityItinerary from "./ActivityItinerary";
+import { useSelector, useDispatch } from "react-redux";
+import { setStateLogin } from "../features/stateLocalStorage";
+import swal from "sweetalert2";
+import { useSignUpUserMutation } from "../features/userAPI";
 
 function Profile() {
+  const loginStateRedux = useSelector((state) => state.statesLocalStorage);
+  const dispatch = useDispatch();
 
+  let userLoggin;
 
-    let userLoggin
+  if (JSON.parse(localStorage.getItem("testUser"))) {
+    userLoggin = JSON.parse(localStorage.getItem("testUser"));
+    dispatch(setStateLogin(true));
+  } else {
+    dispatch(setStateLogin(false));
+  }
 
-    if(localStorage.length > 0) {
-        userLoggin =  JSON.parse(localStorage.getItem('testUser'))
-    } 
+  const { data: myOwnItineraries, isError } = useGetTinerariesQuery(
+    userLoggin.id
+  );
+  let myOwnItinerariesDetail = myOwnItineraries?.response;
 
-    
+  const [cityId, setCityId] = useState({
+    id: "",
+    value: "",
+  });
 
-    const { data: myOwnItineraries, isError } = useGetTinerariesQuery(userLoggin.id);
-    let myOwnItinerariesDetail = myOwnItineraries?.response;
-    
-    const [cityId, setCityId] = useState({
-        id: "",
-        value: "",
-      });
+  const { data: cities } = useGetAllCitiesQuery("");
 
+  let allMyCities = cities?.response;
 
+  const handleSelectCity = (e) => {
+    e.preventDefault();
+    setCityId({
+      value: e.target.value,
+      id: e.target[e.target.selectedIndex].id,
+    });
+  };
+  // Create New Itinerary
+  const [createNewItinerary] = useCreateItineraryMutation();
 
-      const { data: cities } = useGetAllCitiesQuery("")
+  const nameItineraryRef = useRef();
+  const priceItineraryRef = useRef();
+  const durationItineraryRef = useRef();
+  const photoItineraryRef = useRef();
+  const likesItineraryRef = useRef();
+  const tagsItineraryRef = useRef();
 
-      let allMyCities = cities?.response
-    
-      const handleSelectCity = (e) => {
-        e.preventDefault();
-        setCityId({
-          value: e.target.value,
-          id: e.target[e.target.selectedIndex].id,
-        });
+  const arrayLikes = [];
+  const arrayTags = [];
 
+  const arrayForm = [
+    {
+      id: "_name",
+      name: "Name",
+      type: "text",
+      value: nameItineraryRef,
+    },
+    {
+      id: "_price",
+      name: "Price",
+      type: "number",
+      value: priceItineraryRef,
+    },
+    {
+      id: "_duration",
+      name: "Duration",
+      type: "number",
+      value: durationItineraryRef,
+    },
+    {
+      id: "_photo",
+      name: "Photo",
+      type: "text",
+      value: photoItineraryRef,
+    },
+    {
+      id: "_tags",
+      name: "Tags",
+      type: "text",
+      value: tagsItineraryRef,
+    },
+    {
+      id: "_Likes",
+      name: "Likes",
+      type: "number",
+      value: likesItineraryRef,
+    },
+  ];
 
-      };
+  const formView = (e) => {
+    return (
+      <label key={e.id}>
+        Enter {e.name}: <br />
+        <input className="btn-form" type={e.type} name={e.name} ref={e.value} />
+      </label>
+    );
+  };
 
-    //   Create itineraries
-    const [modalOpen, setModalOpen] = useState(false);
-    const [messageError, setMessageError] = useState("")
-    const [messageTittle, setMessageTittle] = useState("")
-    const [iconSVG, setIconSVG] = useState("")
-    const [createNewItinerary] = useCreateItineraryMutation()
+  const [addNewUserFromAdmin] = useSignUpUserMutation();
+  const nameUserRef = useRef();
+  const photoUserRef = useRef();
+  const passwordUserRef = useRef();
+  const emailUserRef = useRef();
+  const countryUserRef = useRef();
+  const lastNameUserRef = useRef();
+  const arrayFormNewUser = [
+    {
+      id: "_name",
+      name: "Name",
+      type: "text",
+      value: nameUserRef,
+    },
+    {
+      id: "_lastName",
+      name: "LastName",
+      type: "text",
+      value: lastNameUserRef,
+    },
+    {
+      id: "_country",
+      name: "Country",
+      type: "text",
+      value: countryUserRef,
+    },
+    {
+      id: "_photo",
+      name: "Photo",
+      type: "text",
+      value: photoUserRef,
+    },
 
-      const nameItineraryRef = useRef()
-      const priceItineraryRef = useRef()
-      const durationItineraryRef = useRef()
-      const photoItineraryRef = useRef()
-      const likesItineraryRef = useRef()
-      const tagsItineraryRef = useRef()
+    {
+      id: "_email",
+      name: "Email",
+      type: "email",
+      value: emailUserRef,
+    },
+    {
+      id: "_password",
+      name: "Password",
+      type: "password",
+      value: passwordUserRef,
+    },
+  ];
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
+    arrayLikes.push(likesItineraryRef.current.value);
+    arrayTags.push(tagsItineraryRef.current.value);
 
-      const arrayLikes = []
-      const arrayTags = []
+    let newitinerary = {
+      name: nameItineraryRef.current.value,
+      user: userLoggin.id,
+      city: cityId.id,
+      price: priceItineraryRef.current.value,
+      duration: durationItineraryRef.current.value,
+      likes: arrayLikes,
+      tags: arrayTags,
+      photo: photoItineraryRef.current.value,
+    };
 
-      const arrayForm = [
-        {
-            id: "_name",
-            name: "Name",
-            type: "text",
-            value: nameItineraryRef,
-        },
-        {
-            id: "_price",
-            name: "Price",
-            type: "number",
-            value: priceItineraryRef,
-        },
-        {
-            id: "_duration",
-            name: "Duration",
-            type: "number",
-            value: durationItineraryRef,
-        },
-        {
-            id: "_photo",
-            name: "Photo",
-            type: "text",
-            value: photoItineraryRef,
-        },
-        {
-            id: "_tags",
-            name: "Tags",
-            type: "text",
-            value: tagsItineraryRef,
-        },
-        {
-            id: "_Likes",
-            name: "Likes",
-            type: "number",
-            value: likesItineraryRef,
+    createNewItinerary(newitinerary)
+      .then((res) => {
+        if (res.error) {
+          let dataError = res.error;
+          let dataMessage = dataError.data;
+          swal.fire({
+            title: "Error!",
+            text: dataMessage.message,
+            icon: "error",
+          });
+        } else {
+          let dataResponse = res.data;
+          let dataSuccess = dataResponse.message;
+          swal.fire({
+            title: "Success! ",
+            text: dataSuccess,
+            icon: "success",
+          });
+
+          let signupForm = document.querySelector("#form-new-users");
+          signupForm.reset();
         }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-    ]
+  const [newAdminUser, setNewAdminUser] = useState([
+    {
+      id: "_admin",
+      value: "admin",
+      name: "Admin",
+    },
+    {
+      id: "_user",
+      value: "user",
+      name: "User",
+    },
+  ]);
 
-    const formView = (e) => {
-        return (
-            <label key={e.id}>
-                Enter {e.name}: <br />
-                <input
-                    className="btn-form"
-                    type={e.type}
-                    name={e.name}
-                    ref={e.value}
-                />
-            </label>
-        );
+  const [selectedRole, setSelectedRole] = useState({
+    id: "",
+    value: "",
+  });
+
+  const handleSelectRole = (e) => {
+    e.preventDefault();
+    setSelectedRole({
+      value: e.target.value,
+      id: e.target[e.target.selectedIndex].id,
+    });
+  };
+
+  const handleSubmitNewUser = (e) => {
+    e.preventDefault();
+    let newUserFromAdmin = {
+      name: nameUserRef.current.value,
+      lastName: lastNameUserRef.current.value,
+      country: countryUserRef.current.value,
+      photo: photoUserRef.current.value,
+      pass: passwordUserRef.current.value,
+      role: selectedRole.value,
+      email: emailUserRef.current.value,
+      from: "form",
     };
+    addNewUserFromAdmin(newUserFromAdmin)
+      .then((res) => {
+        if (res.error) {
+          let dataError = res.error;
+          let dataMessage = dataError.data;
+          swal.fire({
+            title: "Error!",
+            text: dataMessage.message,
+            icon: "warning",
+          });
+        } else {
+          let dataResponse = res.data;
+          let dataSuccess = dataResponse.message;
+          swal.fire({
+            title: "Welcome! ",
+            text: dataSuccess,
+            icon: "success",
+          });
 
+          //Account has been create with success!!
+          let signupForm = document.querySelector("#form-new-users");
+          signupForm.reset();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+  let firstLetterUserName = userLoggin.name.charAt(0).toUpperCase();
+  let afterfirstLetterUserName = userLoggin.name.substring(
+    1,
+    userLoggin.name.length
+  );
+  let userNameWithUpperCase = firstLetterUserName.concat(
+    afterfirstLetterUserName
+  );
 
-        arrayLikes.push(likesItineraryRef.current.value)
-        arrayTags.push(tagsItineraryRef.current.value)
+  const [showItineraryForm, setItineraryForm] = useState(false);
+  const [showUserForm, setUserForm] = useState(false);
+  const [showActivityForm, setshowActivityForm] = useState(false);
 
-        let newitinerary = {
-            name: nameItineraryRef.current.value,
-            user: userLoggin.id,
-            city: cityId.id,
-            price: priceItineraryRef.current.value,
-            duration: durationItineraryRef.current.value,
-            likes: arrayLikes,
-            tags: arrayTags,
-            photo: photoItineraryRef.current.value
-        };
+  function showNewItinerarry() {
+    if (showItineraryForm) {
+      setItineraryForm(false);
+    } else {
+      setItineraryForm(true);
+    }
+  }
 
-
-        createNewItinerary(newitinerary)
-            .then((res) => {
-                if (res.error) {
-                    let dataError = res.error
-                    let dataMessage = dataError.data
-                    setModalOpen(true)
-                    setMessageError(dataMessage.message)
-                    setMessageTittle("Error")
-                    setIconSVG(<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fillRule="currentColor" className="bi bi-exclamation-diamond-fill" viewBox="0 0 16 16">
-                        <path d="M9.05.435c-.58-.58-1.52-.58-2.1 0L.436 6.95c-.58.58-.58 1.519 0 2.098l6.516 6.516c.58.58 1.519.58 2.098 0l6.516-6.516c.58-.58.58-1.519 0-2.098L9.05.435zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-                    </svg>)
-                } else {
-                    let dataResponse = res.data
-                    let dataSuccess = dataResponse.message
-                    setModalOpen(true)
-                    setMessageError(dataSuccess)
-                    setMessageTittle("Success")
-                    setIconSVG(<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fillRule="currentColor" className="bi bi-check-square-fill" viewBox="0 0 16 16">
-                        <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm10.03 4.97a.75.75 0 0 1 .011 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.75.75 0 0 1 1.08-.022z" />
-                    </svg>)
-
-                    let signupForm = document.querySelector("#form-new-users");
-                    signupForm.reset();
-
-                }
-
-            })
-            .catch((error) => {
-                console.log(error)
-            });
-
-    };
-
+  function showNewUser() {
+    if (showUserForm) {
+      setUserForm(false);
+    } else {
+      setUserForm(true);
+    }
+  }
+  function showNewActivity() {
+    if (showActivityForm) {
+      setshowActivityForm(false);
+    } else {
+      setshowActivityForm(true);
+    }
+  }
 
   return (
     <>
@@ -171,14 +306,23 @@ function Profile() {
           <img className='img-prof' src={userLoggin.photo} alt="profile-img" />
         </div>
         <div className="profile-data">
-          <h2>{userLoggin.name}</h2>
+          <h2>{userNameWithUpperCase}</h2>
           <p>
-            <strong>email: </strong> {userLoggin.email}
+            <strong>Email: </strong> {userLoggin.email}
           </p>
           <p>
-            <strong>id: </strong>
+            <strong>ID: </strong>
             {userLoggin.id}
           </p>
+          <p>
+            <strong>Role: </strong>
+            {userLoggin.role}
+          </p>
+          <p>
+            <strong>Country: </strong>
+            {userLoggin.country}
+          </p>
+          {loginStateRedux ? <p>True</p> : <p>False</p>}
         </div>
       </div>
       <div className="profile-card profile-creation">
@@ -252,50 +396,74 @@ function Profile() {
             <p className="p-mytin">You dont have itineraries yet</p>
           )}
         </div>
+      </div>
 
-        {userLoggin.role === "admin" ? (
-          <h2>You can add a new Itinerary</h2>
-        ) : (
-          <h2>You cant add new Itineraries</h2>
-        )}
+      <div className="profile-card profile-creation">
+        <button className="Comment-button" onClick={showNewItinerarry}>
+          <p>Add New Itinerary</p>
+        </button>
+        {showItineraryForm ? (
+          <form id="form-new-users" onSubmit={handleSubmit}>
+            <div className="container-form new-user">
+              <div className="form-new">
+                <select onChange={handleSelectCity} className="btn-form">
+                  <option>Select a city</option>
 
-
-        {/*  */}
-        <form id="form-new-users" onSubmit={handleSubmit} >
-          <div className="container-form new-user">
-            <div className="form-new">
-
-              <p>Add New Itinerary</p>
-              <select onChange={handleSelectCity} className="btn-form">
-          <option>Select a city</option>
-
-          {allMyCities?.map((city) => {
-            return (
-              <option key={city._id} id={city._id} value={city.city}>
-                {city.city}
-              </option>
-            );
-          })}
-        </select>
-              <div className="new-user-input">{arrayForm.map(formView)}</div>
-              <input className="btn-form" type="submit" value="Submit" />
+                  {allMyCities?.map((city) => {
+                    return (
+                      <option key={city._id} id={city._id} value={city.city}>
+                        {city.city}
+                      </option>
+                    );
+                  })}
+                </select>
+                <div className="new-user-input">{arrayForm.map(formView)}</div>
+                <input className="btn-form" type="submit" value="Submit" />
+              </div>
             </div>
-          </div>
-        </form>
+          </form>
+        ) : null}
+      </div>
 
-        {modalOpen === true ? (
-        <AlertComponent
-          setOpenModal={setModalOpen}
-          setMessageError={messageError}
-          setMessageTittle={messageTittle}
-          setIconSVG={iconSVG}
-        />
+      {userLoggin.role === "admin" ? (
+        <div className="profile-card profile-creation">
+          <button className="Comment-button" onClick={showNewUser}>
+            <p>Add New User / Admin</p>
+          </button>
+
+          {showUserForm ? (
+            <form id="form-new-users" onSubmit={handleSubmitNewUser}>
+              <div className="container-form new-user">
+                <div className="form-new">
+                  <select onChange={handleSelectRole} className="btn-form">
+                    <option>Select a Role</option>
+
+                    {newAdminUser.map((role) => {
+                      return (
+                        <option key={role.id} id={role.id} value={role.value}>
+                          {role.name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                  <div className="new-user-input">
+                    {arrayFormNewUser.map(formView)}
+                  </div>
+                  <input className="btn-form" type="submit" value="Submit" />
+                </div>
+              </div>
+            </form>
+          ) : null}
+        </div>
       ) : null}
 
-
+      <div className="profile-card profile-creation">
+        <button className="Comment-button" onClick={showNewActivity}>
+          <p>Add New Activity</p>
+        </button>
       </div>
     </>
   );
 }
 
-export default Profile
+export default Profile;

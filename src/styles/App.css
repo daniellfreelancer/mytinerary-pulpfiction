@@ -41,6 +41,12 @@ font-family: 'Montserrat', sans-serif;
 }
 
 /* Navbar */
+.navlink-signout{
+  font-weight: bold;
+  border: none;
+  width: 6rem !important;
+  cursor: pointer;
+}
 .burger-btn {
   background: none;
   border: none;
@@ -61,8 +67,8 @@ font-family: 'Montserrat', sans-serif;
   text-align: center;
 }
 
-.navlink-burger {
-  width: 70%;
+.navlink-burger{
+  width: 6rem;
   background-color: #04BF9D;
   padding: .5rem 1rem;
   text-decoration: none;
@@ -72,6 +78,7 @@ font-family: 'Montserrat', sans-serif;
   font-weight: bold;
   color: #342359;
 }
+
 
 .Dropdown-menu {
   display: none;
@@ -127,11 +134,12 @@ font-family: 'Montserrat', sans-serif;
 .Button-div,
 .LogIn-box {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   text-align: center;
 }
-
+.Button-div{
+  flex-direction: column;
+}
 
 /* HERO STYLES - START */
 
@@ -499,6 +507,7 @@ button:focus {
 }
 
 .footer-navlink {
+
   text-decoration: none;
   padding: .4rem;
   color: aliceblue;
@@ -807,7 +816,6 @@ hr {
   flex-wrap: wrap;
   text-align: justify;
   padding-bottom: .5rem;
-  border-bottom: 1px solid aliceblue;
 }
 
 .info1 {
@@ -865,7 +873,6 @@ hr {
 }
 
 .Itinerary-detail {
-
   display: flex;
   flex-wrap: wrap;
   border: .5px solid gray;
@@ -876,6 +883,7 @@ hr {
   box-shadow: rgba(149, 157, 165, 0.2) 2px 8px 24px;
   width: 100%;
   border-radius: 15px;
+  justify-content: center;
 }
 
 .Itinerary-img {
@@ -948,7 +956,19 @@ hr {
   font-family: 'Montserrat', sans-serif;
 }
 
+.button-like{
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: .5rem;
+  border-radius: 10pt;
 
+}
+.button-like:hover{
+  background: #04BF9D;
+
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
 
 /* Comments */
 
@@ -966,264 +986,108 @@ hr {
   border: none;
   font-size: 18pt;
   object-fit: contain;
+  box-sizing: border-box;
 }
 
-
-ul {
-  list-style-type: none;
-}
-
-
-
-/** ====================
- * Lista de Comentarios
- =======================*/
-.comments-container {
-  margin: 60px auto 15px;
+.comment-box,.commentform-container{
   width: 100%;
+  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5rem;
-  object-fit: contain;
-
+  flex-wrap: wrap;
 }
-
-.comments-container h1 {
-  font-size: 36px;
-  color: #283035;
-  font-weight: 400;
+.comment-container{
+  width: 100%;
+  display: flex;
 }
-
-.comments-container h1 a {
-  font-size: 18px;
-  font-weight: 700;
+.side-comment{
+  width: 30%;
 }
-
-.comments-list {
-  margin-top: 30px;
-  position: relative;
+.entercomment{
+  width: 70%;
+  height: auto;
+  background-color: rgba(250, 250, 250, 0.172);
+  padding: 1rem;
+  margin: 1rem;
+  border-radius: 15pt;
+  align-self: center;
+  display: flex;
+  justify-content: center;
 }
-
-/**
- * Lineas / Detalles
- -----------------------*/
-.comments-list:before {
-  content: '';
-  width: 2px;
-  height: 100%;
-  background: #c7cacb;
-  position: absolute;
-  left: 32px;
-  top: 0;
+.comment-avatar{
+  width: 30%;
+  display: flex;
+  flex-direction: column;
 }
-
-.comments-list:after {
-  content: '';
-  position: absolute;
-  background: #c7cacb;
-  bottom: 0;
-  left: 27px;
-  width: 7px;
-  height: 7px;
-  border: 3px solid #dee1e3;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
+.comment-avatar img{
+  width: 100%;
+  max-height: 10rem;
   border-radius: 50%;
 }
-
-.reply-list:before,
-.reply-list:after {
-  display: none;
+.comment-avatar h5, 
+.comment-avatar p{
+  margin: 0;
+  padding: .2rem;
 }
-
-.reply-list li:before {
-  content: '';
-  width: 60px;
-  height: 2px;
-  background: #c7cacb;
-  position: absolute;
-  top: 25px;
-  left: -55px;
+.comment-avatar p{
+  font-size: 15pt;
 }
-
-
-.comments-list li {
-  margin-bottom: 15px;
-  display: block;
-  position: relative;
-}
-
-.comments-list li:after {
-  content: '';
-  display: block;
-  clear: both;
-  height: 0;
-  width: 0;
-}
-
-.reply-list {
-  padding-left: 88px;
-  clear: both;
-  margin-top: 15px;
-}
-
-/**
- * Avatar
- ---------------------------*/
-.comments-list .comment-avatar {
-  width: 65px;
-  height: 65px;
-  position: relative;
-  z-index: 99;
-  float: left;
-  border: 3px solid #FFF;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
-}
-
-.comments-list .comment-avatar img {
-  width: 100%;
-  height: 100%;
-}
-
-.reply-list .comment-avatar {
-  width: 50px;
-  height: 50px;
-}
-
-.comment-main-level:after {
-  content: '';
-  width: 0;
-  height: 0;
-  display: block;
-  clear: both;
-}
-
-/**
- * Comments
- ---------------------------*/
-.comments-list .comment-box {
-  width: 680px;
-  float: right;
-  position: relative;
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
-  -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
-}
-
-.comments-list .comment-box:before,
-.comments-list .comment-box:after {
-  content: '';
-  height: 0;
-  width: 0;
-  position: absolute;
-  display: block;
-  border-width: 10px 12px 10px 0;
-  border-style: solid;
-  border-color: transparent #FCFCFC;
-  top: 8px;
-  left: -11px;
-}
-
-.comments-list .comment-box:before {
-  border-width: 11px 13px 11px 0;
-  border-color: transparent rgba(0, 0, 0, 0.05);
-  left: -12px;
-}
-
-.reply-list .comment-box {
-  width: 610px;
-}
-
-.comment-box .comment-head {
-  background: #FCFCFC;
-  padding: 10px 12px;
-  border-bottom: 1px solid #E5E5E5;
-  overflow: hidden;
-  -webkit-border-radius: 4px 4px 0 0;
-  -moz-border-radius: 4px 4px 0 0;
-  border-radius: 4px 4px 0 0;
-}
-
-.comment-box .comment-head i {
-  float: right;
-  margin-left: 14px;
-  position: relative;
-  top: 2px;
-  color: #A6A6A6;
-  cursor: pointer;
-  -webkit-transition: color 0.3s ease;
-  -o-transition: color 0.3s ease;
-  transition: color 0.3s ease;
-}
-
-.comment-box .comment-head i:hover {
-  color: #03658c;
-}
-
-.comment-box .comment-name {
-  color: #283035;
-  font-size: 14px;
-  font-weight: 700;
-  float: left;
-  margin-right: 10px;
-}
-
-.comment-box .comment-name a {
-  color: #283035;
-}
-
-.comment-box .comment-head span {
-  float: left;
-  color: #999;
-  font-size: 13px;
-  position: relative;
-  top: 1px;
-}
-
-.comment-box .comment-content {
-  background: #FFF;
-  padding: 12px;
-  font-size: 15px;
-  color: #595959;
-  -webkit-border-radius: 0 0 4px 4px;
-  -moz-border-radius: 0 0 4px 4px;
-  border-radius: 0 0 4px 4px;
-}
-
-.comment-box .comment-name.by-author,
-.comment-box .comment-name.by-author a {
-  color: #03658c;
-}
-
-.comment-box .comment-name.by-author:after {
-  content: 'autor';
-  background: #03658c;
-  color: #FFF;
-  font-size: 12px;
-  padding: 3px 5px;
-  font-weight: 700;
-  margin-left: 10px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-}
-
-.comment-main-level {
+.comment-form{
+  width: 70%;
+  height: 80%;
   display: flex;
-  gap: 2rem;
+  flex-direction: column;
+  align-items: center;
+}
+.comment-form label{
+  width: 90%;
+}
+#comment-message{
+  width: 100%;
+  height: 10rem;
+  border-radius: 15pt;
+  background-color: rgba(250, 250, 250, 0.172);
+}
+.submit-comment{
+  width: 7rem;
+  background-color: rgba(250, 250, 250, 0.172);
+  border: 1px solid grey;
+  padding: 1vh 2vh;
+  margin: .5rem;
+  border: none;
+  border-radius: 15pt;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  cursor: pointer;
+}
+.submit-comment:hover, .button-comment-bottom:hover{
+  background-color: #342359;
+  color: aliceblue;
+}
+.comment-form p{
+  width: 90%;
+  font-size: 15pt;
+  border-top: 1px solid rgba(250, 250, 250, 0.172);
+  border-bottom: 1px solid rgba(250, 250, 250, 0.172);
+  padding: 1rem;
+}
+.button-box-c{
+  align-self: flex-end;
+}
+.button-comment-bottom{
+  width: 5rem;
+  background-color: rgba(250, 250, 250, 0.172);
+  border: 1px solid grey;
+  padding: 1vh 2vh;
+  margin: .5rem;
+  border: none;
+  border-radius: 15pt;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  text-align: center;
+  cursor: pointer;
 }
 
 
-.p-mytin{
-  font-size: 20pt;
-}
 
 /* Modal Alert */
 
@@ -1319,10 +1183,14 @@ ul {
 }
 .prof-img img{
     border-radius: 50%;
+    max-width: 15rem;
+    max-height: 15rem;
 }
+
 .profile-data{
   width: 50%;
   text-align: start;
+  padding: 1rem;
 
 }
 .profile-data h2{
@@ -1333,15 +1201,77 @@ ul {
 .profile-creation{
   flex-direction: column;
 }
+<<<<<<< HEAD
 
 .img-prof{
   width: 200px;
+=======
+.bi-exclamation-diamond-fill{
+  fill: crimson;
+}
+.bi-check-square-fill{
+  fill:#04BF9D;
+}
+/*Marquee weather*/
+.marquee-weather{
+  display: flex;
+  border: 1px solid #999;
+  background-color: #342359;
+  border-radius: 15pt;
+  box-shadow: rgba(109, 109, 109, 0.3) 0px 19px 38px, rgba(72, 72, 72, 0.22) 0px 15px 12px;
+  height: auto;
+  align-items: center;
+  justify-content: space-evenly;
+  padding-bottom: 1rem;
+}
+.marquee-weather span, .marquee-weather p{
+  width: fit-content;
+  font-family: 'Montserrat', sans-serif;
+  color: aliceblue;
+}
+.img-weatherCondition{
+  height: 3rem; 
+>>>>>>> fa6c6122a5d8cbb5e699244fcdc014906ac52487
 }
 
 
 /** =====================
  * Responsive
  ========================*/
+
+@media screen and (max-width: 425px) {
+
+  .NotAvailable img {
+    width: 90%;
+  }
+  .info1{
+    flex-direction: column;
+  }
+
+}
+@media screen and (max-width:698px) {
+  .form-new{
+    height: auto;
+  }
+  .entercomment{
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+  }
+  .comment-avatar{
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    padding: .5rem;
+  }
+  .comment-avatar img{
+    width: 30%;
+  }
+  .comment-form{
+    width: 100%;
+  }
+}
 @media only screen and (max-width: 766px) {
   .comments-container {
     width: 480px;
@@ -1353,6 +1283,9 @@ ul {
 
   .reply-list .comment-box {
     width: 320px;
+  }
+  .details{
+    flex-direction: column;
   }
 }
 
@@ -1381,19 +1314,6 @@ ul {
 }
 
 
-@media screen and (max-width: 425px) {
-
-  .NotAvailable img {
-    width: 90%;
-  }
-
-
-}
-@media screen and (max-width:698px) {
-  .form-new{
-    height: auto;
-  }
-}
 @media screen and (max-width: 768px) {
 
 
@@ -1600,6 +1520,12 @@ ul {
     flex-direction: column;
     align-items: center;
     gap: 1rem;
+  }
+  .LogIn-box{
+    flex-direction: column;
+  }
+  .navlink-burger{
+    width: 8rem;
   }
 }
 @media screen and (max-width: 1070px) {
