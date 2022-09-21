@@ -34,6 +34,11 @@ export const itineraryAPI = createApi({
                 },
             })
         }),
+        likeDislike:builder.mutation({
+            query: (id) => ({
+                url: '/itineraries/liked/'
+            })
+        })
 
 
     })

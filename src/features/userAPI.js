@@ -32,6 +32,9 @@ export const userAPI = createApi({
                 },
             })
         }),
+        signInToken: builder.mutation({
+            /////////
+        }),
         signOutUser: builder.mutation({
             query: (mail) => ({
                 url: '/auth/signout',
