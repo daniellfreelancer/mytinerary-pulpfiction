@@ -7,6 +7,10 @@ import {
 } from "../features/itineraryAPI";
 import ActivityItinerary from "./ActivityItinerary";
 import Comments from "./Comments";
+import swal from 'sweetalert2'
+import EnterComment from "./EnterComment";
+import { useDispatch, useSelector } from "react-redux";
+import { setStateLogin } from "../features/stateLocalStorage";
 
 function Itineraries() {
   const { id } = useParams();
@@ -18,22 +22,51 @@ function Itineraries() {
   const [deleteItinerary] = useDeleteTinerariesMutation();
 
   const [likeDisLike] = useLikeTinerariesMutation()
-  
 
-  
-  async function clickToLike(event){
 
-    console.log(event.target.id)
+  async function clickToLike(event) {
 
     let idTinerary = event.target.id
-    
-
 
     likeDisLike(idTinerary)
-     .then((res) => console.log(res))
-     .catch((error)=>console.log(error))
-  
+      .then((res) => {
+        console.log(res)
+        if (res.error) {
+          let dataError = res.error
+          let dataMessage = dataError.data
+          swal.fire({
+            title: "Cant Like this Tinerary!",
+            text: dataMessage.message,
+            icon: "error",
+          });
+        } else {
 
+          let dataResponse = res.data
+          let dataSuccess = dataResponse.message
+          if (dataResponse.message == "Itinerary liked") {
+            swal.fire({
+              imageUrl: "https://media0.giphy.com/media/cdpsxf8WjmNMOBXaCd/200w.gif?cid=82a1493b0henbi6ia1a1x24o5t9s7za75n7629cdcy0ucqrt&rid=200w.gif&ct=g",
+
+            });
+          } else {
+            swal.fire({
+              imageUrl: "https://c.tenor.com/odF9PnzMX8cAAAAd/oh-no-jim-carrey.gif",
+
+            });
+          }
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
+  const loginStateRedux = useSelector(state => state.statesLocalStorage)
+  const dispatch = useDispatch()
+  if (JSON.parse(localStorage.getItem('testUser'))) {
+    dispatch(setStateLogin(true))
+  } else {
+    dispatch(setStateLogin(false))
   }
 
   return (
@@ -57,7 +90,6 @@ function Itineraries() {
                   <div className="itinerary-div-p">
                     <h3 className="Itinerary-p"> {e.name} </h3>
                     <div className="text-itinerary">
-                      <p>{e._id}</p>
                       <p className="Itinerary-p">
                         {" "}
                         Duration:{" "}
@@ -68,19 +100,7 @@ function Itineraries() {
                       <p className="Itinerary-p"> Price: $ {e.price} </p>
 
                       <p className="Itinerary-p">
-                        <button id={e._id} onClick={clickToLike} className="button-like">
-                          {/* <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="30"
-                            height="30"
-                            className="bi bi-balloon-heart-fill"
-                            viewBox="0 0 16 16"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M8.49 10.92C19.412 3.382 11.28-2.387 8 .986 4.719-2.387-3.413 3.382 7.51 10.92l-.234.468a.25.25 0 1 0 .448.224l.04-.08c.009.17.024.315.051.45.068.344.208.622.448 1.102l.013.028c.212.422.182.85.05 1.246-.135.402-.366.751-.534 1.003a.25.25 0 0 0 .416.278l.004-.007c.166-.248.431-.646.588-1.115.16-.479.212-1.051-.076-1.629-.258-.515-.365-.732-.419-1.004a2.376 2.376 0 0 1-.037-.289l.008.017a.25.25 0 1 0 .448-.224l-.235-.468ZM6.726 1.269c-1.167-.61-2.8-.142-3.454 1.135-.237.463-.36 1.08-.202 1.85.055.27.467.197.527-.071.285-1.256 1.177-2.462 2.989-2.528.234-.008.348-.278.14-.386Z"
-                            />
-                          </svg> */} 💙
+                        <button id={e._id} onClick={clickToLike} className="button-like">💙
                         </button>
                         {" "}{totalLikes.length}{" "}
                       </p>
@@ -97,6 +117,7 @@ function Itineraries() {
                         </svg>{" "}
                         Tags: {myTags.join(" - ")}{" "}
                       </p>
+                      <p>{e._id}</p>
                     </div>
                   </div>
 
@@ -105,7 +126,29 @@ function Itineraries() {
                   </div>
                 </div>
                 <div className="toggle-comments">
-                  <Comments />
+
+                  {loginStateRedux ? (
+                    <EnterComment
+                      userID={
+                        JSON.parse(localStorage.getItem("testUser"))
+                          .id
+                      }
+                      userName={
+                        JSON.parse(localStorage.getItem("testUser"))
+                          .name
+                      }
+                      userPhoto={
+                        JSON.parse(localStorage.getItem("testUser"))
+                          .photo
+                      }
+                      userRole={
+                        JSON.parse(localStorage.getItem("testUser"))
+                          .role
+                      }
+                      itineraryID={e._id}
+                    />
+                  ) : null}
+                  <Comments id={e._id} />
                 </div>
               </div>
             );
