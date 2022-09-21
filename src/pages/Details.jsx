@@ -2,12 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import GoBack from "../components/GoBack";
 import Layout from "../layouts/Layout";
-import {
-  useDeleteCityMutation,
-  useGetCityByIdQuery,
-} from "../features/citiesAPI";
+import { useDeleteCityMutation, useGetCityByIdQuery } from "../features/citiesAPI";
 import "../styles/App.css";
-import api_url from "../api";
 import Itineraries from "../components/Itineraries";
 import NotAvailable from "../components/NotAvailable";
 import { Link as LinkRouter } from "react-router-dom";
@@ -85,51 +81,51 @@ function Details() {
   scrolled();
 
   const apiWeatherOne = "8abe30bd4af97573ecc7efa5759d8b1e"
-  const apiWeatherTwo =  "d53d314b6143eef1b72756fe9c919449"
+  const apiWeatherTwo = "d53d314b6143eef1b72756fe9c919449"
   const apiWeatherTree = "b1522eea19887f1c379e84719dc3527b"
   const apiWeatherFour = "5c9f1745d177347fd80455f78a1b490e"
 
   //axios for Weather City
-	
-	useEffect(() => {
 
-		axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${cityDetail?.city}&appid=d53d314b6143eef1b72756fe9c919449`)
-		.then((res)=> {
-      if(res) {
-        let celcius = 273.15
-        let feelLike = (res.data.main.feels_like - celcius).toFixed(2)
-        let temp = (res.data.main.temp - celcius).toFixed(2)
-        let humidity = res.data.main.humidity
-        let icon = res.data.weather[0].icon
-        let description = res.data.weather[0].description
-        let wind = res.data.wind.speed
-        let imgIcon = `http://openweathermap.org/img/wn/${icon}@2x.png`
-    
-        setMyWeather({
-          temp: temp,
-          feelLike: feelLike,
-          humidity: humidity,
-          wind:wind,
-          icon:imgIcon,
-          description:description
-        })
-        setShowWeather(true)
-      }
+  useEffect(() => {
 
-	
-		 })
-		.catch((error)  =>{
+    axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${cityDetail?.city}&appid=d53d314b6143eef1b72756fe9c919449`)
+      .then((res) => {
+        if (res) {
+          let celcius = 273.15
+          let feelLike = (res.data.main.feels_like - celcius).toFixed(2)
+          let temp = (res.data.main.temp - celcius).toFixed(2)
+          let humidity = res.data.main.humidity
+          let icon = res.data.weather[0].icon
+          let description = res.data.weather[0].description
+          let wind = res.data.wind.speed
+          let imgIcon = `http://openweathermap.org/img/wn/${icon}@2x.png`
 
-           
-    })
-	}, [])
+          setMyWeather({
+            temp: temp,
+            feelLike: feelLike,
+            humidity: humidity,
+            wind: wind,
+            icon: imgIcon,
+            description: description
+          })
+          setShowWeather(true)
+        }
+
+
+      })
+      .catch((error) => {
+
+
+      })
+  }, [])
 
 
 
 
   return (
     <Layout>
-      {modalOpen == true ? (
+      {modalOpen === true ? (
         <AlertComponent
           setOpenModal={setModalOpen}
           setMessageError={messageError}
@@ -137,7 +133,7 @@ function Details() {
           setIconSVG={iconSVG}
         />
       ) : null}
-      {cityHasBeenDeleted == false ? <p></p> : <p>{messageDeleted}...</p>}
+      {cityHasBeenDeleted === false ? <p></p> : <p>{messageDeleted}...</p>}
       {cityDetail ? (
         <div className="bigcard">
           <h2 className="detailtitle">{cityDetail?.city}</h2>
@@ -151,20 +147,20 @@ function Details() {
               <p>Fundation: {yearFundation}</p>
             </div>
           </div>
-          { showWeather === true ?           
-          <WeatherCity
-          temp={myWeather.temp} 
-          feelLike={myWeather.feelLike} 
-          humidity={myWeather.humidity} 
-          wind={myWeather.wind} 
-          weatherContiditon={myWeather.icon} 
-          weatherDescription={myWeather.description} 
-          /> :
+          {showWeather === true ?
+            <WeatherCity
+              temp={myWeather.temp}
+              feelLike={myWeather.feelLike}
+              humidity={myWeather.humidity}
+              wind={myWeather.wind}
+              weatherContiditon={myWeather.icon}
+              weatherDescription={myWeather.description}
+            /> :
             <marquee className='marquee-weather'>
-               <p>{notWeather}</p>
+              <p>{notWeather}</p>
             </marquee>
           }
-          
+
 
 
           <div className="description-detail">

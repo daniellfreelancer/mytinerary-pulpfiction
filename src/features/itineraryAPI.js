@@ -40,7 +40,7 @@ export const itineraryAPI = createApi({
                 method: 'PATCH',
                 headers: {
                     Authorization: "Bearer " + JSON.parse(localStorage.getItem("token"))
-                  }
+                }
             })
         }),
 
@@ -49,4 +49,4 @@ export const itineraryAPI = createApi({
 })
 
 export default itineraryAPI
-export const { useGetAllItineraryQuery, useGetTinerariesQuery, useDeleteTinerariesMutation, useCreateItineraryMutation, useLikeTinerariesMutation} = itineraryAPI
+export const { useGetAllItineraryQuery, useGetTinerariesQuery, useDeleteTinerariesMutation, useCreateItineraryMutation, useLikeTinerariesMutation } = itineraryAPI

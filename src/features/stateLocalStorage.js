@@ -16,6 +16,6 @@ export const statesSlice = createSlice({
 
 
 
-export const { setStateLogin, setStatefalse} = statesSlice.actions
+export const { setStateLogin} = statesSlice.actions
 
 export default statesSlice.reducer

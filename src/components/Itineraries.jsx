@@ -43,7 +43,7 @@ function Itineraries() {
 
           let dataResponse = res.data
           let dataSuccess = dataResponse.message
-          if (dataResponse.message == "Itinerary liked") {
+          if (dataResponse.message === "Itinerary liked") {
             swal.fire({
               imageUrl: "https://media0.giphy.com/media/cdpsxf8WjmNMOBXaCd/200w.gif?cid=82a1493b0henbi6ia1a1x24o5t9s7za75n7629cdcy0ucqrt&rid=200w.gif&ct=g",
 

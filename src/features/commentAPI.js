@@ -16,8 +16,8 @@ export const commentAPI = createApi({
                 method: 'POST',
                 body: newComment,
                 headers: {
-                    'Content-type': 'application/json; charset=UTF-8',
-                },
+                    Authorization: "Bearer " + JSON.parse(localStorage.getItem("token"))
+                }
             })
         })
     })
