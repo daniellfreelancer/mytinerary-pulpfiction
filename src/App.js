@@ -10,22 +10,21 @@ import MyTineraries from './pages/MyTineraries';
 import SignUpPage from './pages/SignUpPage';
 import SignInPage from './pages/SignInPage';
 import NewItineraryPage from './pages/NewItineraryPage';
-import { useEffect, useState } from 'react';
 import MyAccount from './pages/MyAccount';
+import { useDispatch, useSelector } from 'react-redux';
+import { setStateLogin } from './features/stateLocalStorage';
+import VerifiedPage from './pages/VerifiedPage';
 
 
 function App() {
-
-  const [statusLogged, setStatusLogged] = useState(false)
-
-  useEffect(() => {
-
-    if( localStorage.length > 0){
-      setStatusLogged(true)
-    } 
-  }, [statusLogged]);
-
-
+  const loginStateRedux = useSelector(state => state.statesLocalStorage)
+  const dispatch = useDispatch()
+  if (JSON.parse(localStorage.getItem('testUser'))){
+    
+    dispatch(setStateLogin(true))
+  } else {
+    dispatch(setStateLogin(false))
+  }
 
 
   return (
@@ -34,14 +33,15 @@ function App() {
             <Route path='/' element={<Welcome/>}/>
             <Route path='/cities' element={<Cities/>}/>
             <Route path='*' element={<UnderConstruction/>}/>
-            <Route path='/newCities' element={statusLogged === true && <NewCities/>}/>
+            <Route path='/newCities' element={loginStateRedux === true && <NewCities/> }/>
             <Route path='/details/:id' element={<Details/>}/>
             <Route path='/editCity/:id' element={<EditCity/>}/>
             <Route path='/myTineraries' element={<MyTineraries/>}/>
             <Route path='/signup' element={<SignUpPage/>}/>
             <Route path='/signin' element={<SignInPage/>}/>
             <Route path='/newitinerary' element={<NewItineraryPage/>}/>
-            <Route path='/myAccount' element={statusLogged === true && <MyAccount/>}/>
+            <Route path='/myAccount' element={loginStateRedux ? <MyAccount/> : <UnderConstruction/>}/>
+            <Route path='/auth/verify' element={<VerifiedPage/>}/>
 
           </Routes>
       </BrowserRouter>
