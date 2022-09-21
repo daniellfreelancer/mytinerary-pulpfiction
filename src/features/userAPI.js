@@ -33,7 +33,11 @@ export const userAPI = createApi({
             })
         }),
         signInToken: builder.mutation({
-            /////////
+            query: () => ({
+                url: '/auth/token',
+                method: 'GET',
+                headers: { Authorization: "Bearer " + JSON.parse(localStorage.getItem("token"))}
+                })
         }),
         signOutUser: builder.mutation({
             query: (mail) => ({
@@ -52,4 +56,4 @@ export const userAPI = createApi({
 })
 
 export default userAPI
-export const { useSignUpUserMutation, useSignInUserMutation, useSignOutUserMutation } = userAPI
+export const { useSignUpUserMutation, useSignInUserMutation, useSignOutUserMutation, useSignInTokenMutation } = userAPI

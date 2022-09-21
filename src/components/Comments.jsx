@@ -11,7 +11,7 @@ function Comments(props) {
 
   const loginStateRedux = useSelector((state) => state.statesLocalStorage);
   const dispatch = useDispatch();
-  if (JSON.parse(localStorage.getItem("testUser"))) {
+  if (JSON.parse(localStorage.getItem("token"))) {
     dispatch(setStateLogin(true));
   } else {
     dispatch(setStateLogin(false));
@@ -29,7 +29,7 @@ function Comments(props) {
     <div className="comment-box">
       <div className="Comment-div">
         <button className="Comment-button" onClick={showComment}>
-          Comments{" "}
+          Display Comments{" "}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="25"
@@ -71,7 +71,7 @@ function Comments(props) {
                                 id={c._id}
                                 className="button-comment-bottom"
                               >
-                                Detele
+                                Delete
                               </button>
                             </div>
                           ) : null}

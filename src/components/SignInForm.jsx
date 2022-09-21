@@ -1,17 +1,21 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSignInUserMutation } from "../features/userAPI";
 import SignInGoogle from "./SignInGoogle";
 import swal from 'sweetalert2'
+import { useDispatch } from 'react-redux'
+import { setUserLogin } from "../features/authSignIn";
 
 function SignInForm() {
   const passwordUserRef = useRef();
   const emailUserRef = useRef();
-  const [signInUser] = useSignInUserMutation();
+  const [signInUser] = useSignInUserMutation()
+  const dispatch = useDispatch()
+
 
   const goToMyAccount = useNavigate()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     let userFrom = "form";
@@ -32,33 +36,26 @@ function SignInForm() {
             text: dataMessage.message,
             icon: "error",
           });
+
         } else {
 
           let dataResponse = res.data;
           let dataSuccess = dataResponse.message;
-          let userLogged
-
-            userLogged = JSON.parse(localStorage.getItem('testUser'))
-
-            localStorage.setItem('token',JSON.stringify(res.data.response.token))
-            localStorage.setItem('testUser',JSON.stringify(res.data.response.user));
-            localStorage.getItem("testUser");
-            localStorage.getItem("token"); 
-
-            swal.fire({
-              title: "Welcome again!",
-              text: dataSuccess,
-              icon: "success",
-            });
-  
-
-
+          console.log(res)
+          dispatch(setUserLogin(res.data.response.user))
+          localStorage.setItem('token', JSON.stringify(res.data.response.token))
+          
+          swal.fire({
+            title: "Welcome again!",
+            text: dataSuccess,
+            icon: "success",
+          });
           let signupForm = document.querySelector("#form-log-users");
           signupForm.reset();
 
-           setTimeout(()=>{
-             goToMyAccount('/cities')
-         },2500)
+          setTimeout(() => {
+            goToMyAccount('/cities')
+          }, 2500)
 
         }
       })
@@ -66,8 +63,12 @@ function SignInForm() {
         console.log(error);
       });
 
-    
+      localStorage.getItem("token");
   };
+
+  
+
+  
 
   const arrayForm = [
     {

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link as LinkRouter } from "react-router-dom";
 import "../styles/App.css";
 
@@ -36,21 +37,23 @@ export function NavBar() {
       title: "New Cities" 
   }
 ]
-
+const userLoggin = useSelector((state) => state.auth)
 
   
 
   useEffect(() => {
-    if(  JSON.parse(localStorage.getItem('testUser'))){
+    if(  userLoggin.logged === true){
       setStatusAccount(true)
     }
 
-  }, [statusAccount])
+  }, [])
   
   useEffect(() => {
-    if (JSON.parse(localStorage.getItem('testUser'))){
-      let adminActive = JSON.parse(localStorage.getItem('testUser')).role
-      if (adminActive === "admin"){
+
+    if (JSON.parse(localStorage.getItem('token'))){
+
+      
+      if (userLoggin.role === "admin"){
         setStatusAdmin(true)
       }
       

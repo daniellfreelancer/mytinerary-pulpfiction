@@ -1,7 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import * as jose from 'jose'
 import { useSignUpUserMutation } from '../features/userAPI';
-import AlertComponent from './AlertComponent';
 import swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom';
 
@@ -9,10 +8,6 @@ function SignUpGoogle() {
 
     const buttonDiv = useRef()
     const [addNewUser] = useSignUpUserMutation();
-    const [modalOpen, setModalOpen] = useState(false);
-    const [messageError, setMessageError] = useState("")
-    const [messageTittle, setMessageTittle] = useState("")
-    const [iconSVG, setIconSVG] = useState("")
     const gotToSignIn = useNavigate()
 
 
@@ -41,7 +36,7 @@ function SignUpGoogle() {
                         title: "Error!",
                         text: dataMessage.message,
                         icon: "error",
-                      });
+                    });
                 } else {
                     let dataResponse = res.data
                     let dataSuccess = dataResponse.message
@@ -49,7 +44,7 @@ function SignUpGoogle() {
                         title: "Welcome! ",
                         text: dataSuccess,
                         icon: "success",
-                      });
+                    });
 
                 }
 
@@ -58,9 +53,9 @@ function SignUpGoogle() {
                 console.log(error)
             });
 
-            setTimeout(()=>{
-                gotToSignIn('/signin')
-            },2000)
+        setTimeout(() => {
+            gotToSignIn('/signin')
+        }, 2500)
 
     }
 
@@ -78,7 +73,7 @@ function SignUpGoogle() {
 
         google.accounts.id.renderButton(
             buttonDiv.current,
-            { theme: "outline", size: "large" }
+            { theme: "filled_black", size: "medium", text: 'Sign Up', shape: 'pill' }
         )
 
 

@@ -1,7 +1,6 @@
-import { React, useRef, useState } from "react";
+import { React, useRef } from "react";
 import { useSignUpUserMutation } from "../features/userAPI";
 import "../styles/App.css";
-import AlertComponent from "./AlertComponent";
 import SignUpGoogle from "./SignUpGoogle";
 import swal from 'sweetalert2'
 import { useNavigate } from "react-router-dom";
@@ -47,7 +46,7 @@ function SignUpForm() {
                         title: "Error!",
                         text: dataMessage.message,
                         icon: "error",
-                      });
+                    });
 
                 } else {
                     let dataResponse = res.data
@@ -56,9 +55,9 @@ function SignUpForm() {
                         title: "Welcome! ",
                         text: dataSuccess,
                         icon: "success",
-                      });
+                    });
 
-                      //Account has been create with success!!
+                    //Account has been create with success!!
 
 
                     let signupForm = document.querySelector("#form-new-users");
@@ -70,9 +69,9 @@ function SignUpForm() {
             .catch((error) => {
                 console.log(error)
             });
-            setTimeout(()=>{
-                gotToSignIn('/signin')
-            },2000)
+        setTimeout(() => {
+            gotToSignIn('/signin')
+        }, 2500)
 
     };
 
@@ -148,7 +147,7 @@ function SignUpForm() {
                     <div className="form-new" >
                         <p>Sign Up</p>
                         <div className="new-user-input">
-                        {arrayForm.map(formView)}
+                            {arrayForm.map(formView)}
                         </div>
                         <input className="btn-form" type="submit" value="Submit" />
                         <p>or</p>

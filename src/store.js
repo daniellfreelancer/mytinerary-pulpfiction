@@ -6,6 +6,7 @@ import activityAPI from './features/activityAPI'
 import userAPI from './features/userAPI'
 import  statesSlice  from './features/stateLocalStorage'
 import commentAPI from './features/commentAPI'
+import authReducer from './features/authSignIn'
 
 export const store = configureStore({
 
@@ -15,6 +16,7 @@ export const store = configureStore({
         [activityAPI.reducerPath]: activityAPI.reducer,
         [userAPI.reducerPath]: userAPI.reducer,
         statesLocalStorage : statesSlice,
+        auth: authReducer,
         [commentAPI.reducerPath] : commentAPI.reducer
 
 

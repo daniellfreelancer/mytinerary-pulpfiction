@@ -13,11 +13,11 @@ import { useSignUpUserMutation } from "../features/userAPI";
 function Profile() {
   const loginStateRedux = useSelector((state) => state.statesLocalStorage);
   const dispatch = useDispatch();
+  const userLoggin = useSelector((state) => state.auth)
 
-  let userLoggin;
 
-  if (JSON.parse(localStorage.getItem("testUser"))) {
-    userLoggin = JSON.parse(localStorage.getItem("testUser"));
+  if (JSON.parse(localStorage.getItem("token"))) {
+    
     dispatch(setStateLogin(true));
   } else {
     dispatch(setStateLogin(false));
@@ -263,14 +263,7 @@ function Profile() {
       });
   };
 
-  let firstLetterUserName = userLoggin.name.charAt(0).toUpperCase();
-  let afterfirstLetterUserName = userLoggin.name.substring(
-    1,
-    userLoggin.name.length
-  );
-  let userNameWithUpperCase = firstLetterUserName.concat(
-    afterfirstLetterUserName
-  );
+
 
   const [showItineraryForm, setItineraryForm] = useState(false);
   const [showUserForm, setUserForm] = useState(false);
@@ -306,7 +299,7 @@ function Profile() {
           <img className='img-prof' src={userLoggin.photo} alt="profile-img" />
         </div>
         <div className="profile-data">
-          <h2>{userNameWithUpperCase}</h2>
+          <h2>{userLoggin.name}</h2>
           <p>
             <strong>Email: </strong> {userLoggin.email}
           </p>

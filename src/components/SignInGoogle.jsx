@@ -1,24 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react'
 import * as jose from 'jose'
-import AlertComponent from './AlertComponent';
 import { useSignInUserMutation } from '../features/userAPI';
 import { useNavigate } from 'react-router-dom';
 import swal from 'sweetalert2'
+import { useDispatch } from 'react-redux'
+import { setUserLogin } from "../features/authSignIn";
 
 function SignInGoogle() {
 
     const buttonDiv = useRef()
     const [signInUser] = useSignInUserMutation();
-    const [modalOpen, setModalOpen] = useState(false);
-    const [messageError, setMessageError] = useState("")
-    const [messageTittle, setMessageTittle] = useState("")
-    const [iconSVG, setIconSVG] = useState("")
     const goToMyAccount = useNavigate()
+    const dispatch = useDispatch()
 
     async function handleCredentialResponse(response) {
 
         let myJWT = jose.decodeJwt(response.credential)
 
+        console.log(myJWT)
         let loginUserFromGoogle = {
             email: myJWT.email,
             pass: myJWT.sub,
@@ -33,35 +32,29 @@ function SignInGoogle() {
                         title: "Error!",
                         text: dataMessage.message,
                         icon: "error",
-                      });
+                    });
 
                 } else {
                     let dataResponse = res.data
                     let dataSuccess = dataResponse.message
-                    let userLogged
+                    console.log(res)
 
+                    dispatch(setUserLogin(res.data.response.user))
 
-                    if( JSON.parse(localStorage.getItem('testUser')) ) {
-                        userLogged = JSON.parse(localStorage.getItem('testUser'))
-                      } else {
-                        
-                        localStorage.setItem('token',JSON.stringify(res.data.response.token))
-                        localStorage.setItem('testUser',JSON.stringify(res.data.response.user));
-                        localStorage.getItem("testUser");
-                        localStorage.getItem("token");
+                    //localStorage.setItem('token', JSON.stringify(res.data.response.token))
 
-                        userLogged = JSON.parse(localStorage.getItem('testUser')) 
-                      }
-                      swal.fire({
-                        title: "Welcome! " + userLogged.name,
+                    localStorage.getItem("token");
+
+                    swal.fire({
+                        title: "Welcome again! ",
                         text: dataSuccess,
                         icon: "success",
-                      });
+                    });
 
-                    setTimeout(()=>{
-                        goToMyAccount('/cities')
-                    },2000)
-                    
+                    // setTimeout(() => {
+                    //     goToMyAccount('/cities')
+                    // }, 2000)
+
 
                 }
 
@@ -70,7 +63,7 @@ function SignInGoogle() {
                 console.log(error)
             });
 
-        localStorage.getItem("testUser");
+
     }
 
 
@@ -87,7 +80,7 @@ function SignInGoogle() {
 
         google.accounts.id.renderButton(
             buttonDiv.current,
-            { theme: "outline", size: "small" }  // customization attributes
+            { theme: "filled_black", size: "medium", text:'Sign In', shape:'pill' }  // customization attributes
         );
 
 
@@ -97,23 +90,10 @@ function SignInGoogle() {
     return (
         <>
             <div className='div-modal-signinGoogle'>
-                
-            
-                {/* {modalOpen === true ?
-                    <AlertComponent
-                        setOpenModal={setModalOpen}
-                        setMessageError={messageError}
-                        setMessageTittle={messageTittle}
-                        setIconSVG={iconSVG}
-                    /> :
-                    null} */}
-                </div>
+            </div>
             <div>
                 <div ref={buttonDiv} className='signin'></div>
             </div>
-
-
-
         </>
     )
 }
