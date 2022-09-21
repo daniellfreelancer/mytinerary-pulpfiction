@@ -125,6 +125,8 @@ function Details() {
 	}, [])
 
 
+
+
   return (
     <Layout>
       {modalOpen == true ? (
