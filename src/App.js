@@ -20,13 +20,14 @@ import swal from 'sweetalert2';
 import { setUserLogin, setUserLogout } from './features/authSignIn';
 
 
+
 function App() {
-  const loginStateRedux = useSelector(state => state.statesLocalStorage)
+  const loginUserActive = useSelector(state => state.auth)
   const dispatchLogin = useDispatch()
   const [signInToken] =useSignInTokenMutation()
 
-   if (JSON.parse(localStorage.getItem('token'))){
-    
+
+   if (loginUserActive.logged === true){
     dispatchLogin(setStateLogin(true))
    } else {
     dispatchLogin(setStateLogin(false))
@@ -50,28 +51,22 @@ function App() {
         
       } else {
         let dataResponse = res.data;
-        let dataSuccess = dataResponse.message;
         let thisIsTheUser = res.data.response.user
         dispatchLogin(setUserLogin(thisIsTheUser))
-        swal.fire({
-          title: "Welcome again!",
-          text: dataSuccess,
-          icon: "success",
-        });
-        
       }
     }).catch((error)=>{
       console.log(error)
       dispatchLogin(setUserLogout())
-
+      localStorage.removeItem('token')
     })
   }
   
   useEffect(() => {
 
+    if(JSON.parse(localStorage.getItem("token"))){
       signInWithToken()
-
-    
+    }
+     
   }, [])
 
 
@@ -81,14 +76,14 @@ function App() {
             <Route path='/' element={<Welcome/>}/>
             <Route path='/cities' element={<Cities/>}/>
             <Route path='*' element={<UnderConstruction/>}/>
-            <Route path='/newCities' element={loginStateRedux === true && <NewCities/> }/>
+            <Route path='/newCities' element={loginUserActive.logged  && loginUserActive.role === "admin"  ? <NewCities/> : <UnderConstruction/>}/>
             <Route path='/details/:id' element={<Details/>}/>
-            <Route path='/editCity/:id' element={<EditCity/>}/>
+            <Route path='/editCity/:id' element={loginUserActive.logged  && loginUserActive.role === "admin"  ? <EditCity/> : <UnderConstruction/>}/>
             <Route path='/myTineraries' element={<MyTineraries/>}/>
             <Route path='/signup' element={<SignUpPage/>}/>
             <Route path='/signin' element={<SignInPage/>}/>
             <Route path='/newitinerary' element={<NewItineraryPage/>}/>
-            <Route path='/myAccount' element={loginStateRedux === true ? <MyAccount/> : <UnderConstruction/>}/>
+            <Route path='/myAccount' element={loginUserActive ? <MyAccount/> : <UnderConstruction/>}/>
             <Route path='/auth/verify' element={<VerifiedPage/>}/>
 
           </Routes>

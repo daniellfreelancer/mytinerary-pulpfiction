@@ -7,6 +7,7 @@ import userAPI from './features/userAPI'
 import  statesSlice  from './features/stateLocalStorage'
 import commentAPI from './features/commentAPI'
 import authReducer from './features/authSignIn'
+import  adminReducer  from './features/adminState'
 
 export const store = configureStore({
 
@@ -17,7 +18,8 @@ export const store = configureStore({
         [userAPI.reducerPath]: userAPI.reducer,
         statesLocalStorage : statesSlice,
         auth: authReducer,
-        [commentAPI.reducerPath] : commentAPI.reducer
+        [commentAPI.reducerPath] : commentAPI.reducer,
+        admin:adminReducer
 
 
     },

@@ -18,13 +18,8 @@ function SignUpForm() {
 
     const [addNewUser] = useSignUpUserMutation();
 
-
-
-
     const handleSubmit = (e) => {
         e.preventDefault();
-
-
         let newUser = {
             name: nameUserRef.current.value,
             lastName: lastNameUserRef.current.value,
@@ -36,7 +31,6 @@ function SignUpForm() {
             from: "form"
         };
 
-
         addNewUser(newUser)
             .then((res) => {
                 if (res.error) {
@@ -47,7 +41,6 @@ function SignUpForm() {
                         text: dataMessage.message,
                         icon: "error",
                     });
-
                 } else {
                     let dataResponse = res.data
                     let dataSuccess = dataResponse.message
@@ -56,15 +49,11 @@ function SignUpForm() {
                         text: dataSuccess,
                         icon: "success",
                     });
-
                     //Account has been create with success!!
-
 
                     let signupForm = document.querySelector("#form-new-users");
                     signupForm.reset();
-
                 }
-
             })
             .catch((error) => {
                 console.log(error)

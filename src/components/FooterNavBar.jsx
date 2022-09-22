@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link as LinkRouter } from "react-router-dom";
 import "../styles/App.css";
+
 
 
 
@@ -8,6 +10,7 @@ export function NavBarFooter() {
   const pages = [
     { id: "_cities", to: "/cities", title: "Cities" }
   ];
+  const userLoggin = useSelector((state) => state.auth)
   
   const [statusAccount, setStatusAccount] = useState(false)
   const [myStatusLogged, setMyStatusLogged] = useState(
@@ -17,11 +20,7 @@ export function NavBarFooter() {
       to: "/myAccount", 
       title: "My Account"
     },
-    { 
-      id: "_newCities", 
-      to: "/newCities", 
-      title: "New Cities" 
-    },
+
     { 
       id: "_myTinerary", 
       to: "/myTineraries", 
@@ -29,6 +28,12 @@ export function NavBarFooter() {
     }
   ]
   )
+
+  const newCities =     { 
+    id: "_newCities", 
+    to: "/newCities", 
+    title: "New Cities" 
+  }
   
   
   useEffect(() => {
@@ -51,6 +56,13 @@ export function NavBarFooter() {
                 {link.title}
               </LinkRouter>
             ))) : null
+        }
+        {
+          userLoggin.role === "admin" ? (
+            <LinkRouter className="footer-navlink" to={newCities.to} key={newCities.id}>
+            {newCities.title}
+          </LinkRouter>
+          ) : null
         }
     </nav>
   );

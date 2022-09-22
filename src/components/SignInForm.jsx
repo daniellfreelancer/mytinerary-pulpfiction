@@ -41,10 +41,8 @@ function SignInForm() {
 
           let dataResponse = res.data;
           let dataSuccess = dataResponse.message;
-          console.log(res)
           dispatch(setUserLogin(res.data.response.user))
           localStorage.setItem('token', JSON.stringify(res.data.response.token))
-          
           swal.fire({
             title: "Welcome again!",
             text: dataSuccess,

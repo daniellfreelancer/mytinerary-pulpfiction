@@ -51,8 +51,11 @@ font-family: 'Montserrat', sans-serif;
   background: none;
   border: none;
   display: none;
+  cursor: pointer;
 }
-
+.create-new-itinerary{
+  cursor: pointer;
+}
 .user-btn {
   background: none;
   border: none;
