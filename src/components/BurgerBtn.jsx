@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Link as LinkRouter } from "react-router-dom";
 import LogIn from "./LogIn";
-
+import {useSelector} from 'react-redux'
 function BurgerBtn() {
   const pages = [
     { id: "_cities", to: "/cities", title: "Cities" }
   ];
 
   const [show, setShow] = useState(false);
-
+  const userLoggin = useSelector((state) => state.auth)
 
   function showNav() {
     if (show) {
@@ -26,21 +26,22 @@ function BurgerBtn() {
       title: "My Account"
     },
     { 
-      id: "_newCities", 
-      to: "/newCities", 
-      title: "New Cities" 
-    },
-    { 
       id: "_myTinerary", 
       to: "/myTineraries", 
       title: "My Tineraries" 
     }
   ]
   )
+
+  const newCities =     { 
+    id: "_newCities", 
+    to: "/newCities", 
+    title: "New Cities" 
+  }
   
 
   useEffect(() => {
-    if( localStorage.length > 0){
+    if(JSON.parse(localStorage.getItem("token"))){
       setStatusAccount(true)
     } 
   }, [statusAccount])
@@ -82,6 +83,13 @@ function BurgerBtn() {
             ))
             ) : null
 
+            }
+            {
+              userLoggin.role === "admin" ? (
+                <LinkRouter className="navlink-burger" to={newCities.to} key={newCities.id}>
+                {newCities.title}
+              </LinkRouter>
+              ) : null
             } 
             <LogIn />
           </div>

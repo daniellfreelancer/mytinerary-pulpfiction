@@ -67,7 +67,7 @@ function LogIn() {
           let dataResponse = res.data
           let dataSuccess = dataResponse.message
           swal.fire({
-            title: "Bye! " + userLoggin.name,
+            title: "Bye! " + userLoggin.user,
             text: dataSuccess,
             icon: "success",
           });
@@ -106,7 +106,7 @@ function LogIn() {
       <div>
         {show ? (
           <div className="Dropdown-menu-UI">
-            { userLoggin.logged === true ? (<p className="navlink-burger"> {userLoggin.name} </p>) : (<LinkRouter className="navlink-burger" to={signUp.to} key={signUp.id}>
+            { userLoggin.logged === true ? (<p className="navlink-burger"> {userLoggin.user}{" "}{userLoggin.lastName} </p>) : (<LinkRouter className="navlink-burger" to={signUp.to} key={signUp.id}>
               {signUp.title}
             </LinkRouter>)}
             {
