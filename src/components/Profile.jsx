@@ -1,21 +1,30 @@
 import React, { useRef, useState } from "react";
 import { useGetAllCitiesQuery } from "../features/citiesAPI";
-import {
-  useCreateItineraryMutation,
-  useGetTinerariesQuery,
-} from "../features/itineraryAPI";
+import { useAllTinerariesAdminQuery, useCreateItineraryMutation, useGetTinerariesQuery } from "../features/itineraryAPI";
 import ActivityItinerary from "./ActivityItinerary";
 import { useSelector, useDispatch } from "react-redux";
 import { setStateLogin } from "../features/stateLocalStorage";
 import swal from "sweetalert2";
 import { useSignUpUserMutation } from "../features/userAPI";
+import { useCreateActivityMutation } from "../features/activityAPI";
 
 function Profile() {
   const loginStateRedux = useSelector((state) => state.statesLocalStorage);
   const dispatch = useDispatch();
   const userLoggin = useSelector((state) => state.auth)
 
+  const { data: myOwnItineraries, isSuccess } = useGetTinerariesQuery(
+    userLoggin.id
+  );
 
+  const { data: tinerariesForAdmin} = useAllTinerariesAdminQuery()
+
+  let getTinerariesByAdmin = tinerariesForAdmin?.response
+
+  let ownTineraries = myOwnItineraries?.response
+
+ 
+  const [addNewActivity] = useCreateActivityMutation()
   if (JSON.parse(localStorage.getItem("token"))) {
     
     dispatch(setStateLogin(true));
@@ -23,15 +32,20 @@ function Profile() {
     dispatch(setStateLogin(false));
   }
 
-  const { data: myOwnItineraries, isError } = useGetTinerariesQuery(
-    userLoggin.id
-  );
-  let myOwnItinerariesDetail = myOwnItineraries?.response;
-
   const [cityId, setCityId] = useState({
     id: "",
     value: "",
   });
+
+  const [ownTineraryID, setOwnTineraryID] = useState({
+    id: "",
+    value: "",
+  })
+
+  const [tinerariesAdmin, setTinerariesAdmin] = useState({
+    id: "",
+    value:""
+  })
 
   const { data: cities } = useGetAllCitiesQuery("");
 
@@ -254,7 +268,7 @@ function Profile() {
             icon: "success",
           });
 
-          //Account has been create with success!!
+          //Account has been created with success!!
           let signupForm = document.querySelector("#form-new-users");
           signupForm.reset();
         }
@@ -291,6 +305,116 @@ function Profile() {
     }
   }
 
+  const nameActivityRef = useRef()
+  const photoActivityRef = useRef()
+
+  const arrayActivity = [
+    {
+      id: "_name",
+      name: "Name",
+      type: "text",
+      value: nameActivityRef,
+    },
+    {
+      id: "_photo",
+      name: "Photo",
+      type: "url",
+      value: photoActivityRef,
+    }
+  ]
+
+
+  const handleSelectTinerary = (e) => {
+    e.preventDefault();
+    setOwnTineraryID({
+      value: e.target.value,
+      id: e.target[e.target.selectedIndex].id,
+    });
+  }
+  const handleSelectTinerarybyAdmin = (e) =>{
+    e.preventDefault();
+    setTinerariesAdmin({
+      value: e.target.value,
+      id: e.target[e.target.selectedIndex].id,
+    });
+  }
+
+
+  const handleSubmitNewActivity = (e) =>{
+
+     e.preventDefault();
+     let newActivity = {
+      name: nameActivityRef.current.value,
+      photo: photoActivityRef.current.value,
+      itinerary:  ownTineraryID.id
+    }
+    addNewActivity(newActivity)
+    .then((res) => {
+      if (res.error) {
+        let dataError = res.error;
+        let dataMessage = dataError.data;
+        swal.fire({
+          title: "Error!",
+          text: dataMessage.message,
+          icon: "warning",
+        });
+      } else {
+        let dataResponse = res.data;
+        let dataSuccess = dataResponse.message;
+        swal.fire({
+          title: "Great! ",
+          text: dataSuccess,
+          icon: "success",
+        });
+
+        let signupForm = document.querySelector("#form-new-activity");
+        signupForm.reset();
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  }
+  
+  const handleSubmitNewActivityAdmin = (e) =>{
+
+    e.preventDefault();
+    let newActivity = {
+     name: nameActivityRef.current.value,
+     photo: photoActivityRef.current.value,
+     itinerary:  tinerariesAdmin.id
+   }
+   addNewActivity(newActivity)
+   .then((res) => {
+     if (res.error) {
+       let dataError = res.error;
+       let dataMessage = dataError.data;
+       swal.fire({
+         title: "Error!",
+         text: dataMessage.message,
+         icon: "warning",
+       });
+     } else {
+       let dataResponse = res.data;
+       let dataSuccess = dataResponse.message;
+       swal.fire({
+         title: "Great! ",
+         text: dataSuccess,
+         icon: "success",
+       });
+
+       let signupForm = document.querySelector("#form-new-activity");
+       signupForm.reset();
+     }
+   })
+   .catch((error) => {
+     console.log(error);
+   });
+
+ }
+
+
   return (
     <>
       <div className="profile-card">
@@ -314,78 +438,6 @@ function Profile() {
             <strong>Account Country: </strong>
             {userLoggin.country}
           </p>
-        </div>
-      </div>
-      <div className="profile-card profile-creation">
-        <h2>My Tineraries</h2>
-        <div className="MyTineraries-div">
-          {!isError ? (
-            myOwnItinerariesDetail?.map((e) => {
-              let totalLikes = e.likes;
-              let myTags = e.tags;
-              let hourDuration = Math.round(e.duration / 60);
-
-              return (
-                <div className="Itinerary-detail" key={e._id}>
-                  <div className="itinerary-div-img">
-                    <img src={e.photo} className="Itinerary-img" alt={e.city} />
-                  </div>
-
-                  <div className="itinerary-div-text-activities">
-                    <div className="itinerary-div-p myItineraries-text">
-                      <h3 className="Itinerary-p"> {e.name} </h3>
-                      <div className="text-itinerary">
-                        <p className="Itinerary-p">
-                          {" "}
-                          Duration:{" "}
-                          {hourDuration > 1
-                            ? hourDuration + ` hours`
-                            : hourDuration + ` hour`}{" "}
-                        </p>
-                        <p className="Itinerary-p"> Price: $ {e.price} </p>
-
-                        <p className="Itinerary-p">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            className="bi bi-bookmark-heart"
-                            viewBox="0 0 16 16"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z"
-                            />
-                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
-                          </svg>
-                          {totalLikes.length}{" "}
-                        </p>
-                        <p className="Itinerary-p">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            className="bi bi-tags"
-                            viewBox="0 0 16 16"
-                          >
-                            <path d="M3 2v4.586l7 7L14.586 9l-7-7H3zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586V2z" />
-                            <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1v5.086z" />
-                          </svg>{" "}
-                          Tags: {myTags.join(" - ")}{" "}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="itinerary-div-activities">
-                      <ActivityItinerary id={e._id} />
-                    </div>
-                  </div>
-                </div>
-              );
-            })
-          ) : (
-            <p className="p-mytin">You dont have itineraries yet</p>
-          )}
         </div>
       </div>
 
@@ -429,16 +481,16 @@ function Profile() {
                   <select onChange={handleSelectRole} className="btn-form">
                     <option>Select a Role</option>
 
-                    {newAdminUser.map((role) => {
+                    {arrayFormNewUser?.map((e) => {
                       return (
-                        <option key={role.id} id={role.id} value={role.value}>
-                          {role.name}
+                        <option key={e.id} id={e.id} value={e.value}>
+                          {e.name}
                         </option>
                       );
                     })}
                   </select>
                   <div className="new-user-input">
-                    {arrayFormNewUser.map(formView)}
+                    {arrayActivity.map(formView)}
                   </div>
                   <input className="btn-form" type="submit" value="Submit" />
                 </div>
@@ -453,6 +505,54 @@ function Profile() {
           <p>Add New Activity</p>
         </button>
       </div>
+      {showActivityForm && userLoggin.role === "user" ? (
+        <form id="form-new-activity" onSubmit={handleSubmitNewActivity}>
+        <div className="container-form new-user">
+          <div className="form-new">
+            <select onChange={handleSelectTinerary} className="btn-form">
+              <option>Select a Tinerary</option>
+
+              {ownTineraries?.map((e) => {
+                return (
+                  <option key={e._id} id={e._id} value={e.name}>
+                  {e.name}
+                </option>
+                );
+              })}
+            </select>
+            <div className="new-user-input">
+              {arrayActivity?.map(formView)}
+            </div>
+            <input className="btn-form" type="submit" value="Submit" />
+          </div>
+        </div>
+      </form>
+      ) : null
+        }
+        {showActivityForm && userLoggin.role === "admin" ? (
+        <form id="form-new-activity" onSubmit={handleSubmitNewActivityAdmin}>
+        <div className="container-form new-user">
+          <div className="form-new">
+            <select onChange={handleSelectTinerarybyAdmin} className="btn-form">
+              <option>Select a Tinerary</option>
+
+              {getTinerariesByAdmin?.map((e) => {
+                return (
+                  <option key={e._id} id={e._id} value={e.name}>
+                  {e.name}
+                </option>
+                );
+              })}
+            </select>
+            <div className="new-user-input">
+              {arrayActivity?.map(formView)}
+            </div>
+            <input className="btn-form" type="submit" value="Submit" />
+          </div>
+        </div>
+      </form>
+      ) : null
+        }
     </>
   );
 }
