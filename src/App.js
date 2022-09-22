@@ -28,7 +28,7 @@ function App() {
   const [signInToken] =useSignInTokenMutation()
 
 
-   if (loginUserActive.logged === true){
+   if (JSON.parse(localStorage.getItem("token"))){
     dispatchLogin(setStateLogin(true))
    } else {
     dispatchLogin(setStateLogin(false))
