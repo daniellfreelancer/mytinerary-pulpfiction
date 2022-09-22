@@ -37,7 +37,7 @@ export function NavBarFooter() {
   
   
   useEffect(() => {
-    if( localStorage.length > 0){
+    if( JSON.parse(localStorage.getItem("token"))){
       setStatusAccount(true)
     } 
   }, [statusAccount])
@@ -58,7 +58,7 @@ export function NavBarFooter() {
             ))) : null
         }
         {
-          userLoggin.role === "admin" ? (
+          userLoggin.role === "admin" && JSON.parse(localStorage.getItem("token")) ? (
             <LinkRouter className="footer-navlink" to={newCities.to} key={newCities.id}>
             {newCities.title}
           </LinkRouter>
