@@ -41,7 +41,7 @@ function SignInGoogle() {
 
                     dispatch(setUserLogin(res.data.response.user))
 
-                    //localStorage.setItem('token', JSON.stringify(res.data.response.token))
+                    localStorage.setItem('token', JSON.stringify(res.data.response.token))
 
                     localStorage.getItem("token");
 
@@ -51,9 +51,9 @@ function SignInGoogle() {
                         icon: "success",
                     });
 
-                    // setTimeout(() => {
-                    //     goToMyAccount('/cities')
-                    // }, 2000)
+                     setTimeout(() => {
+                         goToMyAccount('/cities')
+                     }, 2000)
 
 
                 }
