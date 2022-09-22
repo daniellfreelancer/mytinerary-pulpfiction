@@ -7,66 +7,64 @@ import {
 } from "../features/itineraryAPI";
 import ActivityItinerary from "./ActivityItinerary";
 import Comments from "./Comments";
-import swal from 'sweetalert2'
+import swal from "sweetalert2";
 import EnterComment from "./EnterComment";
 import { useDispatch, useSelector } from "react-redux";
 import { setStateLogin } from "../features/stateLocalStorage";
+import {Link as LinkRouter} from 'react-router-dom'
 
 function Itineraries() {
+  const userLoggin = useSelector((state) => state.auth);
   const { id } = useParams();
 
-  const { data: itineraries } = useGetAllItineraryQuery(id);
+  const { data: itineraries, isSucces, isError } = useGetAllItineraryQuery(id);
 
   let itineraryDetail = itineraries?.response;
 
   const [deleteItinerary] = useDeleteTinerariesMutation();
 
-  const [likeDisLike] = useLikeTinerariesMutation()
-
+  const [likeDisLike] = useLikeTinerariesMutation();
 
   async function clickToLike(event) {
-
-    let idTinerary = event.target.id
+    let idTinerary = event.target.id;
 
     likeDisLike(idTinerary)
       .then((res) => {
-        console.log(res)
         if (res.error) {
-          let dataError = res.error
-          let dataMessage = dataError.data
+          let dataError = res.error;
+          let dataMessage = dataError.data;
           swal.fire({
             title: "Cant Like this Tinerary!",
             text: dataMessage.message,
             icon: "error",
           });
         } else {
-
-          let dataResponse = res.data
-          let dataSuccess = dataResponse.message
+          let dataResponse = res.data;
+          let dataSuccess = dataResponse.message;
           if (dataResponse.message === "Itinerary liked") {
             swal.fire({
-              imageUrl: "https://media0.giphy.com/media/cdpsxf8WjmNMOBXaCd/200w.gif?cid=82a1493b0henbi6ia1a1x24o5t9s7za75n7629cdcy0ucqrt&rid=200w.gif&ct=g",
-
+              imageUrl:
+                "https://media0.giphy.com/media/cdpsxf8WjmNMOBXaCd/200w.gif?cid=82a1493b0henbi6ia1a1x24o5t9s7za75n7629cdcy0ucqrt&rid=200w.gif&ct=g",
             });
           } else {
             swal.fire({
-              imageUrl: "https://c.tenor.com/odF9PnzMX8cAAAAd/oh-no-jim-carrey.gif",
-
+              imageUrl:
+                "https://c.tenor.com/odF9PnzMX8cAAAAd/oh-no-jim-carrey.gif",
             });
           }
         }
       })
       .catch((error) => {
-        console.log(error)
-      })
+        console.log(error);
+      });
   }
 
-  const loginStateRedux = useSelector(state => state.statesLocalStorage)
-  const dispatch = useDispatch()
-  if (JSON.parse(localStorage.getItem('testUser'))) {
-    dispatch(setStateLogin(true))
+  const loginStateRedux = useSelector((state) => state.statesLocalStorage);
+  const dispatch = useDispatch();
+  if (JSON.parse(localStorage.getItem("token"))) {
+    dispatch(setStateLogin(true));
   } else {
-    dispatch(setStateLogin(false))
+    dispatch(setStateLogin(false));
   }
 
   return (
@@ -100,9 +98,14 @@ function Itineraries() {
                       <p className="Itinerary-p"> Price: $ {e.price} </p>
 
                       <p className="Itinerary-p">
-                        <button id={e._id} onClick={clickToLike} className="button-like">💙
-                        </button>
-                        {" "}{totalLikes.length}{" "}
+                        <button
+                          id={e._id}
+                          onClick={clickToLike}
+                          className="button-like"
+                        >
+                          💙
+                        </button>{" "}
+                        {totalLikes.length}{" "}
                       </p>
                       <p className="Itinerary-p">
                         <svg
@@ -126,24 +129,17 @@ function Itineraries() {
                   </div>
                 </div>
                 <div className="toggle-comments">
-
-                  {loginStateRedux ? (
+                  {userLoggin.logged === true ? (
                     <EnterComment
-                      userID={
-                        JSON.parse(localStorage.getItem("testUser"))
-                          .id
-                      }
+                      userID={userLoggin.id}
                       userName={
-                        JSON.parse(localStorage.getItem("testUser"))
-                          .name
+                        userLoggin.user
                       }
                       userPhoto={
-                        JSON.parse(localStorage.getItem("testUser"))
-                          .photo
+                        userLoggin.photo
                       }
                       userRole={
-                        JSON.parse(localStorage.getItem("testUser"))
-                          .role
+                        userLoggin.role
                       }
                       itineraryID={e._id}
                     />
@@ -154,8 +150,15 @@ function Itineraries() {
             );
           })
         ) : (
+          
           <p> This City has no Itineraries yet</p>
+          
         )}
+        {
+          userLoggin.logged  && isError ? (
+            <LinkRouter className="navlink create-new-itinerary" to="/myAccount">Go to your account and create one</LinkRouter>
+          ) : null
+        }
       </div>
     </>
   );
