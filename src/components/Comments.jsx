@@ -2,12 +2,18 @@ import React, { useState } from "react";
 import { useGetCommentsQuery } from "../features/commentAPI";
 import { useDispatch, useSelector } from "react-redux";
 import { setStateLogin } from "../features/stateLocalStorage";
+import { useDeleteCommentsMutation } from "../features/commentAPI";
+import swal from 'sweetalert2'
 
 function Comments(props) {
   let idItinerary = props.id;
   const { data: comments, isSuccess } = useGetCommentsQuery(idItinerary);
   let commentsItinerary = comments?.response;
   const [show, setShow] = useState(false);
+
+  const userLoggin = useSelector((state) => state.auth)
+
+  const [deleteComment] = useDeleteCommentsMutation()
 
   const loginStateRedux = useSelector((state) => state.statesLocalStorage);
   const dispatch = useDispatch();
@@ -24,6 +30,32 @@ function Comments(props) {
       setShow(true);
     }
   }
+
+  function handleDeleteComment(e) {
+    deleteComment(e.target.id)
+      .then((res) => {
+        if (res.error) {
+          let dataError = res.error;
+          let dataMessage = dataError.data;
+          swal.fire({
+            title: "Error!",
+            text: dataMessage.message,
+            icon: "error",
+          })
+        } else {
+          let dataResponse = res.data;
+          let dataSuccess = dataResponse.message;
+          swal.fire({
+            title: "Success! ",
+            text: dataSuccess,
+            icon: "success",
+          });
+
+        }
+      })
+      .catch((error) => console.log(error))
+  }
+
 
   return (
     <div className="comment-box">
@@ -59,15 +91,13 @@ function Comments(props) {
                         </div>
                         <div className="comment-form">
                           <p>{c.comment}</p>
-
-                          <p>{c.itinerary}</p>
-
-                          {loginStateRedux ? (
+                          <p>{c._id}</p>
+                          {userLoggin.logged === true ? (
                             <div className="button-box-c">
                               <button className="button-comment-bottom">
                                 Edit
                               </button>
-                              <button
+                              <button onClick={handleDeleteComment}
                                 id={c._id}
                                 className="button-comment-bottom"
                               >

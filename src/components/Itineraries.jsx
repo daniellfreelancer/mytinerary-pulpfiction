@@ -11,7 +11,7 @@ import swal from "sweetalert2";
 import EnterComment from "./EnterComment";
 import { useDispatch, useSelector } from "react-redux";
 import { setStateLogin } from "../features/stateLocalStorage";
-import {Link as LinkRouter} from 'react-router-dom'
+import { Link as LinkRouter } from 'react-router-dom'
 
 function Itineraries() {
   const userLoggin = useSelector((state) => state.auth);
@@ -67,6 +67,21 @@ function Itineraries() {
     dispatch(setStateLogin(false));
   }
 
+  const handDeleteTinerary = (e) =>{
+    e.preventDefault()
+    deleteItinerary(e.target.id).then((res)=>{
+      let dataResponse = res.data;
+      let dataSuccess = dataResponse.message;
+      swal.fire({
+        title: "Success! ",
+        text: dataSuccess,
+        icon: "success",
+      });
+    }).catch((error) => {
+      console.log(error)
+    })
+  }
+
   return (
     <>
       <h2>💙 Itineraries 💙</h2>
@@ -76,8 +91,6 @@ function Itineraries() {
             let totalLikes = e.likes;
             let myTags = e.tags;
             let hourDuration = Math.round(e.duration / 60);
-            let idTinerary = e._id;
-
             return (
               <div className="Itinerary-detail" key={e._id}>
                 <div className="itinerary-div-img">
@@ -120,7 +133,19 @@ function Itineraries() {
                         </svg>{" "}
                         Tags: {myTags.join(" - ")}{" "}
                       </p>
-                      <p>{e._id}</p>
+                      {userLoggin.logged === true ? (
+                        <>
+                          <LinkRouter
+                            to={`/editTinerary/${e._id}`}
+                            className="btn-read"
+                          >
+                            Edit Tinerary!
+                          </LinkRouter>
+                          <button id={e._id} className="btn-read btn-read-red" onClick={handDeleteTinerary}>
+                            Delete Tinerary!
+                          </button>
+                        </>
+                      ) : null}
                     </div>
                   </div>
 
@@ -150,13 +175,13 @@ function Itineraries() {
             );
           })
         ) : (
-          
+
           <p> This City has no Itineraries yet</p>
-          
+
         )}
         {
-          userLoggin.logged  && isError ? (
-            <LinkRouter className="navlink create-new-itinerary" to="/myAccount">Go to your account and create one</LinkRouter>
+          userLoggin.logged === true ? (
+            <LinkRouter className="Comment-button" to="/myAccount">Go to your account and create one Itinerary or Activity</LinkRouter>
           ) : null
         }
       </div>

@@ -19,10 +19,30 @@ export const commentAPI = createApi({
                     Authorization: "Bearer " + JSON.parse(localStorage.getItem("token"))
                 }
             })
-        })
+        }),
+        updateComments :builder.mutation({
+            query: ({ id, ...editComment }) => ({
+                url: `/comments/${id}` ,
+                method: 'PATCH',
+                body: editComment,
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(localStorage.getItem("token"))
+                }
+            })
+        }),
+        deleteComments :builder.mutation({
+            query: (idDeleteComment) => ({
+                url: `/comments/${idDeleteComment}`,
+                method: 'DELETE',
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(localStorage.getItem("token"))
+                }
+            })
+        }),
+
     })
 }
 )
 
 export default commentAPI
-export const { useGetCommentsQuery, useCreateCommentsMutation} = commentAPI
+export const { useGetCommentsQuery, useCreateCommentsMutation, useDeleteCommentsMutation, useUpdateCommentsMutation} = commentAPI

@@ -19,6 +19,7 @@ function EditCity() {
 
   const { id } = useParams();
   const { data: cities } = useGetCityByIdQuery(id);
+
   let cityDetail = cities?.response;
   let idCity = id;
   const [editCity] = useUpdateCityMutation();
@@ -108,7 +109,7 @@ function EditCity() {
       <label key={e.id}>
         Enter the {e.name}: <br />
         <input
-          className="input-text"
+          className="btn-form"
           type={e.type}
           name={e.name}
           ref={e.value}
@@ -121,19 +122,20 @@ function EditCity() {
   return (
     <Layout>
       <form id="form-new-cities" onSubmit={handleSubmit}>
-        <fieldset>
-          <p>
+        <div className="container-form" >
+
+        <div className="form-new new-city" >
+          <h2>
             You can now edit <strong>{cityDetail?.city}</strong> city!
-          </p>
+          </h2>
           <p>Simply write down the information to update the city!</p>
-
+          <div className='div-form-new-city'>
           {arrayForm.map(formView)}
-
-          <input className="input-submit" type="submit" value="Submit" />
-        </fieldset>
+          </div>
+          <input className="btn-form" type="submit" value="Submit" />
+        </div>
+        </div>
       </form>
-
-      <div>{}</div>
     </Layout>
   );
 }

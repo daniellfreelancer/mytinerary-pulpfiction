@@ -18,6 +18,7 @@ import {useSignInTokenMutation } from "./features/userAPI";
 import {useEffect} from 'react'
 import swal from 'sweetalert2';
 import { setUserLogin, setUserLogout } from './features/authSignIn';
+import PatchTineraryPage from './pages/PatchTineraryPage';
 
 
 
@@ -85,7 +86,7 @@ function App() {
             <Route path='/newitinerary' element={<NewItineraryPage/>}/>
             <Route path='/myAccount' element={loginUserActive ? <MyAccount/> : <UnderConstruction/>}/>
             <Route path='/auth/verify' element={<VerifiedPage/>}/>
-
+            <Route path='/editTinerary/:id' element={<PatchTineraryPage/>}/>
           </Routes>
       </BrowserRouter>
   );

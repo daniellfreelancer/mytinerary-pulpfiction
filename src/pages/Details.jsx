@@ -7,7 +7,6 @@ import "../styles/App.css";
 import Itineraries from "../components/Itineraries";
 import NotAvailable from "../components/NotAvailable";
 import { Link as LinkRouter } from "react-router-dom";
-import AlertComponent from "../components/AlertComponent";
 import WeatherCity from "../components/WeatherCity";
 import axios from "axios";
 import swal from 'sweetalert2'
@@ -36,13 +35,6 @@ function Details() {
       setStatusLoggedNav(true);
     }
   }, [statusLoggedNav]);
-
-  const [cityHasBeenDeleted, setCityHasBeenDeleted] = useState(false);
-  const [messageDeleted, setMessageDelete] = useState("");
-  const [modalOpen, setModalOpen] = useState(false);
-  const [messageError, setMessageError] = useState("");
-  const [messageTittle, setMessageTittle] = useState("");
-  const [iconSVG, setIconSVG] = useState("");
 
   let goToIndex = useNavigate();
   function scrolled() {

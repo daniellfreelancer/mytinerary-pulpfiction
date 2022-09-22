@@ -12,6 +12,12 @@ export const itineraryAPI = createApi({
 
 
     endpoints: (builder) => ({
+        tinerariesById: builder.query({
+            query: (idTinerary) =>({
+                url: `/myItineraries/search/${idTinerary}`,
+                method: 'GET'
+            }) 
+        }),
         getAllItinerary: builder.query({
             query: (id) => `/myItineraries/?city=${id}`
         }),
@@ -34,6 +40,13 @@ export const itineraryAPI = createApi({
                 },
             })
         }),
+        patchItinerary: builder.mutation({
+            query: ({id, ...myNewTinerary}) => ({
+                url: `/myItineraries/${id}`,
+                method: 'PATCH',
+                body: myNewTinerary
+            })
+        }),
         likeTineraries: builder.mutation({
             query: (itineraryIDLike) => ({
                 url: `/myItineraries/likes/${itineraryIDLike}`,
@@ -49,4 +62,11 @@ export const itineraryAPI = createApi({
 })
 
 export default itineraryAPI
-export const { useGetAllItineraryQuery, useGetTinerariesQuery, useDeleteTinerariesMutation, useCreateItineraryMutation, useLikeTinerariesMutation } = itineraryAPI
+export const { useGetAllItineraryQuery,
+    useGetTinerariesQuery,
+    useDeleteTinerariesMutation,
+    useCreateItineraryMutation,
+    useLikeTinerariesMutation,
+    usePatchItineraryMutation,
+    useTinerariesByIdQuery,
+     } = itineraryAPI
