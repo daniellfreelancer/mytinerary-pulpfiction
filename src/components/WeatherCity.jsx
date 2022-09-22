@@ -12,11 +12,11 @@ function WeatherCity(props) {
   return (
   <>
     <marquee className='marquee-weather'>
-        <span><strong>Temperature: </strong>{temperature} ° C {"    -    "}
-        <strong>Feel Like: </strong>{feelLike} ° C {"    -    "}
-        <strong>Humidity: </strong>{humidity} % {"    -    "}
-        <strong>Wind: </strong>{wind} k/h {"    -    "}
-        <strong>Weather: </strong>   {weatherDescription} {"    -    "}
+        <span><strong>Temperature: </strong>{temperature} ° C {"  -  "}
+        <strong>Feel Like: </strong>{feelLike} ° C {"  -  "}
+        <strong>Humidity: </strong>{humidity} % {"  -  "}
+        <strong>Wind: </strong>{wind} k/h {"  -  "}
+        <strong>Weather: </strong>   {weatherDescription} {"  -  "}
         <img src={weatherContiditon} alt={weatherContiditon} className="img-weatherCondition" /></span>
     </marquee>
     </>

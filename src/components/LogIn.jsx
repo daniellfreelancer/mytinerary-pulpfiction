@@ -1,35 +1,21 @@
 import React, { useState } from "react";
 import { Link as LinkRouter, useNavigate } from "react-router-dom";
 import { useSignOutUserMutation } from "../features/userAPI";
-import '../styles/App.css'
-import swal from 'sweetalert2';
-import {useSelector} from 'react-redux'
+import "../styles/App.css";
+import swal from "sweetalert2";
+import { useSelector } from "react-redux";
 
 function LogIn() {
-
-  const [signUp, setSignUp] = useState(
-    { id: "_signUp", to: "/signup", title: "Sign Up" }
-  )
-
-
   const [signOutUser] = useSignOutUserMutation();
-
-  const [userSignIn, setUsersignIn] = useState({
-    id: "_signin",
-    to: "/signin",
-    title: "Sign In"
-  })
-
-  const [userSignOut, setUsersignOut] = useState({
-    id: "_signout",
-    to: "/signin",
-    title: "Sign Out"
-  })
-
-
+  const goToSignIn = useNavigate();
+  const userLoggin = useSelector((state) => state.auth)
   const [show, setShow] = useState(false);
 
-  const goToSignIn = useNavigate()
+
+  const signUp = { id: "_signUp", to: "/signup", title: "Sign Up" }
+  const userSignIn = { id: "_signin", to: "/signin", title: "Sign In" }
+  const userSignOut = { id: "_signout", to: "/signin", title: "Sign Out",}
+
 
   function showUserInt() {
     if (show) {
@@ -39,24 +25,20 @@ function LogIn() {
     }
   }
 
-  const userLoggin = useSelector((state) => state.auth)
-
-
+  
 
   const handleSignOut = (e) => {
     e.preventDefault();
 
     let userMail = {
-      email: userLoggin.email
-    }
+      email: userLoggin.email,
+    };
 
     signOutUser(userMail)
       .then((res) => {
-
         if (res.error) {
-
-          let dataError = res.error
-          let dataMessage = dataError.data
+          let dataError = res.error;
+          let dataMessage = dataError.data;
 
           swal.fire({
             title: "Error!",
@@ -64,27 +46,27 @@ function LogIn() {
             icon: "error",
           });
         } else {
-          let dataResponse = res.data
-          let dataSuccess = dataResponse.message
+          let dataResponse = res.data;
+          let dataSuccess = dataResponse.message;
           swal.fire({
             title: "Bye! " + userLoggin.user,
             text: dataSuccess,
             icon: "success",
           });
         }
-
       })
       .catch((error) => {
         console.log(error);
       });
 
     setTimeout(() => {
-      goToSignIn('/signin')
-      localStorage.removeItem('token')
-    }, 2500)
+      goToSignIn("/signin");
+      localStorage.removeItem("token");
+    }, 2500);
+  };
 
+  const fullNameUser = `${userLoggin.user} ${userLoggin.lastName}`
 
-  }
 
   return (
     <div className="LogIn-box">
@@ -106,20 +88,36 @@ function LogIn() {
       <div>
         {show ? (
           <div className="Dropdown-menu-UI">
-            { userLoggin.logged === true ? (<p className="navlink-burger"> {userLoggin.user}{" "}{userLoggin.lastName} </p>) : (<LinkRouter className="navlink-burger" to={signUp.to} key={signUp.id}>
-              {signUp.title}
-            </LinkRouter>)}
-            {
-              localStorage.length === 0 ? (
-                <LinkRouter className="navlink-burger" to={userSignIn.to} key={userSignIn.id}>
-                  {userSignIn.title}
-                </LinkRouter>
-              ) : (
-                <button className="navlink-burger navlink-signout" onClick={handleSignOut} >
-                  {userSignOut.title}
-                </button>
-              )
-            }
+            {JSON.parse(localStorage.getItem("token")) ? (
+              <p className="navlink-burger">
+                {fullNameUser}
+              </p>
+            ) : (
+              <LinkRouter
+                className="navlink-burger"
+                to={signUp.to}
+                key={signUp.id}
+              >
+                {signUp.title}
+              </LinkRouter>
+            )}
+
+            { !JSON.parse(localStorage.getItem("token")) ? (
+              <LinkRouter
+                className="navlink-burger"
+                to={userSignIn.to}
+                key={userSignIn.id}
+              >
+                {userSignIn.title}
+              </LinkRouter>
+            ) : (
+              <button
+                className="navlink-burger navlink-signout"
+                onClick={handleSignOut}
+              >
+                {userSignOut.title}
+              </button>
+            )}
           </div>
         ) : null}
       </div>

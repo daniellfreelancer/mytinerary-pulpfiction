@@ -133,7 +133,7 @@ function Itineraries() {
                         </svg>{" "}
                         Tags: {myTags.join(" - ")}{" "}
                       </p>
-                      {userLoggin.logged === true ? (
+                      {userLoggin.role === "admin" && JSON.parse(localStorage.getItem("token")) ? (
                         <>
                           <LinkRouter
                             to={`/editTinerary/${e._id}`}
@@ -154,7 +154,7 @@ function Itineraries() {
                   </div>
                 </div>
                 <div className="toggle-comments">
-                  {userLoggin.logged === true ? (
+                  {userLoggin.logged === true && JSON.parse(localStorage.getItem("token")) ? (
                     <EnterComment
                       userID={userLoggin.id}
                       userName={
@@ -169,7 +169,9 @@ function Itineraries() {
                       itineraryID={e._id}
                     />
                   ) : null}
+
                   <Comments id={e._id} />
+                  
                 </div>
               </div>
             );
@@ -180,7 +182,7 @@ function Itineraries() {
 
         )}
         {
-          userLoggin.logged === true ? (
+          userLoggin.logged === true && JSON.parse(localStorage.getItem("token")) ? (
             <LinkRouter className="Comment-button" to="/myAccount">Go to your account and create one Itinerary or Activity</LinkRouter>
           ) : null
         }

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useGetCommentsQuery } from "../features/commentAPI";
+import { useGetCommentByUserQuery, useGetCommentsQuery } from "../features/commentAPI";
 import { useDispatch, useSelector } from "react-redux";
 import { setStateLogin } from "../features/stateLocalStorage";
 import { useDeleteCommentsMutation } from "../features/commentAPI";
@@ -12,10 +12,11 @@ function Comments(props) {
   const [show, setShow] = useState(false);
 
   const userLoggin = useSelector((state) => state.auth)
-
+  
+  const {data: commentsByUser, isError} = useGetCommentByUserQuery(userLoggin.id)
+  const myComments = commentsByUser?.response
   const [deleteComment] = useDeleteCommentsMutation()
 
-  const loginStateRedux = useSelector((state) => state.statesLocalStorage);
   const dispatch = useDispatch();
   if (JSON.parse(localStorage.getItem("token"))) {
     dispatch(setStateLogin(true));
@@ -57,6 +58,7 @@ function Comments(props) {
   }
 
 
+
   return (
     <div className="comment-box">
       <div className="Comment-div">
@@ -82,28 +84,42 @@ function Comments(props) {
                 commentsItinerary?.map((c) => {
                   return (
                     <div className="comment-container" key={c._id}>
-                      <div className="side-comment"></div>
                       <div className="entercomment">
                         <div className="comment-avatar">
                           <img src={c.user.photo} alt={c.user.name} />
                           <h5>{c.user.name}</h5>
-                          <p>{c.user.role}</p>
+                          {
+                            userLoggin.role === "admin" ? (
+                                <p>{c.user.role}</p>
+                            ) : <p>✈️</p>
+                          }
+                          
                         </div>
                         <div className="comment-form">
                           <p>{c.comment}</p>
-                          <p>{c._id}</p>
-                          {userLoggin.logged === true ? (
+                          {userLoggin.id.toString() === c.user._id.toString() ? (
                             <div className="button-box-c">
                               <button className="button-comment-bottom">
                                 Edit
                               </button>
-                              <button onClick={handleDeleteComment}
+                              <button
+                                onClick={handleDeleteComment}
                                 id={c._id}
                                 className="button-comment-bottom"
                               >
                                 Delete
                               </button>
                             </div>
+                          ) : null}
+                          {userLoggin.role === "admin" &&
+                          JSON.parse(localStorage.getItem("token")) && (userLoggin.id.toString() !== c.user._id.toString()) ? (
+                            <button
+                              onClick={handleDeleteComment}
+                              id={c._id}
+                              className="button-comment-bottom"
+                            >
+                              Delete
+                            </button>
                           ) : null}
                         </div>
                       </div>

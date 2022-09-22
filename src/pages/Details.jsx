@@ -12,6 +12,7 @@ import axios from "axios";
 import swal from 'sweetalert2'
 import { useSelector } from "react-redux";
 
+
 function Details() {
   const { id } = useParams();
   const { data: cities } = useGetCityByIdQuery(id);
@@ -19,8 +20,6 @@ function Details() {
   let cityFundation = new Date(cityDetail?.fundation);
   let yearFundation = cityFundation.getFullYear();
   const userLoggin = useSelector((state) => state.auth)
-
-
 
   const [statusLoggedNav, setStatusLoggedNav] = useState(false);
   const [myWeather, setMyWeather] = useState([{}])
@@ -148,7 +147,7 @@ function Details() {
             <p>{cityDetail?.description}</p>
           </div>
 
-          {userLoggin.role === "admin" ? (
+          {userLoggin.role === "admin" && JSON.parse(localStorage.getItem("token")) ? (
             <>
               <LinkRouter
                 to={`/editCity/${cityDetail?._id}`}

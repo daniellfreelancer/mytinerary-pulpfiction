@@ -39,10 +39,13 @@ export const commentAPI = createApi({
                 }
             })
         }),
+        getCommentByUser: builder.query({
+            query: (userID) => `/comments/commentbyuser/?user=${userID}`
+        }),
 
     })
 }
 )
 
 export default commentAPI
-export const { useGetCommentsQuery, useCreateCommentsMutation, useDeleteCommentsMutation, useUpdateCommentsMutation} = commentAPI
+export const { useGetCommentsQuery, useCreateCommentsMutation, useDeleteCommentsMutation, useUpdateCommentsMutation, useGetCommentByUserQuery} = commentAPI
