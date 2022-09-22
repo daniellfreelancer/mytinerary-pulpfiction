@@ -14,10 +14,21 @@ export const activityAPI = createApi({
     endpoints: (builder) => ({
         getActivities: builder.query({
             query: (itineraryID) => `/activities/?itinerary=${itineraryID}`
+        }),
+        createActivity: builder.mutation({
+            query: (activity) => ({
+                url: '/activities',
+                method: 'POST',
+                body: activity,
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            })
+
         })
 
     })
 })
 
 export default activityAPI
-export const { useGetActivitiesQuery} = activityAPI
+export const { useGetActivitiesQuery, useCreateActivityMutation} = activityAPI
