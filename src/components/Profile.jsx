@@ -112,6 +112,7 @@ function Profile() {
   const emailUserRef = useRef();
   const countryUserRef = useRef();
   const lastNameUserRef = useRef();
+
   const arrayFormNewUser = [
     {
       id: "_name",
@@ -263,8 +264,6 @@ function Profile() {
       });
   };
 
-
-
   const [showItineraryForm, setItineraryForm] = useState(false);
   const [showUserForm, setUserForm] = useState(false);
   const [showActivityForm, setshowActivityForm] = useState(false);
@@ -299,23 +298,22 @@ function Profile() {
           <img className='img-prof' src={userLoggin.photo} alt="profile-img" />
         </div>
         <div className="profile-data">
-          <h2>{userLoggin.name}</h2>
+          <h2>{userLoggin.user}{" "} {userLoggin.lastName} </h2>
           <p>
-            <strong>Email: </strong> {userLoggin.email}
+            <strong>Account Email: </strong> {userLoggin.email}
           </p>
           <p>
-            <strong>ID: </strong>
+            <strong>Account ID: </strong>
             {userLoggin.id}
           </p>
           <p>
-            <strong>Role: </strong>
+            <strong>Account Type: </strong>
             {userLoggin.role}
           </p>
           <p>
-            <strong>Country: </strong>
+            <strong>Account Country: </strong>
             {userLoggin.country}
           </p>
-          {loginStateRedux ? <p>True</p> : <p>False</p>}
         </div>
       </div>
       <div className="profile-card profile-creation">
