@@ -41,20 +41,12 @@ export function NavBar() {
 
   
 
-  useEffect(() => {
-    if(JSON.parse(localStorage.getItem('token'))){
-      setStatusAccount(true)
-      if (userLoggin.role === "admin"){
-        setStatusAdmin(true)
-      }
-    }
-
-  }, [])
+  //  useEffect(() => {
+  //    if(JSON.parse(localStorage.getItem('token'))){
+  //      setStatusAccount(true)
+  //    }
+  //  }, [statusAccount])
   
-  
-
-
-
   
   return (
     <>
@@ -65,7 +57,7 @@ export function NavBar() {
           </LinkRouter>
         ))}
         {
-          statusAccount ? (
+          userLoggin.logged && JSON.parse(localStorage.getItem('token'))  ? (
             pagesLogged.map((link) => (
               <LinkRouter className="navlink" to={link.to} key={link.id}>
                 {link.title}
@@ -74,7 +66,7 @@ export function NavBar() {
           ): null
         }
         {
-          statusAdmin ? (
+          userLoggin.role === "admin" && JSON.parse(localStorage.getItem('token'))  ? (
             
               <LinkRouter className="navlink" to={adminObj.to} key={adminObj.id}>
                 {adminObj.title}
