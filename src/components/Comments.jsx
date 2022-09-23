@@ -1,27 +1,60 @@
-import React, { useState } from "react";
-import { useGetCommentByUserQuery, useGetCommentsQuery } from "../features/commentAPI";
+import React, { useEffect, useState } from "react";
+import { useGetCommentByUserQuery, useGetCommentsItineraryMutation, useUpdateCommentsMutation } from "../features/commentAPI";
 import { useDispatch, useSelector } from "react-redux";
 import { setStateLogin } from "../features/stateLocalStorage";
 import { useDeleteCommentsMutation } from "../features/commentAPI";
 import swal from 'sweetalert2'
+import { useRef } from "react";
 
 function Comments(props) {
   let idItinerary = props.id;
-  const { data: comments, isSuccess } = useGetCommentsQuery(idItinerary);
-  let commentsItinerary = comments?.response;
+  let reload = props.reload
+  
+
+  //const { data: comments, isSuccess } = useGetCommentsQuery(idItinerary);
+
+  //let commentsItinerary = comments?.response;
+
+
   const [show, setShow] = useState(false);
 
   const userLoggin = useSelector((state) => state.auth)
   
   const {data: commentsByUser, isError} = useGetCommentByUserQuery(userLoggin.id)
   const myComments = commentsByUser?.response
+
   const [deleteComment] = useDeleteCommentsMutation()
 
-  const dispatch = useDispatch();
-  if (JSON.parse(localStorage.getItem("token"))) {
-    dispatch(setStateLogin(true));
-  } else {
-    dispatch(setStateLogin(false));
+  // const dispatch = useDispatch();
+  // if (JSON.parse(localStorage.getItem("token"))) {
+  //   dispatch(setStateLogin(true));
+  // } else {
+  //   dispatch(setStateLogin(false));
+  // }
+const [ getCommentsByTinerary] = useGetCommentsItineraryMutation()
+  
+  const [commentsItinerary, setMyCommentsItinerary] = useState(null)
+
+ 
+  useEffect(() => {
+    getAllCommentsBYTineraries()
+  }, [reload])
+
+
+
+  async function getAllCommentsBYTineraries(){
+  
+
+      let res = await getCommentsByTinerary(idItinerary)
+
+      if(res.data?.response) {
+        setMyCommentsItinerary(res.data?.response)
+      } else {
+        setMyCommentsItinerary(null)
+      }
+      
+
+
   }
 
   function showComment() {
@@ -51,11 +84,57 @@ function Comments(props) {
             text: dataSuccess,
             icon: "success",
           });
-
+          reload()
         }
       })
-      .catch((error) => console.log(error))
+      .catch((error)=> console.log(error))
   }
+
+  let commentField = useRef()
+  const [editMyComment] = useUpdateCommentsMutation()
+
+const [edit, setEdit] = useState(false)
+
+const handleUpdateComment = (e) => {
+  e.preventDefault();
+  let idComment = e.target.id;
+
+  let commmentUpdate = {
+    id: idComment,
+    comment: commentField.current.value,
+  }
+
+  editMyComment(commmentUpdate)
+  .then((res) => {
+      if (res.error) {
+        let dataError = res.error;
+        let dataMessage = dataError.data;
+        swal.fire({
+          title: "Error!",
+          text: dataMessage.message,
+          icon: "error",
+        });
+      } else {
+        let dataResponse = res.data;
+        let dataSuccess = dataResponse.message;
+        swal.fire({
+          title: "Success! ",
+          text: dataSuccess,
+          icon: "success",
+        });
+      }
+    })
+    .catch((error) => console.log(error));
+
+  setEdit(false);
+  reload();
+};
+
+
+
+function handleUpdateEditButton(){
+  setEdit(true)
+}
 
 
 
@@ -80,8 +159,8 @@ function Comments(props) {
         <div>
           {show ? (
             <>
-              {isSuccess ? (
-                commentsItinerary?.map((c) => {
+              {commentsItinerary ? (
+                commentsItinerary.map((c) => {
                   return (
                     <div className="comment-container" key={c._id}>
                       <div className="entercomment">
@@ -96,12 +175,34 @@ function Comments(props) {
                           
                         </div>
                         <div className="comment-form">
-                          <p>{c.comment}</p>
+                          {
+                            !edit ? <p>{c.comment}</p> : (
+                              <form id={c._id} className="comment-form"  onSubmit={handleUpdateComment}>
+                              <label htmlFor="comment-message">
+                                <input
+                                  id="comment-message"
+                                  type="text"
+                                  placeholder="edit your comment..."
+                                  ref={commentField}
+                                  defaultValue={c.comment}
+                                />
+                              </label>
+                              <input  className="submit-comment" type="submit" value="Submit" />
+                            </form>
+                            )
+                          }
+                          
+
                           {userLoggin.id.toString() === c.user._id.toString() ? (
                             <div className="button-box-c">
-                              <button className="button-comment-bottom">
-                                Edit
-                              </button>
+                              {
+                                !edit ? (
+                                  <button onClick={handleUpdateEditButton} className="button-comment-bottom">
+                                  Edit
+                                </button>
+                                ) : null
+                              }
+
                               <button
                                 onClick={handleDeleteComment}
                                 id={c._id}
