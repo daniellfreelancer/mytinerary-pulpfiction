@@ -10,6 +10,7 @@ export const itineraryAPI = createApi({
         baseUrl: api_url
     }),
 
+    tagTypes: ['patch'],
 
     endpoints: (builder) => ({
         tinerariesById: builder.query({
@@ -18,8 +19,14 @@ export const itineraryAPI = createApi({
                 method: 'GET'
             }) 
         }),
-        getAllItinerary: builder.query({
-            query: (id) => `/myItineraries/?city=${id}`
+        // getAllItinerary: builder.query({
+        //     query: (id) => `/myItineraries/?city=${id}`
+        // }),
+        getItineraryLIKE: builder.mutation({
+            query: (id) => ({
+                url: `/myItineraries/?city=${id}`,
+                method: 'GET'
+            })
         }),
         getTineraries: builder.query({
             query: (userID) => `/myItineraries/?user=${userID}`
@@ -66,7 +73,7 @@ export const itineraryAPI = createApi({
             })
         }),
 
-
+        invalidatesTags: ['patch']
     })
 })
 
@@ -78,5 +85,6 @@ export const { useGetAllItineraryQuery,
     useLikeTinerariesMutation,
     usePatchItineraryMutation,
     useTinerariesByIdQuery,
-    useAllTinerariesAdminQuery
+    useAllTinerariesAdminQuery,
+    useGetItineraryLIKEMutation
      } = itineraryAPI

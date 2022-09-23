@@ -49,6 +49,17 @@ export const userAPI = createApi({
                 },
             })
         }),
+        editMyProfile: builder.mutation({
+            query: ({ id, ...user }) => ({
+                url: `/auth/update/${id}`,
+                method: 'PATCH',
+                body: user,
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            })
+        })
+
         
 
 
@@ -56,4 +67,4 @@ export const userAPI = createApi({
 })
 
 export default userAPI
-export const { useSignUpUserMutation, useSignInUserMutation, useSignOutUserMutation, useSignInTokenMutation } = userAPI
+export const { useSignUpUserMutation, useSignInUserMutation, useSignOutUserMutation, useSignInTokenMutation, useEditMyProfileMutation } = userAPI
