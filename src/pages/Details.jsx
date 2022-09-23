@@ -14,36 +14,32 @@ import { useSelector } from "react-redux";
 
 
 function Details() {
+
   const { id } = useParams();
   const { data: cities } = useGetCityByIdQuery(id);
+
   let cityDetail = cities?.response;
   let cityFundation = new Date(cityDetail?.fundation);
   let yearFundation = cityFundation.getFullYear();
+
   const userLoggin = useSelector((state) => state.auth)
 
-  const [statusLoggedNav, setStatusLoggedNav] = useState(false);
-  const [myWeather, setMyWeather] = useState([{}])
+  //const [statusLoggedNav, setStatusLoggedNav] = useState(false);
+  const [myWeather, setMyWeather] = useState({})
   const notWeather = "Weather Resources are being Loaded"
 
   const [showWeather, setShowWeather] = useState(false)
 
 
 
-  useEffect(() => {
-    if (JSON.parse(localStorage.getItem("token"))) {
-      setStatusLoggedNav(true);
-    }
-  }, [statusLoggedNav]);
+  // useEffect(() => {
+  //   if (JSON.parse(localStorage.getItem("token"))) {
+  //     setStatusLoggedNav(true);
+  //   }
+  // }, []);
 
   let goToIndex = useNavigate();
-  function scrolled() {
-    // window.scrollTo(0,0)
-    window.scroll({
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    });
-  }
+
 
   const [deleteCity] = useDeleteCityMutation(cityDetail?._id);
 
@@ -67,12 +63,12 @@ function Details() {
     }, 3000);
   };
 
-  scrolled();
+  
 
-  const apiWeatherOne = "8abe30bd4af97573ecc7efa5759d8b1e"
-  const apiWeatherTwo = "d53d314b6143eef1b72756fe9c919449"
-  const apiWeatherTree = "b1522eea19887f1c379e84719dc3527b"
-  const apiWeatherFour = "5c9f1745d177347fd80455f78a1b490e"
+  // const apiWeatherOne = "8abe30bd4af97573ecc7efa5759d8b1e"
+  // const apiWeatherTwo = "d53d314b6143eef1b72756fe9c919449"
+  // const apiWeatherTree = "b1522eea19887f1c379e84719dc3527b"
+  // const apiWeatherFour = "5c9f1745d177347fd80455f78a1b490e"
 
   //axios for Weather City
 
@@ -105,9 +101,8 @@ function Details() {
       })
       .catch((error) => {
 
-
       })
-  }, [])
+  }, [cityDetail?.city])
 
 
 
@@ -162,7 +157,10 @@ function Details() {
           ) : null}
 
           <div className="itineraries-div">
-            <Itineraries />
+            {
+              cityDetail ? <Itineraries /> : null
+            }
+            
           </div>
         </div>
       ) : (

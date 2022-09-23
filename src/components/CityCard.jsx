@@ -3,6 +3,7 @@ import { Link as LinkRouter } from 'react-router-dom'
 import '../styles/App.css'
 import SearchBar from './SearchBar'
 import { useGetAllCitiesQuery } from '../features/citiesAPI'
+import NotAvailable from './NotAvailable'
 
 
 
@@ -40,6 +41,9 @@ function CityCard() {
           </div>
         );
       }) 
+    }
+    {
+      allMyCities?.length === 0 ? <NotAvailable/> : null
     }
     </div>
   );

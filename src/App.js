@@ -27,12 +27,15 @@ function App() {
   const dispatchLogin = useDispatch()
   const [signInToken] =useSignInTokenMutation()
 
-
-   if (JSON.parse(localStorage.getItem("token"))){
+useEffect(() => {
+  if (JSON.parse(localStorage.getItem("token"))){
     dispatchLogin(setStateLogin(true))
    } else {
     dispatchLogin(setStateLogin(false))
   }
+}, [loginUserActive])
+
+
 
   const signInWithToken = async () =>{
 
@@ -68,7 +71,7 @@ function App() {
       signInWithToken()
     }
      
-  }, [])
+  }, [loginUserActive])
 
 
   return (

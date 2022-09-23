@@ -7,8 +7,14 @@ export const commentAPI = createApi({
         baseUrl: api_url
     }),
     endpoints: (builder) => ({
-        getComments: builder.query({
-            query: (idItinerary) => `/comments/?itinerary=${idItinerary}`
+        // getComments: builder.query({
+        //     query: (idItinerary) => `/comments/?itinerary=${idItinerary}`
+        // }),
+        getCommentsItinerary: builder.mutation({
+            query: (idItinerary) => ({
+                url: `/comments/?itinerary=${idItinerary}`,
+                method: 'GET'
+            })
         }),
         createComments :builder.mutation({
             query: (newComment) => ({
@@ -48,4 +54,4 @@ export const commentAPI = createApi({
 )
 
 export default commentAPI
-export const { useGetCommentsQuery, useCreateCommentsMutation, useDeleteCommentsMutation, useUpdateCommentsMutation, useGetCommentByUserQuery} = commentAPI
+export const { useGetCommentsQuery, useCreateCommentsMutation, useDeleteCommentsMutation, useUpdateCommentsMutation, useGetCommentByUserQuery, useGetCommentsItineraryMutation} = commentAPI

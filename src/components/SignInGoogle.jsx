@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import * as jose from 'jose'
 import { useSignInUserMutation } from '../features/userAPI';
 import { useNavigate } from 'react-router-dom';
@@ -17,7 +17,6 @@ function SignInGoogle() {
 
         let myJWT = jose.decodeJwt(response.credential)
 
-        console.log(myJWT)
         let loginUserFromGoogle = {
             email: myJWT.email,
             pass: myJWT.sub,
@@ -37,8 +36,6 @@ function SignInGoogle() {
                 } else {
                     let dataResponse = res.data
                     let dataSuccess = dataResponse.message
-                    console.log(res)
-
                     dispatch(setUserLogin(res.data.response.user))
 
                     localStorage.setItem('token', JSON.stringify(res.data.response.token))
@@ -53,7 +50,7 @@ function SignInGoogle() {
 
                      setTimeout(() => {
                          goToMyAccount('/cities')
-                     }, 2000)
+                     }, 2500)
 
 
                 }

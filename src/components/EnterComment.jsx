@@ -10,6 +10,9 @@ function EnterComment(props) {
   let itineraryID = props.itineraryID;
   let userRole = props.userRole;
   let userName = props.userName;
+
+ let reload = props.reload
+
   const [show, setShow] = useState(false);
   const [createNewComment] = useCreateCommentsMutation()
 
@@ -39,14 +42,17 @@ function EnterComment(props) {
             text: dataSuccess,
             icon: "success",
           });
-
+          
           let signupForm = document.querySelector("#formNewComment");
           signupForm.reset();
         }
+        reload()
       })
       .catch((error) => {
         console.log(error);
       });
+      
+      
   }
   function showComment() {
     if (show) {
@@ -74,9 +80,8 @@ function EnterComment(props) {
                     <div className="comment-avatar">
                       <img src={photoID} alt={userName} />
                       <h5>{userName}</h5>
-                      <p>{userRole}</p>
                     </div>
-                    <form id="formNewComment" className="comment-form">
+                    <form id="formNewComment" className="comment-form"  onSubmit={handleNewComment}>
                       <label htmlFor="comment-message">
                         <input
                           id="comment-message"
@@ -85,7 +90,7 @@ function EnterComment(props) {
                           ref={commentField}
                         />
                       </label>
-                      <input onClick={handleNewComment} className="submit-comment" type="submit" value="Submit" />
+                      <input  className="submit-comment" type="submit" value="Submit" />
                     </form>
                   </div>
                 </div>

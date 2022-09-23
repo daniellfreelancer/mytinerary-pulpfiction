@@ -1,36 +1,27 @@
 import React, { useRef, useState } from "react";
 import { useGetAllCitiesQuery } from "../features/citiesAPI";
-import { useAllTinerariesAdminQuery, useCreateItineraryMutation, useGetTinerariesQuery } from "../features/itineraryAPI";
+import {
+  useAllTinerariesAdminQuery,
+  useCreateItineraryMutation,
+  useGetTinerariesQuery,
+} from "../features/itineraryAPI";
 import ActivityItinerary from "./ActivityItinerary";
 import { useSelector, useDispatch } from "react-redux";
 import { setStateLogin } from "../features/stateLocalStorage";
 import swal from "sweetalert2";
-import { useSignUpUserMutation } from "../features/userAPI";
+import { useEditMyProfileMutation, useSignUpUserMutation } from "../features/userAPI";
 import { useCreateActivityMutation } from "../features/activityAPI";
 
 function Profile() {
-  const loginStateRedux = useSelector((state) => state.statesLocalStorage);
-  const dispatch = useDispatch();
-  const userLoggin = useSelector((state) => state.auth)
+  const userLoggin = useSelector((state) => state.auth);
 
-  const { data: myOwnItineraries, isSuccess } = useGetTinerariesQuery(
-    userLoggin.id
-  );
+  const { data: myOwnItineraries } = useGetTinerariesQuery(userLoggin.id);
+  const { data: tinerariesForAdmin } = useAllTinerariesAdminQuery();
+  const [addNewActivity] = useCreateActivityMutation();
+  const [updateMyProfile] = useEditMyProfileMutation()
 
-  const { data: tinerariesForAdmin} = useAllTinerariesAdminQuery()
-
-  let getTinerariesByAdmin = tinerariesForAdmin?.response
-
-  let ownTineraries = myOwnItineraries?.response
-
- 
-  const [addNewActivity] = useCreateActivityMutation()
-  if (JSON.parse(localStorage.getItem("token"))) {
-    
-    dispatch(setStateLogin(true));
-  } else {
-    dispatch(setStateLogin(false));
-  }
+  let getTinerariesByAdmin = tinerariesForAdmin?.response;
+  let ownTineraries = myOwnItineraries?.response;
 
   const [cityId, setCityId] = useState({
     id: "",
@@ -40,12 +31,12 @@ function Profile() {
   const [ownTineraryID, setOwnTineraryID] = useState({
     id: "",
     value: "",
-  })
+  });
 
   const [tinerariesAdmin, setTinerariesAdmin] = useState({
     id: "",
-    value:""
-  })
+    value: "",
+  });
 
   const { data: cities } = useGetAllCitiesQuery("");
 
@@ -118,6 +109,14 @@ function Profile() {
       </label>
     );
   };
+  const formUpdate = (e) => {
+    return (
+      <label key={e.id}>
+        Enter {e.name}: <br />
+        <input className="btn-form" type={e.type} name={e.name} ref={e.value} defaultValue={e.value} />
+      </label>
+    );
+  };
 
   const [addNewUserFromAdmin] = useSignUpUserMutation();
   const nameUserRef = useRef();
@@ -164,6 +163,17 @@ function Profile() {
       name: "Password",
       type: "password",
       value: passwordUserRef,
+    },
+  ];
+
+  const arrayRole = [
+    {
+      id: "admin",
+      value: "admin",
+    },
+    {
+      id: "user",
+      value: "user",
     },
   ];
   const handleSubmit = (e) => {
@@ -239,6 +249,7 @@ function Profile() {
 
   const handleSubmitNewUser = (e) => {
     e.preventDefault();
+
     let newUserFromAdmin = {
       name: nameUserRef.current.value,
       lastName: lastNameUserRef.current.value,
@@ -281,6 +292,7 @@ function Profile() {
   const [showItineraryForm, setItineraryForm] = useState(false);
   const [showUserForm, setUserForm] = useState(false);
   const [showActivityForm, setshowActivityForm] = useState(false);
+  const [showEditProf, setShowEditProf] = useState(false)
 
   function showNewItinerarry() {
     if (showItineraryForm) {
@@ -305,8 +317,18 @@ function Profile() {
     }
   }
 
-  const nameActivityRef = useRef()
-  const photoActivityRef = useRef()
+  function showEditProfClick() {
+
+    if (showEditProf) {
+      setShowEditProf(false);
+    } else {
+      setShowEditProf(true);
+    }
+    
+  }
+
+  const nameActivityRef = useRef();
+  const photoActivityRef = useRef();
 
   const arrayActivity = [
     {
@@ -320,9 +342,8 @@ function Profile() {
       name: "Photo",
       type: "url",
       value: photoActivityRef,
-    }
-  ]
-
+    },
+  ];
 
   const handleSelectTinerary = (e) => {
     e.preventDefault();
@@ -330,26 +351,134 @@ function Profile() {
       value: e.target.value,
       id: e.target[e.target.selectedIndex].id,
     });
-  }
-  const handleSelectTinerarybyAdmin = (e) =>{
+  };
+  const handleSelectTinerarybyAdmin = (e) => {
     e.preventDefault();
     setTinerariesAdmin({
       value: e.target.value,
       id: e.target[e.target.selectedIndex].id,
     });
-  }
+  };
 
-
-  const handleSubmitNewActivity = (e) =>{
-
-     e.preventDefault();
-     let newActivity = {
+  const handleSubmitNewActivity = (e) => {
+    e.preventDefault();
+    let newActivity = {
       name: nameActivityRef.current.value,
       photo: photoActivityRef.current.value,
-      itinerary:  ownTineraryID.id
-    }
+      itinerary: ownTineraryID.id,
+    };
     addNewActivity(newActivity)
-    .then((res) => {
+      .then((res) => {
+        if (res.error) {
+          let dataError = res.error;
+          let dataMessage = dataError.data;
+          swal.fire({
+            title: "Error!",
+            text: dataMessage.message,
+            icon: "warning",
+          });
+        } else {
+          let dataResponse = res.data;
+          let dataSuccess = dataResponse.message;
+          swal.fire({
+            title: "Great! ",
+            text: dataSuccess,
+            icon: "success",
+          });
+
+          let signupForm = document.querySelector("#form-new-activity");
+          signupForm.reset();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleSubmitNewActivityAdmin = (e) => {
+    e.preventDefault();
+    let newActivity = {
+      name: nameActivityRef.current.value,
+      photo: photoActivityRef.current.value,
+      itinerary: tinerariesAdmin.id,
+    };
+    addNewActivity(newActivity)
+      .then((res) => {
+        if (res.error) {
+          let dataError = res.error;
+          let dataMessage = dataError.data;
+          swal.fire({
+            title: "Error!",
+            text: dataMessage.message,
+            icon: "warning",
+          });
+        } else {
+          let dataResponse = res.data;
+          let dataSuccess = dataResponse.message;
+          swal.fire({
+            title: "Great! ",
+            text: dataSuccess,
+            icon: "success",
+          });
+
+          let signupForm = document.querySelector("#form-new-activity");
+          signupForm.reset();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const nameProfRef = useRef()
+  const lastNameProfRef = useRef()
+  const countryProfRef = useRef()
+  const photoProfRef = useRef()
+
+  const arrayEditProf = [
+    {
+      id: "_name",
+      name: "Name",
+      type: "text",
+      value: nameProfRef,
+      defaultValue: userLoggin.user
+    },
+    {
+      id: "_lastName",
+      name: "LastName",
+      type: "text",
+      value: lastNameProfRef,
+      defaultValue: userLoggin.lastName
+    },
+    {
+      id: "_country",
+      name: "Country",
+      type: "text",
+      value: countryProfRef,
+      defaultValue: userLoggin.country      
+    },
+    {
+      id: "_photo",
+      name: "Photo",
+      type: "text",
+      value: photoProfRef,
+      defaultValue: userLoggin.photo
+    },
+  ];
+
+  const handleSubmitUpdateProfile = (e) => {
+    e.preventDefault()
+
+    let profileUpdated = {
+      name: nameProfRef.current.value,
+      lastName: lastNameProfRef.current.value,
+      country: countryProfRef.current.value,
+      photo: photoProfRef.current.value,
+      id: userLoggin.id
+    }
+
+    updateMyProfile(profileUpdated).then((res) =>{
+      console.log(res)
       if (res.error) {
         let dataError = res.error;
         let dataMessage = dataError.data;
@@ -362,67 +491,29 @@ function Profile() {
         let dataResponse = res.data;
         let dataSuccess = dataResponse.message;
         swal.fire({
-          title: "Great! ",
+          title: "Success! ",
           text: dataSuccess,
           icon: "success",
         });
 
-        let signupForm = document.querySelector("#form-new-activity");
+        let signupForm = document.querySelector("#form-edit-prof");
         signupForm.reset();
       }
+    } ).catch((error) =>{
+      console.log(error)
     })
-    .catch((error) => {
-      console.log(error);
-    });
-
   }
-  
-  const handleSubmitNewActivityAdmin = (e) =>{
-
-    e.preventDefault();
-    let newActivity = {
-     name: nameActivityRef.current.value,
-     photo: photoActivityRef.current.value,
-     itinerary:  tinerariesAdmin.id
-   }
-   addNewActivity(newActivity)
-   .then((res) => {
-     if (res.error) {
-       let dataError = res.error;
-       let dataMessage = dataError.data;
-       swal.fire({
-         title: "Error!",
-         text: dataMessage.message,
-         icon: "warning",
-       });
-     } else {
-       let dataResponse = res.data;
-       let dataSuccess = dataResponse.message;
-       swal.fire({
-         title: "Great! ",
-         text: dataSuccess,
-         icon: "success",
-       });
-
-       let signupForm = document.querySelector("#form-new-activity");
-       signupForm.reset();
-     }
-   })
-   .catch((error) => {
-     console.log(error);
-   });
-
- }
-
 
   return (
     <>
       <div className="profile-card">
         <div className="prof-img">
-          <img className='img-prof' src={userLoggin.photo} alt="profile-img" />
+          <img className="img-prof" src={userLoggin.photo} alt="profile-img" />
         </div>
         <div className="profile-data">
-          <h2>{userLoggin.user}{" "} {userLoggin.lastName} </h2>
+          <h2>
+            {userLoggin.user} {userLoggin.lastName}{" "}
+          </h2>
           <p>
             <strong>Account Email: </strong> {userLoggin.email}
           </p>
@@ -438,6 +529,31 @@ function Profile() {
             <strong>Account Country: </strong>
             {userLoggin.country}
           </p>
+        </div>
+        <div className="div-EditProf">
+          <button onClick={showEditProfClick} className="Comment-button">Edit Profile</button>
+          {showEditProf ? (
+          <div>
+            <form id="form-edit-prof" onSubmit={handleSubmitUpdateProfile}>
+              <div className="container-form new-user">
+                <div className="form-new">
+                  <p>Edit your Info</p>
+                  <div className="new-user-input">
+                    {arrayEditProf.map((e)=>{
+                      return (
+                        <label key={e.id}>
+                        Enter {e.name}: <br />
+                        <input className="btn-form" type={e.type} name={e.name} ref={e.value} defaultValue={e.defaultValue} />
+                      </label>
+                      )
+                    })}
+                  </div>
+                  <input className="btn-form" type="submit" value="Submit" />
+                </div>
+              </div>
+            </form>
+          </div>
+          ) : null}
         </div>
       </div>
 
@@ -481,16 +597,16 @@ function Profile() {
                   <select onChange={handleSelectRole} className="btn-form">
                     <option>Select a Role</option>
 
-                    {arrayFormNewUser?.map((e) => {
+                    {arrayRole?.map((e) => {
                       return (
                         <option key={e.id} id={e.id} value={e.value}>
-                          {e.name}
+                          {e.value}
                         </option>
                       );
                     })}
                   </select>
                   <div className="new-user-input">
-                    {arrayActivity.map(formView)}
+                    {arrayFormNewUser.map(formView)}
                   </div>
                   <input className="btn-form" type="submit" value="Submit" />
                 </div>
@@ -507,52 +623,53 @@ function Profile() {
       </div>
       {showActivityForm && userLoggin.role === "user" ? (
         <form id="form-new-activity" onSubmit={handleSubmitNewActivity}>
-        <div className="container-form new-user">
-          <div className="form-new">
-            <select onChange={handleSelectTinerary} className="btn-form">
-              <option>Select a Tinerary</option>
+          <div className="container-form new-user">
+            <div className="form-new">
+              <select onChange={handleSelectTinerary} className="btn-form">
+                <option>Select a Tinerary</option>
 
-              {ownTineraries?.map((e) => {
-                return (
-                  <option key={e._id} id={e._id} value={e.name}>
-                  {e.name}
-                </option>
-                );
-              })}
-            </select>
-            <div className="new-user-input">
-              {arrayActivity?.map(formView)}
+                {ownTineraries?.map((e) => {
+                  return (
+                    <option key={e._id} id={e._id} value={e.name}>
+                      {e.name}
+                    </option>
+                  );
+                })}
+              </select>
+              <div className="new-user-input">
+                {arrayActivity?.map(formView)}
+              </div>
+              <input className="btn-form" type="submit" value="Submit" />
             </div>
-            <input className="btn-form" type="submit" value="Submit" />
           </div>
-        </div>
-      </form>
-      ) : null
-        }
-        {showActivityForm && userLoggin.role === "admin" ? (
+        </form>
+      ) : null}
+      {showActivityForm && userLoggin.role === "admin" ? (
         <form id="form-new-activity" onSubmit={handleSubmitNewActivityAdmin}>
-        <div className="container-form new-user">
-          <div className="form-new">
-            <select onChange={handleSelectTinerarybyAdmin} className="btn-form">
-              <option>Select a Tinerary</option>
+          <div className="container-form new-user">
+            <div className="form-new">
+              <select
+                onChange={handleSelectTinerarybyAdmin}
+                className="btn-form"
+              >
+                <option>Select a Tinerary</option>
 
-              {getTinerariesByAdmin?.map((e) => {
-                return (
-                  <option key={e._id} id={e._id} value={e.name}>
-                  {e.name}
-                </option>
-                );
-              })}
-            </select>
-            <div className="new-user-input">
-              {arrayActivity?.map(formView)}
+                {getTinerariesByAdmin?.map((e) => {
+                  return (
+                    <option key={e._id} id={e._id} value={e.name}>
+                      {e.name}
+                    </option>
+                  );
+                })}
+              </select>
+              <div className="new-user-input">
+                {arrayActivity?.map(formView)}
+              </div>
+              <input className="btn-form" type="submit" value="Submit" />
             </div>
-            <input className="btn-form" type="submit" value="Submit" />
           </div>
-        </div>
-      </form>
-      ) : null
-        }
+        </form>
+      ) : null}
     </>
   );
 }

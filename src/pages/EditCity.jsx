@@ -1,7 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { useParams } from "react-router-dom";
 import {
-  useGetAllCitiesQuery,
   useGetCityByIdQuery,
   useUpdateCityMutation,
 } from "../features/citiesAPI";
@@ -113,7 +112,7 @@ function EditCity() {
           type={e.type}
           name={e.name}
           ref={e.value}
-          placeholder={e.placeholder}
+          defaultValue={e.placeholder}
         />
       </label>
     );

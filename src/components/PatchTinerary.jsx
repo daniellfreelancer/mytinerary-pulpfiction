@@ -105,7 +105,7 @@ function PatchMyTinerary() {
                     type={e.type}
                     name={e.name}
                     ref={e.value}
-                    placeholder={e.placeholder}
+                    defaultValue={e.placeholder}
                 />
             </label>
         );

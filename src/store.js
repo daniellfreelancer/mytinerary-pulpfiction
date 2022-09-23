@@ -12,16 +12,15 @@ import  adminReducer  from './features/adminState'
 export const store = configureStore({
 
     reducer: {
+        auth: authReducer,
+        statesLocalStorage : statesSlice,
+        admin:adminReducer,
         [citiesAPI.reducerPath]: citiesAPI.reducer,
         [itineraryAPI.reducerPath]: itineraryAPI.reducer,
-        [activityAPI.reducerPath]: activityAPI.reducer,
         [userAPI.reducerPath]: userAPI.reducer,
-        statesLocalStorage : statesSlice,
-        auth: authReducer,
         [commentAPI.reducerPath] : commentAPI.reducer,
-        admin:adminReducer
-
-
+        [activityAPI.reducerPath]: activityAPI.reducer,
+        
     },
 
     middleware: (getDefaultMiddleware) =>
