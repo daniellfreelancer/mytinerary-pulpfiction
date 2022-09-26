@@ -87,7 +87,7 @@ useEffect(() => {
             <Route path='/signup' element={<SignUpPage/>}/>
             <Route path='/signin' element={<SignInPage/>}/>
             <Route path='/newitinerary' element={<NewItineraryPage/>}/>
-            <Route path='/myAccount' element={loginUserActive ? <MyAccount/> : <UnderConstruction/>}/>
+            <Route path='/myAccount' element={loginUserActive && JSON.parse(localStorage.getItem("token")) ? <MyAccount/> : <UnderConstruction/>}/>
             <Route path='/auth/verify' element={<VerifiedPage/>}/>
             <Route path='/editTinerary/:id' element={<PatchTineraryPage/>}/>
           </Routes>

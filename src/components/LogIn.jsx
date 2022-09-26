@@ -3,13 +3,15 @@ import { Link as LinkRouter, useNavigate } from "react-router-dom";
 import { useSignOutUserMutation } from "../features/userAPI";
 import "../styles/App.css";
 import swal from "sweetalert2";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserLogout } from "../features/authSignIn";
 
 function LogIn() {
   const [signOutUser] = useSignOutUserMutation();
   const goToSignIn = useNavigate();
   const userLoggin = useSelector((state) => state.auth)
   const [show, setShow] = useState(false);
+  const dispatchLogout = useDispatch()
 
 
   const signUp = { id: "_signUp", to: "/signup", title: "Sign Up" }
@@ -53,6 +55,7 @@ function LogIn() {
             text: dataSuccess,
             icon: "success",
           });
+          dispatchLogout(setUserLogout())
         }
       })
       .catch((error) => {
