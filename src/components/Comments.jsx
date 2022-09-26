@@ -195,7 +195,7 @@ function handleUpdateEditButton(){
                           }
                           
 
-                          {userLoggin.id.toString() === c.user._id.toString() ? (
+                          {JSON.parse(localStorage.getItem("token")) && userLoggin.id.toString() === c.user._id.toString() ? (
                             <div className="button-box-c">
                               {
                                 !edit ? (
