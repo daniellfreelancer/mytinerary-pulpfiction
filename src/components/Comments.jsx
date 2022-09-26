@@ -21,6 +21,7 @@ function Comments(props) {
   const userLoggin = useSelector((state) => state.auth)
   
   const {data: commentsByUser, isError} = useGetCommentByUserQuery(userLoggin.id)
+
   const myComments = commentsByUser?.response
 
   const [deleteComment] = useDeleteCommentsMutation()
@@ -58,11 +59,7 @@ const [ getCommentsByTinerary] = useGetCommentsItineraryMutation()
   }
 
   function showComment() {
-    if (show) {
-      setShow(false);
-    } else {
-      setShow(true);
-    }
+      setShow(!show)
   }
 
   function handleDeleteComment(e) {
@@ -139,8 +136,13 @@ function handleUpdateEditButton(){
 
 
   return (
-    <div className="comment-box">
+    commentsItinerary?.length > 0 ?
+
+    
+(    <div className="comment-box">
+
       <div className="Comment-div">
+        
         <button className="Comment-button" onClick={showComment}>
           Display Comments{" "}
           <svg
@@ -165,7 +167,7 @@ function handleUpdateEditButton(){
                     <div className="comment-container" key={c._id}>
                       <div className="entercomment">
                         <div className="comment-avatar">
-                          <img src={c.user.photo} alt={c.user.name} />
+                          <img src={c.user?.photo} alt={c.user.name} />
                           <h5>{c.user.name}</h5>
                           {
                             userLoggin.role === "admin" ? (
@@ -177,7 +179,7 @@ function handleUpdateEditButton(){
                         <div className="comment-form">
                           {
                             !edit ? <p>{c.comment}</p> : (
-                              <form id={c._id} className="comment-form"  onSubmit={handleUpdateComment}>
+                              <form id={c._id} className="comment-form" onSubmit={handleUpdateComment}  >
                               <label htmlFor="comment-message">
                                 <input
                                   id="comment-message"
@@ -193,7 +195,7 @@ function handleUpdateEditButton(){
                           }
                           
 
-                          {userLoggin.id.toString() === c.user._id.toString() ? (
+                          {JSON.parse(localStorage.getItem("token")) && userLoggin.id.toString() === c.user._id.toString() ? (
                             <div className="button-box-c">
                               {
                                 !edit ? (
@@ -233,8 +235,13 @@ function handleUpdateEditButton(){
             </>
           ) : null}
         </div>
+        
       </div>
-    </div>
+
+
+    </div>) : null
+
+  
   );
 }
 

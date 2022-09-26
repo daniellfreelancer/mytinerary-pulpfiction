@@ -12,7 +12,7 @@ export const commentAPI = createApi({
         // }),
         getCommentsItinerary: builder.mutation({
             query: (idItinerary) => ({
-                url: `/comments/?itinerary=${idItinerary}`,
+                url: `/comments?itinerary=${idItinerary}`,
                 method: 'GET'
             })
         }),
