@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import api_url from '../api'
 
 export const itineraryAPI = createApi({
 
@@ -6,13 +7,26 @@ export const itineraryAPI = createApi({
 
 
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:4000'
+        baseUrl: api_url
     }),
 
+    tagTypes: ['patch'],
 
     endpoints: (builder) => ({
-        getAllItinerary: builder.query({
-            query: (id) => `/myItineraries/?city=${id}`
+        tinerariesById: builder.query({
+            query: (idTinerary) =>({
+                url: `/myItineraries/search/${idTinerary}`,
+                method: 'GET'
+            }) 
+        }),
+        // getAllItinerary: builder.query({
+        //     query: (id) => `/myItineraries/?city=${id}`
+        // }),
+        getItineraryLIKE: builder.mutation({
+            query: (id) => ({
+                url: `/myItineraries/?city=${id}`,
+                method: 'GET'
+            })
         }),
         getTineraries: builder.query({
             query: (userID) => `/myItineraries/?user=${userID}`
@@ -33,10 +47,44 @@ export const itineraryAPI = createApi({
                 },
             })
         }),
+        patchItinerary: builder.mutation({
+            query: ({id, ...myNewTinerary}) => ({
+                url: `/myItineraries/${id}`,
+                method: 'PATCH',
+                body: myNewTinerary
+            })
+        }),
+        likeTineraries: builder.mutation({
+            query: (itineraryIDLike) => ({
+                url: `/myItineraries/likes/${itineraryIDLike}`,
+                method: 'PATCH',
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(localStorage.getItem("token"))
+                }
+            })
+        }),
+        allTinerariesAdmin: builder.query({
+            query: () => ({
+                url: `/myItineraries/alltineraries`,
+                method: 'GET',
+                headers: {
+                    Authorization: "Bearer " + JSON.parse(localStorage.getItem("token"))
+                }
+            })
+        }),
 
-
+        invalidatesTags: ['patch']
     })
 })
 
 export default itineraryAPI
-export const { useGetAllItineraryQuery, useGetTinerariesQuery, useDeleteTinerariesMutation, useCreateItineraryMutation} = itineraryAPI
+export const { useGetAllItineraryQuery,
+    useGetTinerariesQuery,
+    useDeleteTinerariesMutation,
+    useCreateItineraryMutation,
+    useLikeTinerariesMutation,
+    usePatchItineraryMutation,
+    useTinerariesByIdQuery,
+    useAllTinerariesAdminQuery,
+    useGetItineraryLIKEMutation
+     } = itineraryAPI

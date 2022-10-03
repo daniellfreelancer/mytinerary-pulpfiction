@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import api_url from '../api'
 
 export const citiesAPI = createApi({
 
@@ -6,7 +7,7 @@ export const citiesAPI = createApi({
 
 
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:4000'
+        baseUrl: api_url
     }),
 
     tagTypes: ['Post'],

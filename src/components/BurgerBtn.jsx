@@ -1,15 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link as LinkRouter } from "react-router-dom";
 import LogIn from "./LogIn";
+import { useSelector } from "react-redux";
 
 function BurgerBtn() {
-  const pages = [
-    { id: "_cities", to: "/cities", title: "Cities" },
-    { id: "_newCities", to: "/newCities", title: "New Cities" },
-    { id: "_myTinerary", to: "/myTineraries", title: "My Tineraries" },
-  ];
+  const pages = [{ id: "_cities", to: "/cities", title: "Cities" }];
 
   const [show, setShow] = useState(false);
+  const userLoggin = useSelector((state) => state.auth);
 
   function showNav() {
     if (show) {
@@ -18,6 +16,32 @@ function BurgerBtn() {
       setShow(true);
     }
   }
+
+  const [statusAccount, setStatusAccount] = useState(false);
+  const [myStatusLogged, setMyStatusLogged] = useState([
+    {
+      id: "_myAccount",
+      to: "/myAccount",
+      title: "My Account",
+    },
+    {
+      id: "_myTinerary",
+      to: "/myTineraries",
+      title: "My Tineraries",
+    },
+  ]);
+
+  const newCities = {
+    id: "_newCities",
+    to: "/newCities",
+    title: "New Cities",
+  };
+
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem("token"))) {
+      setStatusAccount(true);
+    }
+  }, [statusAccount]);
 
   return (
     <div className="Button-div">
@@ -37,14 +61,30 @@ function BurgerBtn() {
         {show ? (
           <div className="Dropdown-menu">
             {pages.map((link) => (
-              <LinkRouter
-                className="navlink-burger"
-                to={link.to}
-                key={link.id}
-              >
+              <LinkRouter className="navlink-burger" to={link.to} key={link.id}>
                 {link.title}
               </LinkRouter>
             ))}
+            {statusAccount === true
+              ? myStatusLogged.map((link) => (
+                  <LinkRouter
+                    className="navlink-burger"
+                    to={link.to}
+                    key={link.id}
+                  >
+                    {link.title}
+                  </LinkRouter>
+                ))
+              : null}
+            {userLoggin.role === "admin" && JSON.parse(localStorage.getItem("token"))  ? (
+              <LinkRouter
+                className="navlink-burger"
+                to={newCities.to}
+                key={newCities.id}
+              >
+                {newCities.title}
+              </LinkRouter>
+            ) : null}
             <LogIn />
           </div>
         ) : null}

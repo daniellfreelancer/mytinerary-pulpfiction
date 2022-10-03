@@ -1,32 +1,137 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   useGetAllItineraryQuery,
   useDeleteTinerariesMutation,
+  useLikeTinerariesMutation,
+  useGetItineraryLIKEMutation,
 } from "../features/itineraryAPI";
+import itineraryAPI from "../features/itineraryAPI";
 import ActivityItinerary from "./ActivityItinerary";
 import Comments from "./Comments";
+import swal from "sweetalert2";
+import EnterComment from "./EnterComment";
+import { useDispatch, useSelector } from "react-redux";
+import { Link as LinkRouter } from "react-router-dom";
 
 function Itineraries() {
+  const userLoggin = useSelector((state) => state.auth);
+
   const { id } = useParams();
 
-  const { data: itineraries } = useGetAllItineraryQuery(id);
+  const [getMyTineraries] = useGetItineraryLIKEMutation();
 
-  let itineraryDetail = itineraries?.response;
+  const [change, setChange] = useState(false);
+
+  const [showAllTineraries, setShowAllTineraries] = useState(false);
+
+  const [itineraryDetail, setItineraryDetail] = useState(null);
+
+  const [heartLike, setHeartLike] = useState("Click to Like/Dislike")
+
+  const [settingHeart, setSettingHeart] = useState(null)
+
+  useEffect(() => {
+    getAllTineraries();
+  }, [change]);
+
+
+  async function getAllTineraries() {
+    try {
+      let res = await getMyTineraries(id);
+      setItineraryDetail(res.data.response);
+
+      if (res.data?.success) {
+
+        if (res.data.response.likes.includes(userLoggin.id)) {
+
+          setSettingHeart('no Megusta')
+        } else {
+
+          setSettingHeart('Me gusta')
+        }
+        
+    } 
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const [deleteItinerary] = useDeleteTinerariesMutation();
+  const [likeDisLike] = useLikeTinerariesMutation();
+
+  async function clickToLike(e) {
+    let idTinerary = e.target.id;
+
+    likeDisLike(idTinerary)
+      .then((res) => {
+        if (res.error) {
+          let dataError = res.error;
+          let dataMessage = dataError.data;
+          swal.fire({
+            title: "Cant Like this Tinerary!",
+            text: dataMessage.message,
+            icon: "error",
+          });
+        } else {
+          let dataResponse = res.data;
+          let dataSuccess = dataResponse.message;
+          setChange(!change);
+
+          if (dataResponse.message === "Itinerary liked") {
+            swal.fire({
+              imageUrl:
+                "https://media0.giphy.com/media/cdpsxf8WjmNMOBXaCd/200w.gif?cid=82a1493b0henbi6ia1a1x24o5t9s7za75n7629cdcy0ucqrt&rid=200w.gif&ct=g",
+            });
+
+          } else {
+            swal.fire({
+              imageUrl:
+                "https://c.tenor.com/odF9PnzMX8cAAAAd/oh-no-jim-carrey.gif",
+            });
+
+          }
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  
+  }
+
+  const handDeleteTinerary = (e) => {
+    e.preventDefault();
+    deleteItinerary(e.target.id)
+      .then((res) => {
+        let dataResponse = res.data;
+        let dataSuccess = dataResponse.message;
+        swal.fire({
+          title: "Success! ",
+          text: dataSuccess,
+          icon: "success",
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  function handleChange() {
+    setChange(!change);
+  }
+
 
   return (
     <>
       <h2>💙 Itineraries 💙</h2>
       <div className="Itinerary-div">
-        {itineraryDetail ? (
+        {true ? (
           itineraryDetail?.map((e) => {
             let totalLikes = e.likes;
             let myTags = e.tags;
             let hourDuration = Math.round(e.duration / 60);
-            let idDelete = e._id;
-
+            let heart = totalLikes?.includes(userLoggin.id)
+    
             return (
               <div className="Itinerary-detail" key={e._id}>
                 <div className="itinerary-div-img">
@@ -46,22 +151,31 @@ function Itineraries() {
                       </p>
                       <p className="Itinerary-p"> Price: $ {e.price} </p>
 
-                      <p className="Itinerary-p">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          className="bi bi-bookmark-heart"
-                          viewBox="0 0 16 16"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z"
-                          />
-                          <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
-                        </svg>
+                      <span className="Itinerary-p">
+                        {
+                          JSON.parse(localStorage.getItem("token")) ? (<button
+                            id={e._id}
+                            onClick={clickToLike}
+                            className="btn-read"
+                          >
+                            
+                            {heartLike}
+                            
+  
+                          </button>) : <p>💖 </p>
+                        }
+                        {" "}
                         {totalLikes.length}{" "}
-                      </p>
+
+                        {
+                          JSON.parse(localStorage.getItem("token")) ?
+                          (<p>
+                            {
+                              heart === true ? (<p> I Like it 💖  </p>) : (<p> Dont Like any more 🖤</p>)
+                            }
+                          </p>) : null
+                        }
+                      </span>
                       <p className="Itinerary-p">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -75,6 +189,25 @@ function Itineraries() {
                         </svg>{" "}
                         Tags: {myTags.join(" - ")}{" "}
                       </p>
+                      {userLoggin.role === "admin" &&
+                      JSON.parse(localStorage.getItem("token")) ? (
+                        <>
+                          <LinkRouter
+                            to={`/editTinerary/${e._id}`}
+                            className="btn-read"
+                          >
+                            Edit Tinerary!
+                          </LinkRouter>
+                          <button
+                            id={e._id}
+                            className="btn-read btn-read-red"
+                            onClick={handDeleteTinerary}
+                            
+                          >
+                            Delete Tinerary!
+                          </button>
+                        </>
+                      ) : null}
                     </div>
                   </div>
 
@@ -83,7 +216,19 @@ function Itineraries() {
                   </div>
                 </div>
                 <div className="toggle-comments">
-                  <Comments />
+                  {userLoggin.logged === true &&
+                  JSON.parse(localStorage.getItem("token")) ? (
+                    <EnterComment
+                      userID={userLoggin.id}
+                      userName={userLoggin.user}
+                      userPhoto={userLoggin.photo}
+                      userRole={userLoggin.role}
+                      itineraryID={e._id}
+                      reload={handleChange}
+                    />
+                  ) : null}
+
+                  <Comments id={e._id} reload={handleChange} />
                 </div>
               </div>
             );
@@ -91,6 +236,12 @@ function Itineraries() {
         ) : (
           <p> This City has no Itineraries yet</p>
         )}
+        {userLoggin.logged === true &&
+        JSON.parse(localStorage.getItem("token")) ? (
+          <LinkRouter className="Comment-button" to="/myAccount">
+            Go to your account and create one Itinerary or Activity
+          </LinkRouter>
+        ) : null}
       </div>
     </>
   );
